@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DJ Reader</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="mainMenuFile">文档</string>
+    <string name="mainMenuSoft">应用</string>
+    <string name="mainMenuMe">我</string>
+    <string name="fileMenuRead">阅读</string>
+    <string name="fileMenuNote">批注</string>
+    <string name="fileMenuHand">手写</string>
+    <string name="fileMenuSeal">盖章</string>
+
+    <string name="countdown_text">跳过</string>
+
+    <string name="xml_url">http://192.168.1.81:8080/gongwen/updateXml/update.xml</string>
+    <string name="update_title">版本更新</string>
+    <string name="update_Positive">立即更新</string>
+    <string name="update_Negative">狠心拒绝</string>
+    <string name="updating">正在下载更新</string>
+    <string name="update_faild">更新文件下载失败！</string>
+    <string name="intalled_error">apk安装失败</string>
+    <string name="download_start">正在后台下载</string>
+    <string name="download_finish">下载完成，点击安装</string>
+    <string name="download_failed">下载失败</string>
+
+    <!-- 我模块 -->
+    <string name="me_menu_head">我</string>
+    <string name="me_menu_userinfo">未注册</string>
+    <string name="me_menu_mymodules">我购买的</string>
+    <string name="me_menu_set">设置</string>
+    <string name="me_menu_help">帮助</string>
+    <string name="me_menu_about">关于</string>
+    <string name="help_page_url">http://www.dianju.cn/</string>
+    <string name="about_update_check">检查更新</string>
+    <string name="about_new_version">发现新版本</string>
+    <string name="about_update_content">更新日志</string>
+    <string name="about_update_log">点击查看最新版本更新日志</string>
+    <string name="about_version_name">当前版本号</string>
+    <string name="version_name_error">当前版本获取失败</string>
+    <string name="copyright_info">版权所有 2015 北京点聚信息技术有限公司     京ICP备13034857号\nwww.dianju.cn</string>
+
+    <!-- 通知栏 -->
+    <string name="notification_title">点聚阅读器</string>
+    <string name="notification_text">下载中...</string>
+    <string name="notification_ticker">正在更新...</string>
+
+    <!--登录-->
+    <string name="mobile_login">手机快捷登录</string>
+    <string name="login_button">登录</string>
+    <string name="username_mobile">手机号码</string>
+    <string name="dynamic_pwd">动态密码</string>
+    <string name="get_dyc_pwd">获取动态密码</string>
+    <string name="login_view_url">http://192.168.1.81:8080/PDFReaderServer/</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
