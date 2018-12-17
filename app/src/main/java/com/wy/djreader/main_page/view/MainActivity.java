@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.wy.djreader.R;
 import com.wy.djreader.function_manager.view.function_fragment;
-import com.wy.djreader.doc_manager.view.DocFragment;
+import com.wy.djreader.file_manager.view.DocFragment;
 import com.wy.djreader.personal.view.MeFragment;
 
 public class MainActivity extends AppCompatActivity implements DocFragment.docFragmentInteractionListener,function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {

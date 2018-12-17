@@ -1,5 +1,6 @@
 package com.wy.djreader.showdoc.view;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -27,6 +28,16 @@ public class DisplayDocActivity extends AppCompatActivity implements IViewDispla
 
     @Override
     public void showFunctionBtn() {
+
+    }
+
+    @Override
+    public void setBtnDown() {
+
+    }
+
+    @Override
+    public void setBtnUp() {
 
     }
 }

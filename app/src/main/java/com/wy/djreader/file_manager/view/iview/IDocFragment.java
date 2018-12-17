@@ -1,4 +1,4 @@
-package com.wy.djreader.doc_manager.view.iview;
+package com.wy.djreader.file_manager.view.iview;
 
 import android.widget.ArrayAdapter;
 

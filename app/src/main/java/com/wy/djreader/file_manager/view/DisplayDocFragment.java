@@ -1,4 +1,4 @@
-package com.wy.djreader.doc_manager.view;
+package com.wy.djreader.file_manager.view;
 
 import android.content.Context;
 import android.net.Uri;

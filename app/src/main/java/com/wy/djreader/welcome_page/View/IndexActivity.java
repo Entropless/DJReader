@@ -1,4 +1,4 @@
-package com.wy.djreader.indexpage.View;
+package com.wy.djreader.welcome_page.View;
 
 import android.content.ComponentName;
 import android.content.Intent;

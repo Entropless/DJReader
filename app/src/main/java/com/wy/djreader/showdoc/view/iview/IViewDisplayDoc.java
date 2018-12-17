@@ -11,4 +11,8 @@ public interface IViewDisplayDoc {
     void viewDrawListener();
     //显示控制按钮
     void showFunctionBtn();
+
+    void setBtnDown();
+
+    void setBtnUp();
 }
