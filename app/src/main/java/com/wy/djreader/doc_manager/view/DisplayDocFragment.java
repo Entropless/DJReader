@@ -19,12 +19,9 @@ import com.wy.djreader.R;
  * create an instance of this fragment.
  */
 public class DisplayDocFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_FILE_PATH = "file_path";
     private static final String  ARG_INDEX = "index";
 
-    // TODO: Rename and change types of parameters
     private String file_path;
     private int index;
 

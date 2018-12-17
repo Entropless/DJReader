@@ -24,4 +24,9 @@ public class DisplayDocActivity extends AppCompatActivity implements IViewDispla
     public void viewDrawListener() {
 
     }
+
+    @Override
+    public void showFunctionBtn() {
+
+    }
 }

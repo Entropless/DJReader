@@ -133,7 +133,7 @@ public class DocFragment extends ListFragment implements IDocFragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        //记录最后一次选中的选项
+        //记录fragment发生异常前最后一次选中的选项
         outState.putInt("currSelected",mCurrSelectItem);
     }
 
