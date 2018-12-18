@@ -8,7 +8,7 @@ package com.wy.djreader.showdoc.view.iview;
  */
 public interface IViewDisplayDoc {
     //监听视图绘制
-    void viewDrawListener();
+    void viewDrawListener(boolean isListener);
     //显示控制按钮
     void showFunctionBtn();
 

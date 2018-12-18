@@ -5,4 +5,6 @@ public interface IPresenterDisplayDoc {
     String getFilePath();
     //加载文件
     int loadingDoc(String filePath);
+    //初始化文档对象
+    void initDJContentView();
 }
