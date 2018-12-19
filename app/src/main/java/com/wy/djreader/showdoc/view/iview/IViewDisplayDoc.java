@@ -1,5 +1,9 @@
 package com.wy.djreader.showdoc.view.iview;
 
+import android.content.Context;
+
+import com.dianju.showpdf.DJContentView;
+
 /**
  * @ClassN IViewDisplayDoc
  * @desc DisplayDocActivity  UI逻辑
@@ -9,6 +13,8 @@ package com.wy.djreader.showdoc.view.iview;
 public interface IViewDisplayDoc {
     //监听视图绘制
     void viewDrawListener(boolean isListener);
+    //初始化DJContentView
+    DJContentView initContentView(Context context);
     //显示控制按钮
     void showFunctionBtn();
 

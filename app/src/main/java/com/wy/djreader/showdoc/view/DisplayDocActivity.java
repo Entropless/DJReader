@@ -1,10 +1,12 @@
 package com.wy.djreader.showdoc.view;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 
+import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.R;
 import com.wy.djreader.databinding.ActivityShowDocBinding;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
@@ -37,6 +39,11 @@ public class DisplayDocActivity extends AppCompatActivity implements IViewDispla
                 return true;
             }
         });
+    }
+
+    @Override
+    public DJContentView initContentView(Context context) {
+        return null;
     }
 
     @Override

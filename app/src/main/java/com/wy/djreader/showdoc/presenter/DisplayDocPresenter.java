@@ -1,13 +1,16 @@
 package com.wy.djreader.showdoc.presenter;
 
+import android.content.Context;
+
 import com.dianju.showpdf.DJContentView;
+import com.wy.djreader.model.entity.SingleDJContentView;
 import com.wy.djreader.showdoc.presenter.ipresenter.IPresenterDisplayDoc;
 import com.wy.djreader.showdoc.view.iview.IViewDisplayDoc;
 
 public class DisplayDocPresenter implements IPresenterDisplayDoc {
 
     private IViewDisplayDoc iViewDisplayDoc;
-    private DJContentView contentView;
+    private Context context;
     public DisplayDocPresenter(IViewDisplayDoc iViewDisplayDoc) {
         this.iViewDisplayDoc = iViewDisplayDoc;
     }
@@ -25,6 +28,7 @@ public class DisplayDocPresenter implements IPresenterDisplayDoc {
 
     @Override
     public void initDJContentView() {
-
+        //获取DJContentView实例
+//        SingleDJContentView.getInstance();
     }
 }
