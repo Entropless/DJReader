@@ -12,15 +12,18 @@ import com.wy.djreader.databinding.ActivityShowDocBinding;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
 import com.wy.djreader.showdoc.presenter.ipresenter.IPresenterDisplayDoc;
 import com.wy.djreader.showdoc.view.iview.IViewDisplayDoc;
+import com.wy.djreader.utils.SingleDJContentView;
 
 public class DisplayDocActivity extends AppCompatActivity implements IViewDisplayDoc {
 
     private IPresenterDisplayDoc iPresenterDisplayDoc;
     private String filePath = "";
     private ActivityShowDocBinding activityShowDocBinding = null;
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
 //        setContentView(R.layout.activity_show_doc);
         //databinding
         activityShowDocBinding = DataBindingUtil.setContentView(this,R.layout.activity_show_doc);
@@ -35,15 +38,12 @@ public class DisplayDocActivity extends AppCompatActivity implements IViewDispla
         activityShowDocBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                iPresenterDisplayDoc.initDJContentView();
+                //获取实例
+                DJContentView contentView = SingleDJContentView.getInstance(context);
+                //
                 return true;
             }
         });
-    }
-
-    @Override
-    public DJContentView initContentView(Context context) {
-        return null;
     }
 
     @Override

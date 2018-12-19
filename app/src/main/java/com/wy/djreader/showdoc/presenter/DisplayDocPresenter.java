@@ -2,8 +2,6 @@ package com.wy.djreader.showdoc.presenter;
 
 import android.content.Context;
 
-import com.dianju.showpdf.DJContentView;
-import com.wy.djreader.model.entity.SingleDJContentView;
 import com.wy.djreader.showdoc.presenter.ipresenter.IPresenterDisplayDoc;
 import com.wy.djreader.showdoc.view.iview.IViewDisplayDoc;
 
