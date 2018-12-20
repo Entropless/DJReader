@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -91,9 +91,10 @@ public class DocFragment extends ListFragment implements IDocFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.e("onCreateViewFragment","onCreateView");
+        View view = inflater.inflate(R.layout.fragment_doc,null);
         context = getActivity();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doc, container, false);
+        return view;
     }
 
     @Override

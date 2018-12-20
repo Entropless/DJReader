@@ -11,8 +11,8 @@ import com.dianju.showpdf.DJContentView;
  * @date 2018/12/14 14:50
  */
 public interface IViewDisplayDoc {
-    //监听视图绘制
-    void viewDrawListener(boolean isListener);
+//    //视图绘制监听
+//    void initLoadDoc(boolean isListener);
     //显示控制按钮
     void showFunctionBtn();
 
