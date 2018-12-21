@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.wy.djreader.file_manager.view.iview.IDocFragment;
+import com.wy.djreader.model.Adapter.ReadFilesArrayAdapter;
 import com.wy.djreader.model.FragmentCommListener;
 import com.wy.djreader.model.MyViewVModel;
 import com.wy.djreader.model.entity.HaveReadFilesSerializable;
@@ -91,10 +92,9 @@ public class DocFragment extends ListFragment implements IDocFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.e("onCreateViewFragment","onCreateView");
-        View view = inflater.inflate(R.layout.fragment_doc,null);
         context = getActivity();
         // Inflate the layout for this fragment
-        return view;
+        return inflater.inflate(R.layout.fragment_doc,container,false);
     }
 
     @Override
@@ -146,7 +146,8 @@ public class DocFragment extends ListFragment implements IDocFragment {
     }
 
     @Override
-    public void setListAdapter(ArrayAdapter<HaveReadFilesSerializable> readFilesArrayAdapter) {
+    public void setFilesListAdapter(ReadFilesArrayAdapter readFilesArrayAdapter) {
+        Log.i("11","11");
         this.setListAdapter(readFilesArrayAdapter);
     }
 

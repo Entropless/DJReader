@@ -30,7 +30,7 @@ public class IDocPresenterImpl implements IDocPresenter {
         iHaveReadFiles = new HaveReadFilesImpl(context);
         haveReadFilesList = iHaveReadFiles.queryHaveReadFiles();
         ReadFilesArrayAdapter readFilesArrayAdapter = new ReadFilesArrayAdapter(context,R.layout.file_info,haveReadFilesList);
-        iDocFragment.setListAdapter(readFilesArrayAdapter);
+        iDocFragment.setFilesListAdapter(readFilesArrayAdapter);
     }
 
     @Override

@@ -7,14 +7,15 @@ import android.view.ViewTreeObserver;
 import com.wy.djreader.R;
 import com.wy.djreader.base_universal.BaseActivity;
 import com.wy.djreader.databinding.ActivityShowDocBinding;
+import com.wy.djreader.showdoc.ShowDocContract;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
-import com.wy.djreader.showdoc.presenter.ipresenter.IPresenterDisplayDoc;
-import com.wy.djreader.showdoc.view.iview.IViewDisplayDoc;
+import com.wy.djreader.utils.FileOperation;
 import com.wy.djreader.utils.SingleDJContentView;
 
-public class DisplayDocActivity extends BaseActivity implements IViewDisplayDoc {
+public class DisplayDocActivity extends BaseActivity implements ShowDocContract.View {
 
-    private IPresenterDisplayDoc iPresenterDisplayDoc;
+    private ShowDocContract.Presenter presenter;
+    private FileOperation fileOperation;
     private String filePath = "";
     private ActivityShowDocBinding activityShowDocBinding = null;
     private Context context;
@@ -29,7 +30,8 @@ public class DisplayDocActivity extends BaseActivity implements IViewDisplayDoc 
     protected void initDataBinding(ViewDataBinding dataBinding) {
         context = this;
         activityShowDocBinding = (ActivityShowDocBinding) dataBinding;
-        filePath = iPresenterDisplayDoc.getFilePath();
+        fileOperation = new FileOperation();
+        filePath = fileOperation.parseFileUri(this.getIntent(),context);
         activityShowDocBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -37,7 +39,7 @@ public class DisplayDocActivity extends BaseActivity implements IViewDisplayDoc 
                     isListener = false;
                     SingleDJContentView contentView = SingleDJContentView.getInstance(context);
                     activityShowDocBinding.showdocLayout.addView(contentView);
-                    iPresenterDisplayDoc.loadingDoc(filePath,contentView);
+                    presenter.loadingDoc(filePath,contentView);
                 }
                 return true;
             }
@@ -46,7 +48,16 @@ public class DisplayDocActivity extends BaseActivity implements IViewDisplayDoc 
 
     @Override
     protected void initPresenter() {
-        iPresenterDisplayDoc = new DisplayDocPresenter(this);
+        presenter = new DisplayDocPresenter(this);
+    }
+    /**
+     * @desc 用于传入Fragment时调用
+     * @author wy
+     * @date 2018/12/21 15:37
+     */
+    @Override
+    public void setPresenter(ShowDocContract.Presenter presenter) {
+
     }
 
     @Override

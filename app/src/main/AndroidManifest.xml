@@ -17,7 +17,23 @@
             </intent-filter>
         </activity>
         <activity android:name=".main_page.view.MainActivity" />
-        <activity android:name=".showdoc.view.DisplayDocActivity"></activity>
+        <activity android:name=".showdoc.view.DisplayDocActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:host="*"/>
+                <data android:mimeType="*/*"/>
+                <data android:pathPattern=".*\\.aip"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:host="*"/>
+                <data android:mimeType="application/pdf"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

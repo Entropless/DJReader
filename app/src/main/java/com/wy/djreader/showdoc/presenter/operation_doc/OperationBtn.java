@@ -1,6 +1,4 @@
-package com.wy.djreader.model.operation_doc;
-
-import android.databinding.Bindable;
+package com.wy.djreader.showdoc.presenter.operation_doc;
 
 
 public class OperationBtn {

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="OperationBtn"
-            type="com.wy.djreader.model.operation_doc.OperationBtn"/>
+            type="com.wy.djreader.showdoc.presenter.operation_doc.OperationBtn"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
