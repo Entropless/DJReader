@@ -20,6 +20,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:contentDescription="@{OperationBtn.handSign}"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_edit" />

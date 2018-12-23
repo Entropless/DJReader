@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.showdoc.ShowDocContract;
 import com.wy.djreader.utils.SingleDJContentView;
 
