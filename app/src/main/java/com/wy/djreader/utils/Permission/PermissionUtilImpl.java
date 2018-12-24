@@ -48,6 +48,6 @@ public class PermissionUtilImpl implements PermissionUtil{
     public void requestPermissions() {
         getUnauthorizedPms();
         ActivityCompat.requestPermissions((Activity) context,not_granted_pms,1);
-
+        
     }
 }

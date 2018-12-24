@@ -13,12 +13,12 @@ import com.wy.djreader.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link function_fragment.OnFragmentInteractionListener} interface
+ * {@link Function_fragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link function_fragment#newInstance} factory method to
+ * Use the {@link Function_fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class function_fragment extends Fragment {
+public class Function_fragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class function_fragment extends Fragment {
 
     private appFragmentInteractionListener mListener;
 
-    public function_fragment() {
+    public Function_fragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class function_fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment function_fragment.
+     * @return A new instance of fragment Function_fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static function_fragment newInstance(String param1, String param2) {
-        function_fragment fragment = new function_fragment();
+    public static Function_fragment newInstance(String param1, String param2) {
+        Function_fragment fragment = new Function_fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

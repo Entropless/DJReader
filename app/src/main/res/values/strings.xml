@@ -52,7 +52,9 @@
     <string name="dynamic_pwd">动态密码</string>
     <string name="get_dyc_pwd">获取动态密码</string>
     <string name="login_view_url">http://192.168.1.81:8080/PDFReaderServer/</string>
-
+    
+    <!-- 提示 -->
+    <string name="storage_decline">您拒绝了存储权限，无法使用读取与写入的相关功能！</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

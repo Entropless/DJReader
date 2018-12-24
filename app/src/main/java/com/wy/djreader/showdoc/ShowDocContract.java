@@ -4,7 +4,7 @@ import com.wy.djreader.base_universal.BasePresenter;
 import com.wy.djreader.base_universal.BaseView;
 import com.wy.djreader.utils.SingleDJContentView;
 
-public class ShowDocContract {
+public interface ShowDocContract {
 
     public interface View extends BaseView<Presenter>{
         //显示控制按钮

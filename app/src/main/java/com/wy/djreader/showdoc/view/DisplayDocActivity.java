@@ -1,21 +1,22 @@
 package com.wy.djreader.showdoc.view;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.view.ViewTreeObserver;
 
-import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.R;
 import com.wy.djreader.base_universal.BaseActivity;
 import com.wy.djreader.databinding.ActivityShowDocBinding;
 import com.wy.djreader.showdoc.ShowDocContract;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
+import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.FileOperation;
 import com.wy.djreader.utils.Permission.PermissionUtil;
 import com.wy.djreader.utils.Permission.PermissionUtilImpl;
 import com.wy.djreader.utils.SingleDJContentView;
+import com.wy.djreader.utils.ToastUtil;
 
 public class DisplayDocActivity extends BaseActivity implements ShowDocContract.View {
 
@@ -43,8 +44,8 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
     protected void initialize() {
         //权限检查
         permissions = new String[]{
-                "android.permission.READ_EXTERNAL_STORAGE",
-                "android.permission.WRITE_EXTERNAL_STORAGE"};
+                Constant.PermissionConstant.READ_EXTERNAL_STORAGE,
+                Constant.PermissionConstant.WRITE_EXTERNAL_STORAGE};
         permissionUtil = new PermissionUtilImpl(permissions,context);
         if (!permissionUtil.checkPermission()){
             permissionUtil.requestPermissions();
@@ -53,12 +54,32 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
         }
     }
 
+    /**
+     * @desc 请求权限时，用户响应后的回调方法
+     * @author wy
+     * @date 2018/12/24 9:41
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //权限申请成功
+                    initDocument();
+                } else {
+                    //权限申请失败，提醒用户
+                    ToastUtil.toastMessage(context,getString(R.string.storage_decline),ToastUtil.LOGN);
+                }
+                break;
+        }
     }
 
+    /**
+     * @desc 初始化文档
+     * @author wy
+     * @date 2018/12/24 13:58
+     */
     private void initDocument(){
         fileOperation = new FileOperation();
         filePath = fileOperation.parseFileUri(this.getIntent(),context);

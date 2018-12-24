@@ -1,34 +1,50 @@
 package com.wy.djreader.main_page.view;
 
+import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.wy.djreader.R;
-import com.wy.djreader.function_manager.view.function_fragment;
+import com.wy.djreader.base_universal.BaseActivity;
 import com.wy.djreader.file_manager.view.DocFragment;
+import com.wy.djreader.function_manager.view.Function_fragment;
+import com.wy.djreader.main_page.MainPageContract;
+import com.wy.djreader.main_page.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
 
-public class MainActivity extends AppCompatActivity implements DocFragment.docFragmentInteractionListener,function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements MainPageContract.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
 
     private Toolbar mToolbar;
     private DocFragment docFragment;
     private MeFragment meFragment;
-    private function_fragment functionfragment;
+    private Function_fragment function_fragment;
     private ImageView docItem,appItem,meItem;
     private FragmentManager fm;
     private FragmentTransaction ft;
+    private MainPageContract.Presenter presenter;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-        init();
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initPresenter() {
+        presenter = new MainPagePresenter(this);
+    }
+
+    @Override
+    protected void initDataBinding(ViewDataBinding dataBinding) {
+        
+    }
+
+    @Override
+    protected void initialize() {
+
     }
 
     private void initView() {
@@ -40,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements DocFragment.docFr
     private void init(){
         //        setSupportActionBar(mToolbar);
         docFragment = DocFragment.newInstance("","");
-        functionfragment = function_fragment.newInstance("","");
+        function_fragment = Function_fragment.newInstance("","");
         meFragment = MeFragment.newInstance("","");
         //get instance of fragmentTransaction
         fm = getSupportFragmentManager();
@@ -62,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements DocFragment.docFr
             @Override
             public void onClick(View v) {
                 ft = fm.beginTransaction();
-                ft.replace(R.id.fragment_container, functionfragment);
+                ft.replace(R.id.fragment_container, function_fragment);
 //                ft.addToBackStack(null);
                 ft.commit();
             }
@@ -95,6 +111,18 @@ public class MainActivity extends AppCompatActivity implements DocFragment.docFr
 
     @Override
     public void appFragmentInteraction(Uri uri) {
+
+    }
+
+    /**
+     * @desc 为Fragment设置Presenter
+     * @author wy
+     * @date 2018/12/24 17:59
+     * @params
+     * @return 
+     */
+    @Override
+    public void setPresenter(Object presenter) {
 
     }
 }

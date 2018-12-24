@@ -80,4 +80,10 @@ public interface Constant {
 		int HADN = 3;
 		int SEAL = 4;
 	}
+	//权限常量值
+	interface PermissionConstant {
+		String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+		String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
+		String READ_PHONE_STATE = "android.permission.READ_PHONE_STATE";
+	}
 }
