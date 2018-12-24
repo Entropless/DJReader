@@ -1,6 +1,8 @@
 package com.wy.djreader.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.AttributeSet;
 
 import com.dianju.showpdf.DJContentView;
 
@@ -12,13 +14,41 @@ import com.dianju.showpdf.DJContentView;
  */
 public class SingleDJContentView extends DJContentView{
     private static Context context;
+
     public SingleDJContentView(Context context) {
         super(context);
     }
 
+    public SingleDJContentView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public SingleDJContentView(Context context, boolean isEmptyPage, int wid, int height, int page) {
+        super(context, isEmptyPage, wid, height, page);
+    }
+
+    public SingleDJContentView(Context context, boolean isEmptyPage, int wid, int height, int page, int alpha) {
+        super(context, isEmptyPage, wid, height, page, alpha);
+    }
+
+    public SingleDJContentView(Context context, boolean isEmptyPage, int wid, int height, int page, int alpha, boolean isTransparentPen) {
+        super(context, isEmptyPage, wid, height, page, alpha, isTransparentPen);
+    }
+
+    public SingleDJContentView(Context context, boolean isEmptyPage, int wid, int height, int page, boolean isSetbackGround, Bitmap backgroundbitmap) {
+        super(context, isEmptyPage, wid, height, page, isSetbackGround, backgroundbitmap);
+    }
+
+    public SingleDJContentView(Context context, boolean isEmptyPage, int wid, int height, int page, boolean isSetbackGround, Bitmap backgroundbitmap, int alpha) {
+        super(context, isEmptyPage, wid, height, page, isSetbackGround, backgroundbitmap, alpha);
+    }
+
+
     //静态内部类
     private static class Singleton{
         private static final SingleDJContentView contentView = new SingleDJContentView(context);
+
+//        private static final SingleDJContentView contentView_1 = new SingleDJContentView(context,  )
     }
     public static SingleDJContentView getInstance(Context context){
         SingleDJContentView.context = context;
