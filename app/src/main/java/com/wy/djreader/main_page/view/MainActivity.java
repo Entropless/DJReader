@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     private FragmentTransaction ft;
     private MainPageContract.Presenter presenter;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
