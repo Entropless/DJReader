@@ -1,15 +1,20 @@
 package com.wy.djreader.main_page.view;
 
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.wy.djreader.R;
 import com.wy.djreader.base_universal.BaseActivity;
+import com.wy.djreader.databinding.ActivityMainBinding;
 import com.wy.djreader.file_manager.view.DocFragment;
 import com.wy.djreader.function_manager.view.Function_fragment;
 import com.wy.djreader.main_page.MainPageContract;
@@ -26,7 +31,7 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     private FragmentManager fm;
     private FragmentTransaction ft;
     private MainPageContract.Presenter presenter;
-
+    private ActivityMainBinding mainBinding = null;
 
     @Override
     protected int getLayoutId() {
@@ -40,19 +45,22 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
 
     @Override
     protected void initDataBinding(ViewDataBinding dataBinding) {
-        
+        mainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
     }
 
     @Override
     protected void initialize() {
-
+        docFragment = DocFragment.newInstance("","");
+        function_fragment = Function_fragment.newInstance("","");
+        meFragment = MeFragment.newInstance("","");
     }
-
-    private void initView() {
-        //        mToolbar = this.findViewById(R.id.toolbar);
-        docItem = this.findViewById(R.id.doc_item);
-        appItem = this.findViewById(R.id.app_item);
-        meItem = this.findViewById(R.id.me_item);
+    public void navigationSelect(View view){
+        mainBinding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                return true;
+            }
+        });
     }
     private void init(){
         //        setSupportActionBar(mToolbar);
