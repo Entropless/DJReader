@@ -2,6 +2,10 @@ package com.wy.djreader.main_page.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.view.MenuItem;
+import android.view.View;
 
 public class MainViewModel extends BaseObservable {
     //field
@@ -36,4 +40,5 @@ public class MainViewModel extends BaseObservable {
     public void setPersonalBtn(String personalBtn) {
         this.personalBtn = personalBtn;
     }
+
 }

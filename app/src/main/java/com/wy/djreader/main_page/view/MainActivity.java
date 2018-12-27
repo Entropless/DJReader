@@ -20,6 +20,7 @@ import com.wy.djreader.function_manager.view.Function_fragment;
 import com.wy.djreader.main_page.MainPageContract;
 import com.wy.djreader.main_page.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
+import com.wy.djreader.utils.ActivityUtil;
 
 public class MainActivity extends BaseActivity implements MainPageContract.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
 
@@ -28,10 +29,27 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     private MeFragment meFragment;
     private Function_fragment function_fragment;
     private ImageView docItem,appItem,meItem;
-    private FragmentManager fm;
-    private FragmentTransaction ft;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     private MainPageContract.Presenter presenter;
     private ActivityMainBinding mainBinding = null;
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.fileMg:
+                    ActivityUtil.replaceFragment(fragmentManager,docFragment,R.id.fragment_container);
+                    break;
+                case R.id.functionMg:
+                    ActivityUtil.replaceFragment(fragmentManager,function_fragment,R.id.fragment_container);
+                    break;
+                case R.id.accountMg:
+                    ActivityUtil.replaceFragment(fragmentManager,meFragment,R.id.fragment_container);
+                    break;
+            }
+            return true;//将选中项目显示为选中
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -53,54 +71,10 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
         docFragment = DocFragment.newInstance("","");
         function_fragment = Function_fragment.newInstance("","");
         meFragment = MeFragment.newInstance("","");
-    }
-    public void navigationSelect(View view){
-        mainBinding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                return true;
-            }
-        });
-    }
-    private void init(){
-        //        setSupportActionBar(mToolbar);
-        docFragment = DocFragment.newInstance("","");
-        function_fragment = Function_fragment.newInstance("","");
-        meFragment = MeFragment.newInstance("","");
-        //get instance of fragmentTransaction
-        fm = getSupportFragmentManager();
-        ft = fm.beginTransaction();
-        //执行插入事务
-        ft.add(R.id.fragment_container,docFragment);
-        ft.commit();
-        //图片点击事件
-        docItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ft = fm.beginTransaction();
-                ft.replace(R.id.fragment_container,docFragment);
-//                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
-        appItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ft = fm.beginTransaction();
-                ft.replace(R.id.fragment_container, function_fragment);
-//                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
-        meItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ft = fm.beginTransaction();
-                ft.replace(R.id.fragment_container,meFragment);
-//                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+        fragmentManager = getSupportFragmentManager();
+        ActivityUtil.addFragmentToActivity(fragmentManager,docFragment,R.id.fragment_container);
+        //BottomNavigationView点击事件
+        mainBinding.bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
     }
 
     /**

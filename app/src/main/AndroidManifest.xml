@@ -46,10 +46,9 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/menu" />
+        <activity
+            android:name=".main_page.view.MainNavigationActivity"
+            android:label="@string/title_activity_main_navigation"></activity>
     </application>
 
 </manifest>
