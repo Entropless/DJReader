@@ -46,9 +46,6 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".main_page.view.MainNavigationActivity"
-            android:label="@string/title_activity_main_navigation"></activity>
     </application>
 
 </manifest>

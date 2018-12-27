@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.showdoc.ShowDocContract;
+import com.wy.djreader.utils.HandlerUtil;
 import com.wy.djreader.utils.SingleDJContentView;
 
 public class DisplayDocPresenter implements ShowDocContract.Presenter {
@@ -31,6 +32,7 @@ public class DisplayDocPresenter implements ShowDocContract.Presenter {
             openRes = contentView.openTempFile(filePath);
         }
         Log.d("wy_openRes",openRes+"");
+        contentView.setMyhandler(HandlerUtil.fileHandler);
         //登录
 
         return openRes;

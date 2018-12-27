@@ -1,6 +1,5 @@
 package com.wy.djreader.main_page.view;
 
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.wy.djreader.R;
@@ -63,7 +61,7 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
 
     @Override
     protected void initDataBinding(ViewDataBinding dataBinding) {
-        mainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        mainBinding = (ActivityMainBinding) dataBinding;
     }
 
     @Override
