@@ -1,16 +1,11 @@
 package com.wy.djreader.showdoc.presenter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
-import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.showdoc.ShowDocContract;
-import com.wy.djreader.utils.HandlerUtil;
-import com.wy.djreader.utils.SingleDJContentView;
+import com.wy.djreader.showdoc.model_doc.HandlerUtil;
+import com.wy.djreader.utils.Singleton.SingleDJContentView;
 
 public class DisplayDocPresenter implements ShowDocContract.Presenter {
 
@@ -32,6 +27,7 @@ public class DisplayDocPresenter implements ShowDocContract.Presenter {
             openRes = contentView.openTempFile(filePath);
         }
         Log.d("wy_openRes",openRes+"");
+        //设置Handler，接收各种返回值
         contentView.setMyhandler(HandlerUtil.fileHandler);
         //登录
 

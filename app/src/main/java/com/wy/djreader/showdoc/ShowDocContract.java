@@ -2,7 +2,7 @@ package com.wy.djreader.showdoc;
 
 import com.wy.djreader.base_universal.BasePresenter;
 import com.wy.djreader.base_universal.BaseView;
-import com.wy.djreader.utils.SingleDJContentView;
+import com.wy.djreader.utils.Singleton.SingleDJContentView;
 
 public interface ShowDocContract {
 

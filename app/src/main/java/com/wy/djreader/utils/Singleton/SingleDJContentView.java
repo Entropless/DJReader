@@ -1,4 +1,4 @@
-package com.wy.djreader.utils;
+package com.wy.djreader.utils.Singleton;
 
 import android.content.Context;
 import android.graphics.Bitmap;

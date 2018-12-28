@@ -15,7 +15,7 @@ import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.FileOperation;
 import com.wy.djreader.utils.Permission.PermissionUtil;
 import com.wy.djreader.utils.Permission.PermissionUtilImpl;
-import com.wy.djreader.utils.SingleDJContentView;
+import com.wy.djreader.utils.Singleton.SingleDJContentView;
 import com.wy.djreader.utils.ToastUtil;
 
 public class DisplayDocActivity extends BaseActivity implements ShowDocContract.View {
