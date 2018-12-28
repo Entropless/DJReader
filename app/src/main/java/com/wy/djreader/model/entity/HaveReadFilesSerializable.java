@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class HaveReadFilesSerializable implements Serializable {
 
+    private static HaveReadFilesSerializable haveReadFiles = null;
     private String id;
     private String file_name;
     private String file_path;
@@ -64,14 +65,16 @@ public class HaveReadFilesSerializable implements Serializable {
      * @author think
      * @date 2018/12/4 14:09
      */
-    public HaveReadFilesSerializable() {
+    private HaveReadFilesSerializable() {
     }
-    public HaveReadFilesSerializable(String id, String file_name, String file_path, String display_time, String file_size, byte[] file_thum) {
-        this.id = id;
-        this.file_name = file_name;
-        this.file_path = file_path;
-        this.display_time = display_time;
-        this.file_size = file_size;
-        this.file_thum = file_thum;
+    private static class SingletonHaveReadFiles {
+        private static final HaveReadFilesSerializable haveReadFiles = new HaveReadFilesSerializable();
     }
+    public static HaveReadFilesSerializable getInstance(){
+        return SingletonHaveReadFiles.haveReadFiles;
+    }
+    private Object readResolve(){
+        return haveReadFiles;
+    }
+
 }
