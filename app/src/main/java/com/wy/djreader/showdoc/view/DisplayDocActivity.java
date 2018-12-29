@@ -1,11 +1,15 @@
 package com.wy.djreader.showdoc.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver;
 
+import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.R;
 import com.wy.djreader.base_universal.BaseActivity;
 import com.wy.djreader.databinding.ActivityShowDocBinding;
@@ -18,6 +22,8 @@ import com.wy.djreader.utils.Permission.PermissionUtilImpl;
 import com.wy.djreader.utils.Singleton.SingleDJContentView;
 import com.wy.djreader.utils.ToastUtil;
 
+import java.lang.ref.WeakReference;
+
 public class DisplayDocActivity extends BaseActivity implements ShowDocContract.View {
 
     private ShowDocContract.Presenter presenter;
@@ -28,6 +34,31 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
     private boolean isListener = true;
     private PermissionUtil permissionUtil = null;
     private String[] permissions = null;
+    private WeakReference<DisplayDocActivity> activityWeak;//弱引用
+
+    private Handler fileHandler = null;
+
+    static class FileHandler extends Handler{
+        private DisplayDocActivity activity;
+        private String filePath = "";
+        public FileHandler(WeakReference<DisplayDocActivity> activityWeak,String filePath) {
+            activity = activityWeak.get();
+            this.filePath = filePath;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (activity == null) return;
+            switch(msg.what){
+                case DJContentView.DJCode.OPEN_FILE://文件成功打开
+                    //记录打开的文件信息
+                    activity.presenter.recordReadFilesInfos(activity,filePath);
+                    break;
+
+            }
+        }
+    }
 
     @Override
     protected int getLayoutId() {
@@ -83,6 +114,10 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
     private void initDocument(){
         fileOperation = new FileOperation();
         filePath = fileOperation.parseFileUri(this.getIntent(),context);
+        //初始化activity的若引用
+        activityWeak = new WeakReference<>(this);
+        fileHandler = new FileHandler(activityWeak,filePath);
+
         activityShowDocBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -91,6 +126,8 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
                     SingleDJContentView contentView = SingleDJContentView.getInstance(context);
                     activityShowDocBinding.showdocLayout.addView(contentView);
                     presenter.loadingDoc(filePath,contentView);
+                    //设置Handler，接收各种返回值
+                    contentView.setMyhandler(fileHandler);
                 }
                 return true;
             }

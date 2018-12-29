@@ -15,7 +15,7 @@ import java.util.List;
 
 public class IDocPresenterImpl implements IDocPresenter {
 
-    private HaveReadFilesSerializable haveReadFiles = new HaveReadFilesSerializable();
+    private HaveReadFilesSerializable haveReadFiles = HaveReadFilesSerializable.getInstance();
     private IHaveReadFiles iHaveReadFiles = null;
     private List<HaveReadFilesSerializable> haveReadFilesList = null;
     private IDocFragment iDocFragment;

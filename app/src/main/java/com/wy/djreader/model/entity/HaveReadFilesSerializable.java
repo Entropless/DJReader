@@ -73,6 +73,11 @@ public class HaveReadFilesSerializable implements Serializable {
     public static HaveReadFilesSerializable getInstance(){
         return SingletonHaveReadFiles.haveReadFiles;
     }
+    /**
+     * @desc 防止序列化时破坏单例模式
+     * @author wy
+     * @date 2018/12/29 14:33
+     */
     private Object readResolve(){
         return haveReadFiles;
     }
