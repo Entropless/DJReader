@@ -1,4 +1,4 @@
-package com.wy.djreader.utils.Singleton;
+package com.wy.djreader.utils.singleton;
 
 public class SingletonHaveReadFiles {
 }

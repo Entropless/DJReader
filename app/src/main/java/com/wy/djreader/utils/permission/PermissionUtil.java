@@ -1,4 +1,4 @@
-package com.wy.djreader.utils.Permission;
+package com.wy.djreader.utils.permission;
 
 public interface PermissionUtil {
 

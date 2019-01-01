@@ -1,5 +1,6 @@
 package com.wy.djreader.main_page.view;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -26,11 +27,10 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     private DocFragment docFragment;
     private MeFragment meFragment;
     private Function_fragment function_fragment;
-    private ImageView docItem,appItem,meItem;
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
-    private MainPageContract.Presenter presenter;
+    private MainPageContract.Presenter mainPresenter;
     private ActivityMainBinding mainBinding = null;
+    private Context context;
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -51,12 +51,13 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
 
     @Override
     protected int getLayoutId() {
+        context = this;
         return R.layout.activity_main;
     }
 
     @Override
     protected void initPresenter() {
-        presenter = new MainPagePresenter(this);
+        mainPresenter = new MainPagePresenter(this,context);
     }
 
     @Override
@@ -66,6 +67,9 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
 
     @Override
     protected void initialize() {
+        //检查APP更新
+        mainPresenter.checkVersionUpdate();
+
         docFragment = DocFragment.newInstance("","");
         function_fragment = Function_fragment.newInstance("","");
         meFragment = MeFragment.newInstance("","");
@@ -104,6 +108,11 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
      */
     @Override
     public void setPresenter(Object presenter) {
+
+    }
+
+    @Override
+    public void showUpdateDialog() {
 
     }
 }

@@ -1,6 +1,5 @@
 package com.wy.djreader.showdoc.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
@@ -17,9 +16,9 @@ import com.wy.djreader.showdoc.ShowDocContract;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.FileOperation;
-import com.wy.djreader.utils.Permission.PermissionUtil;
-import com.wy.djreader.utils.Permission.PermissionUtilImpl;
-import com.wy.djreader.utils.Singleton.SingleDJContentView;
+import com.wy.djreader.utils.permission.PermissionUtil;
+import com.wy.djreader.utils.permission.PermissionUtilImpl;
+import com.wy.djreader.utils.singleton.SingleDJContentView;
 import com.wy.djreader.utils.ToastUtil;
 
 import java.lang.ref.WeakReference;
@@ -53,7 +52,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
             switch(msg.what){
                 case DJContentView.DJCode.OPEN_FILE://文件成功打开
                     //记录打开的文件信息
-                    activity.presenter.recordReadFilesInfos(activity,filePath);
+                    activity.presenter.recordReadFilesInfos(filePath);
                     break;
 
             }
@@ -62,12 +61,12 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
 
     @Override
     protected int getLayoutId() {
+        context = this;
         return R.layout.activity_show_doc;
     }
 
     @Override
     protected void initDataBinding(ViewDataBinding dataBinding) {
-        context = this;
         activityShowDocBinding = (ActivityShowDocBinding) dataBinding;
     }
 
@@ -123,11 +122,11 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
             public boolean onPreDraw() {
                 if (isListener){
                     isListener = false;
-                    SingleDJContentView contentView = SingleDJContentView.getInstance(context);
-                    activityShowDocBinding.showdocLayout.addView(contentView);
-                    presenter.loadingDoc(filePath,contentView);
+                    SingleDJContentView singleDJContentView = SingleDJContentView.getInstance(context);
+                    activityShowDocBinding.showdocLayout.addView(singleDJContentView.djContentView);
+                    presenter.loadingDoc(filePath,singleDJContentView.djContentView);
                     //设置Handler，接收各种返回值
-                    contentView.setMyhandler(fileHandler);
+                    singleDJContentView.djContentView.setMyhandler(fileHandler);
                 }
                 return true;
             }
@@ -136,7 +135,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
 
     @Override
     protected void initPresenter() {
-        presenter = new DisplayDocPresenter(this);
+        presenter = new DisplayDocPresenter(this,context);
     }
     /**
      * @desc 用于传入Fragment时调用
