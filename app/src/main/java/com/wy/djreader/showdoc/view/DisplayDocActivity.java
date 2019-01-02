@@ -37,9 +37,9 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
 
     private Handler fileHandler = null;
 
-    static class FileHandler extends Handler{
+    class FileHandler extends Handler{
         private DisplayDocActivity activity;
-        private String filePath = "";
+        private String filePath;
         public FileHandler(WeakReference<DisplayDocActivity> activityWeak,String filePath) {
             activity = activityWeak.get();
             this.filePath = filePath;
