@@ -25,6 +25,7 @@ import com.wy.djreader.main_page.MainPageContract;
 import com.wy.djreader.main_page.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
 import com.wy.djreader.utils.ActivityUtil;
+import com.wy.djreader.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity implements MainPageContract.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
 
@@ -118,10 +119,10 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     }
 
     @Override
-    public void showUpdateDialog() {
+    public void showUpdateDialog(Bundle data) {
         AlertDialog.Builder builer = new AlertDialog.Builder(context);
         builer.setTitle(context.getResources().getString(R.string.update_title));
-//        builer.setMessage(info.getDescription());
+        builer.setMessage(data.getString("description"));
         builer.setCancelable(false);
         // 当点确定按钮时从服务器上下载 新的apk 然后安装
         builer.setPositiveButton(context.getResources().getString(R.string.update_Positive), new DialogInterface.OnClickListener() {
@@ -146,5 +147,10 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
         });
         AlertDialog dialog = builer.create();
         dialog.show();
+    }
+
+    @Override
+    public void showToast(String msg, int showTime) {
+        ToastUtil.toastMessage(context,msg,showTime);
     }
 }
