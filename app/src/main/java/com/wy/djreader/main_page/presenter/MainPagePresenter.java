@@ -8,6 +8,7 @@ import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
 import com.wy.djreader.main_page.MainPageContract;
 import com.wy.djreader.main_page.model.ParseXml;
+import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.MessageManager;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
@@ -63,7 +64,7 @@ public class MainPagePresenter implements MainPageContract.Presenter{
                 @Override
                 public void requestSuccessful(Object object) {
                     //请求成功，处理返回结果
-                    ParseXml.getUpdateInfos((InputStream) object);
+                    UpdateInfos updateInfos = ParseXml.getUpdateInfos((InputStream) object);
                     //向主线程发送消息
                     updateHandler = new UpdateHandler(mView);
                     MessageManager.sendMessage(updateHandler,Constant.Flag.UPDATE_CLIENT,0,null);
