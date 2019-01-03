@@ -3,37 +3,35 @@ package com.wy.djreader.main_page.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import com.wy.djreader.R;
-import com.wy.djreader.base_universal.BaseActivity;
+import com.wy.djreader.base.BaseActivity;
+import com.wy.djreader.base.BasePresenter;
 import com.wy.djreader.databinding.ActivityMainBinding;
 import com.wy.djreader.file_manager.view.DocFragment;
 import com.wy.djreader.function_manager.view.Function_fragment;
-import com.wy.djreader.main_page.MainPageContract;
+import com.wy.djreader.main_page.MainPageContact;
 import com.wy.djreader.main_page.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
 import com.wy.djreader.utils.ActivityUtil;
+import com.wy.djreader.utils.ToastUtil;
 
-public class MainActivity extends BaseActivity implements MainPageContract.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
 
     private Toolbar mToolbar;
     private DocFragment docFragment;
     private MeFragment meFragment;
     private Function_fragment function_fragment;
     private FragmentManager fragmentManager;
-    private MainPageContract.Presenter mainPresenter;
+    private MainPageContact.Presenter mainPresenter;
     private ActivityMainBinding mainBinding = null;
     private Context context;
 
@@ -62,8 +60,9 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     }
 
     @Override
-    protected void initPresenter() {
+    protected BasePresenter initPresenter() {
         mainPresenter = new MainPagePresenter(this,context);
+        return mainPresenter;
     }
 
     @Override
@@ -118,10 +117,10 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
     }
 
     @Override
-    public void showUpdateDialog() {
+    public void showUpdateDialog(Bundle data) {
         AlertDialog.Builder builer = new AlertDialog.Builder(context);
         builer.setTitle(context.getResources().getString(R.string.update_title));
-//        builer.setMessage(info.getDescription());
+        builer.setMessage(data.getString("description"));
         builer.setCancelable(false);
         // 当点确定按钮时从服务器上下载 新的apk 然后安装
         builer.setPositiveButton(context.getResources().getString(R.string.update_Positive), new DialogInterface.OnClickListener() {
@@ -146,5 +145,16 @@ public class MainActivity extends BaseActivity implements MainPageContract.View,
         });
         AlertDialog dialog = builer.create();
         dialog.show();
+    }
+
+    @Override
+    public void showToast(String msg, int showTime) {
+        ToastUtil.toastMessage(context,msg,showTime);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

@@ -10,9 +10,9 @@ import android.view.ViewTreeObserver;
 
 import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.R;
-import com.wy.djreader.base_universal.BaseActivity;
+import com.wy.djreader.base.BaseActivity;
 import com.wy.djreader.databinding.ActivityShowDocBinding;
-import com.wy.djreader.showdoc.ShowDocContract;
+import com.wy.djreader.showdoc.ShowDocContact;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.FileOperation;
@@ -23,9 +23,9 @@ import com.wy.djreader.utils.ToastUtil;
 
 import java.lang.ref.WeakReference;
 
-public class DisplayDocActivity extends BaseActivity implements ShowDocContract.View {
+public class DisplayDocActivity extends BaseActivity implements ShowDocContact.View {
 
-    private ShowDocContract.Presenter presenter;
+    private ShowDocContact.Presenter presenter;
     private FileOperation fileOperation;
     private String filePath = "";
     private ActivityShowDocBinding activityShowDocBinding = null;
@@ -143,7 +143,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContract.
      * @date 2018/12/21 15:37
      */
     @Override
-    public void setPresenter(ShowDocContract.Presenter presenter) {
+    public void setPresenter(ShowDocContact.Presenter presenter) {
 
     }
 

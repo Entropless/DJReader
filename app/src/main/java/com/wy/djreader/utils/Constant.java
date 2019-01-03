@@ -57,6 +57,7 @@ public interface Constant {
 		int DOWN_ERROR = -100;
 		int UPDATE_CLIENT = 1;
 		int NOT_UPDATE = -1;
+		int NETWORK_ERROR = -99;
 	}
 	interface DB{
 		String DB_NAME = "dj_reader.db";

@@ -7,29 +7,27 @@ import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.model.dao.IHaveReadFiles;
 import com.wy.djreader.model.dao.impl.HaveReadFilesImpl;
 import com.wy.djreader.model.entity.HaveReadFilesSerializable;
-import com.wy.djreader.showdoc.ShowDocContract;
+import com.wy.djreader.showdoc.ShowDocContact;
 import com.wy.djreader.showdoc.model_doc.IModelDoc;
 import com.wy.djreader.showdoc.model_doc.IModelDocImpl;
-import com.wy.djreader.utils.singleton.SingleDJContentView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayDocPresenter implements ShowDocContract.Presenter {
+public class DisplayDocPresenter implements ShowDocContact.Presenter {
 
-    private ShowDocContract.View view;
+    private ShowDocContact.View view;
     private Context context;
-    private String filePath = "";
     private int openRes = -1;
     private IModelDoc iModelDoc;
     private IHaveReadFiles iHaveReadFiles;
     private HaveReadFilesSerializable haveReadFiles;
 
     //Presenter构造方法，M V P三层的连接点
-    public DisplayDocPresenter(ShowDocContract.View view,Context context) {
+    public DisplayDocPresenter(ShowDocContact.View view, Context context) {
         this.view = view;
         this.iModelDoc = new IModelDocImpl();
-        this.context = context;
+        this.context = context.getApplicationContext();//获取当前应用的context,防止activity被回收时仍然持有activity的引用
     }
 
     @Override

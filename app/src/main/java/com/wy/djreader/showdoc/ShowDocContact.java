@@ -1,11 +1,10 @@
 package com.wy.djreader.showdoc;
 
 import com.dianju.showpdf.DJContentView;
-import com.wy.djreader.base_universal.BasePresenter;
-import com.wy.djreader.base_universal.BaseView;
-import com.wy.djreader.utils.singleton.SingleDJContentView;
+import com.wy.djreader.base.BasePresenter;
+import com.wy.djreader.base.BaseView;
 
-public interface ShowDocContract {
+public interface ShowDocContact {
 
     interface View extends BaseView<Presenter>{
         //显示控制按钮
