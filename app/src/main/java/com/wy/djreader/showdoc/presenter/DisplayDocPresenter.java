@@ -71,4 +71,10 @@ public class DisplayDocPresenter implements ShowDocContact.Presenter {
         }
         return false;
     }
+
+    @Override
+    public void onDestroy() {
+        view = null;
+        System.gc();
+    }
 }

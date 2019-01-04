@@ -2,12 +2,16 @@ package com.wy.djreader.utils.httputil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.BufferedSink;
 
 public class OkHttpImpl implements OkHttpUtil{
 
@@ -19,13 +23,14 @@ public class OkHttpImpl implements OkHttpUtil{
     }
 
     @Override
-    public void resStreamAsyncGet(String requestUrl, ReqestCallBack callBack) {
-        //设置超时时间
-        singletonOkHttp.okHttpClient.newBuilder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS);
-        //创建Request对象
-        Request request = new Request.Builder().url(requestUrl).build();
+    public void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallBack callBack) {
+        //创建Request
+        Request request = null;
+        if (methodType == MethodType.GET){
+            request = CreateRequest.createGetRequest(requestUrl,params);
+        }else if (methodType == MethodType.POST){
+            request = CreateRequest.createPostRequest(requestUrl,params);
+        }
         //创建Call对象，将request传入
         singletonOkHttp.okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -40,4 +45,10 @@ public class OkHttpImpl implements OkHttpUtil{
             }
         });
     }
+
+    @Override
+    public void resFileAsyncPost(String downLoadUrl, RequestCallBack callBack) {
+
+    }
+
 }

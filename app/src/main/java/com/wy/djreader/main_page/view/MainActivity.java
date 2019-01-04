@@ -1,6 +1,7 @@
 package com.wy.djreader.main_page.view;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
@@ -22,6 +23,7 @@ import com.wy.djreader.main_page.MainPageContact;
 import com.wy.djreader.main_page.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
 import com.wy.djreader.utils.ActivityUtil;
+import com.wy.djreader.utils.DialogUtil;
 import com.wy.djreader.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
@@ -118,33 +120,24 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 
     @Override
     public void showUpdateDialog(Bundle data) {
-        AlertDialog.Builder builer = new AlertDialog.Builder(context);
-        builer.setTitle(context.getResources().getString(R.string.update_title));
-        builer.setMessage(data.getString("description"));
-        builer.setCancelable(false);
+        Bundle dialogInfo = new Bundle();
+        dialogInfo = DialogUtil.getDialogData(context.getString(R.string.update_title),data.getString("description"),context.getString(R.string.update_Positive),context.getString(R.string.update_Negative));
         // 当点确定按钮时从服务器上下载 新的apk 然后安装
-        builer.setPositiveButton(context.getResources().getString(R.string.update_Positive), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //dialog方式下载
-//				downLoadApk();
-                //通知栏下载
+        DialogInterface.OnClickListener positiveListener = (dialog,which)->{
+            //dialog方式下载
+				mainPresenter.downLoadApk();
+            //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();
 //                xmlData.putString("apkUrl", info.getUrl());
 //                intentSer.putExtras(xmlData);
 //                context.startService(intentSer);
-                dialog.dismiss();
-            }
-        });
-        // 当点取消按钮时
-        builer.setNegativeButton(context.getResources().getString(R.string.update_Negative), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builer.create();
-        dialog.show();
+            dialog.dismiss();
+        };
+        DialogInterface.OnClickListener negativeListener = (dialog,which)->{
+            dialog.dismiss();
+        };
+        DialogUtil.showDialog(context,dialogInfo,false,null,positiveListener,negativeListener);
     }
 
     @Override

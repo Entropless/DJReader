@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
@@ -78,7 +79,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
         @Override
         public void run() {
-            mPresenterWeak.okHttpUtil.resStreamAsyncGet(getInfoUrl, new OkHttpUtil.ReqestCallBack() {
+            mPresenterWeak.okHttpUtil.resStreamAsyncGet(getInfoUrl, new OkHttpUtil.RequestCallBack() {
                 @Override
                 public void requestSuccessful(Object object) {
                     //请求成功，处理返回结果
@@ -110,6 +111,13 @@ public class MainPagePresenter implements MainPageContact.Presenter{
      * @date 2019/1/3 18:14
      */
     static class DownLoadThread implements Runnable{
+        private String downloadUrl;
+        private MainPagePresenter mPresenterWeak;
+        public DownLoadThread(String downloadUrl, WeakReference<MainPagePresenter> mPresenterWeak) {
+            this.downloadUrl = downloadUrl;
+            this.mPresenterWeak = mPresenterWeak.get();
+        }
+
         @Override
         public void run() {
 
@@ -121,6 +129,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         this.mainView = view;
         this.context = context.getApplicationContext();
         mView = new WeakReference<>(this.mainView);
+        mPresenterWeak = new WeakReference<>(this);
     }
 
     @Override
@@ -138,7 +147,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         //获取下载URL
         String downLoadUrl = updateInfos.getAppUpdateUrl();
         //启动线程下载apk文件
-        Runnable runnable = new DownLoadThread();
+        Runnable runnable = new DownLoadThread(downLoadUrl,mPresenterWeak);
         Thread downLoadThread = new Thread(runnable);
         downLoadThread.start();
     }
@@ -151,7 +160,6 @@ public class MainPagePresenter implements MainPageContact.Presenter{
      * @return
      */
     private void readUpdateInfo(String updateInfoUrl) {
-        mPresenterWeak = new WeakReference<>(this);
         //创建并启动获取更新信息的线程
         Runnable myRunnable = new MyRunnable(updateInfoUrl,mPresenterWeak);
         Thread getInfoThread = new Thread(myRunnable);

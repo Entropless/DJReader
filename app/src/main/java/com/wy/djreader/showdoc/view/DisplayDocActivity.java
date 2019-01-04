@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver;
 import com.dianju.showpdf.DJContentView;
 import com.wy.djreader.R;
 import com.wy.djreader.base.BaseActivity;
+import com.wy.djreader.base.BasePresenter;
 import com.wy.djreader.databinding.ActivityShowDocBinding;
 import com.wy.djreader.showdoc.ShowDocContact;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
@@ -134,8 +135,9 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     }
 
     @Override
-    protected void initPresenter() {
+    protected BasePresenter initPresenter() {
         presenter = new DisplayDocPresenter(this,context);
+        return presenter;
     }
     /**
      * @desc 用于传入Fragment时调用
@@ -161,6 +163,4 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     public void setBtnUp() {
 
     }
-
-
 }
