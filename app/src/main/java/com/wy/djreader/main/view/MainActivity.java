@@ -1,7 +1,5 @@
-package com.wy.djreader.main_page.view;
+package com.wy.djreader.main.view;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
@@ -17,10 +15,10 @@ import com.wy.djreader.R;
 import com.wy.djreader.base.BaseActivity;
 import com.wy.djreader.base.BasePresenter;
 import com.wy.djreader.databinding.ActivityMainBinding;
-import com.wy.djreader.file_manager.view.DocFragment;
-import com.wy.djreader.function_manager.view.Function_fragment;
-import com.wy.djreader.main_page.MainPageContact;
-import com.wy.djreader.main_page.presenter.MainPagePresenter;
+import com.wy.djreader.document.view.DocFragment;
+import com.wy.djreader.function.view.Function_fragment;
+import com.wy.djreader.main.MainPageContact;
+import com.wy.djreader.main.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
 import com.wy.djreader.utils.ActivityUtil;
 import com.wy.djreader.utils.DialogUtil;
@@ -120,12 +118,13 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 
     @Override
     public void showUpdateDialog(Bundle data) {
-        Bundle dialogInfo = new Bundle();
-        dialogInfo = DialogUtil.getDialogData(context.getString(R.string.update_title),data.getString("description"),context.getString(R.string.update_Positive),context.getString(R.string.update_Negative));
+        Bundle dialogInfo = DialogUtil.getDialogData(context.getString(R.string.update_title),
+                data.getString("description"),context.getString(R.string.update_Positive),
+                context.getString(R.string.update_Negative));
         // 当点确定按钮时从服务器上下载 新的apk 然后安装
         DialogInterface.OnClickListener positiveListener = (dialog,which)->{
             //dialog方式下载
-				mainPresenter.downLoadApk();
+            mainPresenter.downLoadApk();
             //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();

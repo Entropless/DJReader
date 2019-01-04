@@ -1,4 +1,4 @@
-package com.wy.djreader.file_manager.presenter.ipresenter;
+package com.wy.djreader.document.presenter.ipresenter;
 
 import android.content.Context;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.wy.djreader.file_manager.view;
+package com.wy.djreader.document.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,17 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.wy.djreader.file_manager.view.iview.IDocFragment;
+import com.wy.djreader.document.view.iview.IDocFragment;
 import com.wy.djreader.model.Adapter.ReadFilesArrayAdapter;
 import com.wy.djreader.model.FragmentCommListener;
 import com.wy.djreader.model.MyViewVModel;
-import com.wy.djreader.model.entity.HaveReadFilesSerializable;
 import com.wy.djreader.R;
-import com.wy.djreader.file_manager.presenter.IDocPresenterImpl;
-import com.wy.djreader.file_manager.presenter.ipresenter.IDocPresenter;
+import com.wy.djreader.document.presenter.IDocPresenterImpl;
+import com.wy.djreader.document.presenter.ipresenter.IDocPresenter;
 import com.wy.djreader.showdoc.view.DisplayDocActivity;
 import com.wy.djreader.utils.Constant;
 

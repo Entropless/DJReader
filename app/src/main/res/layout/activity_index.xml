@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".welcome_page.View.IndexActivity">
+    tools:context=".welcome.View.IndexActivity">
 
     <Button
         android:id="@+id/button"

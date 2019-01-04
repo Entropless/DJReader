@@ -1,4 +1,4 @@
-package com.wy.djreader.welcome_page.View;
+package com.wy.djreader.welcome.View;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.wy.djreader.R;
-import com.wy.djreader.main_page.view.MainActivity;
+import com.wy.djreader.main.view.MainActivity;
 
 public class IndexActivity extends AppCompatActivity {
 

@@ -16,6 +16,7 @@ import okio.BufferedSink;
 public class OkHttpImpl implements OkHttpUtil{
 
     private SingletonOkHttp singletonOkHttp = SingletonOkHttp.getInstance();
+    private CommonCallback commonCallback;
 
     @Override
     public void resStreamSyncGet() {
@@ -23,7 +24,7 @@ public class OkHttpImpl implements OkHttpUtil{
     }
 
     @Override
-    public void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallBack callBack) {
+    public void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallback callBack) {
         //创建Request
         Request request = null;
         if (methodType == MethodType.GET){
@@ -31,23 +32,14 @@ public class OkHttpImpl implements OkHttpUtil{
         }else if (methodType == MethodType.POST){
             request = CreateRequest.createPostRequest(requestUrl,params);
         }
-        //创建Call对象，将request传入
-        singletonOkHttp.okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callBack.requestFailed(e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                InputStream in = response.body().byteStream();
-                callBack.requestSuccessful(in);
-            }
-        });
+        //创建共用的Callback
+        commonCallback = new CommonCallback(callBack);
+        //创建Call对象
+        CreateCall.asyncCall(request,commonCallback);
     }
 
     @Override
-    public void resFileAsyncPost(String downLoadUrl, RequestCallBack callBack) {
+    public void resFileAsync(String downLoadUrl, MethodType methodType, RequestCallback callBack) {
 
     }
 

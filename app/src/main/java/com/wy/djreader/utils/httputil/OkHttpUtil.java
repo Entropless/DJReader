@@ -4,16 +4,16 @@ import java.lang.invoke.MethodType;
 import java.util.Map;
 
 public interface OkHttpUtil {
-    //同步请求
+    /*同步请求*/
     void resStreamSyncGet();
 
-    //异步请求
+    /*异步请求*/
     //响应流Get请求
-    void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallBack callBack);
+    void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallback callback);
     //请求下载文件
-    void resFileAsync(String downLoadUrl, MethodType methodType, RequestCallBack callBack);
+    void resFileAsync(String downLoadUrl, MethodType methodType, RequestCallback callBack);
 
-    interface RequestCallBack {
+    interface RequestCallback {
         //请求成功回调
         void requestSuccessful(Object object);
         //请求失败回调

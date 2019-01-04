@@ -1,8 +1,7 @@
-package com.wy.djreader.file_manager.view.iview;
+package com.wy.djreader.document.view.iview;
 
 
 import com.wy.djreader.model.Adapter.ReadFilesArrayAdapter;
-import com.wy.djreader.model.entity.HaveReadFilesSerializable;
 
 public interface IDocFragment {
 

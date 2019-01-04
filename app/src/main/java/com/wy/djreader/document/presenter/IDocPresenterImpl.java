@@ -1,4 +1,4 @@
-package com.wy.djreader.file_manager.presenter;
+package com.wy.djreader.document.presenter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,8 +8,8 @@ import com.wy.djreader.model.Adapter.ReadFilesArrayAdapter;
 import com.wy.djreader.model.dao.IHaveReadFiles;
 import com.wy.djreader.model.dao.impl.HaveReadFilesImpl;
 import com.wy.djreader.model.entity.HaveReadFilesSerializable;
-import com.wy.djreader.file_manager.presenter.ipresenter.IDocPresenter;
-import com.wy.djreader.file_manager.view.iview.IDocFragment;
+import com.wy.djreader.document.presenter.ipresenter.IDocPresenter;
+import com.wy.djreader.document.view.iview.IDocFragment;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.wy.djreader.main_page;
+package com.wy.djreader.main;
 
 import android.os.Bundle;
 

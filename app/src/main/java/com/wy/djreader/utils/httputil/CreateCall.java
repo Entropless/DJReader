@@ -1,6 +1,7 @@
 package com.wy.djreader.utils.httputil;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -17,32 +18,15 @@ public class CreateCall {
         return call;
     }
 
-    public static Call asyncCall(Request request, OkHttpUtil.RequestCallBack callBack) {
+    /**
+     * 发送异步请求
+     * @param request
+     * @param callback
+     * @return
+     */
+    public static Call asyncCall(Request request, CommonCallback callback) {
         call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callBack.requestFailed(e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-//                callBack.requestSuccessful();
-            }
-        });
+        call.enqueue(callback);
         return call;
-    }
-
-    static class JsonCallBack implements Callback{
-
-        @Override
-        public void onFailure(Call call, IOException e) {
-
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-
-        }
     }
 }

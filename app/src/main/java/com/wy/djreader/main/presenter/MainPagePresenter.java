@@ -1,15 +1,14 @@
-package com.wy.djreader.main_page.presenter;
+package com.wy.djreader.main.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
-import com.wy.djreader.main_page.MainPageContact;
-import com.wy.djreader.main_page.model.ParseXml;
+import com.wy.djreader.main.MainPageContact;
+import com.wy.djreader.main.model.ParseXml;
 import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.MessageManager;
@@ -79,7 +78,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
         @Override
         public void run() {
-            mPresenterWeak.okHttpUtil.resStreamAsyncGet(getInfoUrl, new OkHttpUtil.RequestCallBack() {
+            mPresenterWeak.okHttpUtil.resStreamAsync(getInfoUrl, OkHttpUtil.MethodType.GET, null, new OkHttpUtil.RequestCallback() {
                 @Override
                 public void requestSuccessful(Object object) {
                     //请求成功，处理返回结果

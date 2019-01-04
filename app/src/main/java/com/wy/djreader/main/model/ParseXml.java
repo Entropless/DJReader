@@ -1,4 +1,4 @@
-package com.wy.djreader.main_page.model;
+package com.wy.djreader.main.model;
 
 import android.util.Xml;
 
