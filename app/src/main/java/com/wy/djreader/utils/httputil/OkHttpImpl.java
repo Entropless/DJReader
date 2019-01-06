@@ -19,28 +19,63 @@ public class OkHttpImpl implements OkHttpUtil{
     private CommonCallback commonCallback;
 
     @Override
-    public void resStreamSyncGet() {
-
+    public Object syncGet(String requestUrl, ReturnType returnType, Map<String, Object> params) {
+        Request request = CreateRequest.createGetRequest(requestUrl,params);
+        Response response = CreateCall.syncCall(request);
+        //处理不同的返回值类型
+        Object object = disposeResponse(response, returnType);
+        return object;
     }
 
     @Override
-    public void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallback callBack) {
-        //创建Request
-        Request request = null;
-        if (methodType == MethodType.GET){
-            request = CreateRequest.createGetRequest(requestUrl,params);
-        }else if (methodType == MethodType.POST){
-            request = CreateRequest.createPostRequest(requestUrl,params);
+    public Object syncPost(String requestUrl, CommitType commitType, ReturnType returnType, Map<String, Object> params) {
+        Object object = null;
+
+        return object;
+    }
+
+    /**
+     * 处理响应
+     * @param response
+     * @param returnType
+     * @return
+     */
+    private Object disposeResponse(Response response, ReturnType returnType) {
+        Object object = null;
+        switch (returnType) {
+            case JSON:
+
+                break;
+            case STREAM:
+                object = response.body().byteStream();
+                break;
+            case STRING:
+                object = response.body().toString();
+                break;
+            case FILE:
+
+                break;
         }
+        return object;
+    }
+
+    @Override
+    public void asyncGet(String requestUrl, ReturnType returnType, Map<String,Object> params, RequestCallback callBack) {
+        //创建Request
+        Request request = CreateRequest.createGetRequest(requestUrl,params);
         //创建共用的Callback
-        commonCallback = new CommonCallback(callBack);
+        commonCallback = new CommonCallback(callBack,returnType);
         //创建Call对象
         CreateCall.asyncCall(request,commonCallback);
     }
 
     @Override
-    public void resFileAsync(String downLoadUrl, MethodType methodType, RequestCallback callBack) {
-
+    public void asyncPost(String requestUrl, CommitType commitType, ReturnType returnType, Map<String,Object> params, RequestCallback callBack) {
+        Request request = CreateRequest.createPostRequest(requestUrl,commitType,params);
+        commonCallback = new CommonCallback(callBack,returnType);
+        CreateCall.asyncCall(request,commonCallback);
     }
+
+
 
 }

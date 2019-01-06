@@ -100,7 +100,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
                     initDocument();
                 } else {
                     //权限申请失败，提醒用户
-                    ToastUtil.toastMessage(context,getString(R.string.storage_decline),ToastUtil.LOGN);
+                    ToastUtil.toastMessage(context,getString(R.string.storage_decline),ToastUtil.LONG);
                 }
                 break;
         }

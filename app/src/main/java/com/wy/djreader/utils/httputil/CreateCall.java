@@ -12,10 +12,15 @@ import okhttp3.Response;
 public class CreateCall {
     private static OkHttpClient okHttpClient = SingletonOkHttp.getInstance().okHttpClient;
     private static Call call;
-    public static Call syncCall(Request request) throws IOException {
+    public static Response syncCall(Request request) {
         call = okHttpClient.newCall(request);
-        call.execute();
-        return call;
+        Response response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     /**

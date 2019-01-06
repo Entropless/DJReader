@@ -16,8 +16,16 @@ import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
 import com.wy.djreader.utils.httputil.OkHttpUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainPagePresenter implements MainPageContact.Presenter{
 
@@ -78,7 +86,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
         @Override
         public void run() {
-            mPresenterWeak.okHttpUtil.resStreamAsync(getInfoUrl, OkHttpUtil.MethodType.GET, null, new OkHttpUtil.RequestCallback() {
+            mPresenterWeak.okHttpUtil.asyncGet(getInfoUrl, OkHttpUtil.ReturnType.STREAM, null, new OkHttpUtil.RequestCallback() {
                 @Override
                 public void requestSuccessful(Object object) {
                     //请求成功，处理返回结果
@@ -145,10 +153,19 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     public void downLoadApk() {
         //获取下载URL
         String downLoadUrl = updateInfos.getAppUpdateUrl();
-        //启动线程下载apk文件
-        Runnable runnable = new DownLoadThread(downLoadUrl,mPresenterWeak);
-        Thread downLoadThread = new Thread(runnable);
-        downLoadThread.start();
+        //开始下载apk文件
+        okHttpUtil.asyncPost(downLoadUrl, null,OkHttpUtil.ReturnType.FILE,null, new OkHttpUtil.RequestCallback() {
+            @Override
+            public void requestSuccessful(Object object) {
+                File file = (File) object;
+
+            }
+
+            @Override
+            public void requestFailed(Exception e) {
+
+            }
+        });
     }
 
     /**
@@ -160,9 +177,33 @@ public class MainPagePresenter implements MainPageContact.Presenter{
      */
     private void readUpdateInfo(String updateInfoUrl) {
         //创建并启动获取更新信息的线程
-        Runnable myRunnable = new MyRunnable(updateInfoUrl,mPresenterWeak);
-        Thread getInfoThread = new Thread(myRunnable);
-        getInfoThread.start();
+//        Runnable myRunnable = new MyRunnable(updateInfoUrl,mPresenterWeak);
+//        Thread getInfoThread = new Thread(myRunnable);
+//        getInfoThread.start();
+        updateHandler = new UpdateHandler(mView);
+        okHttpUtil.asyncGet(updateInfoUrl, OkHttpUtil.ReturnType.STREAM, null, new OkHttpUtil.RequestCallback() {
+            @Override
+            public void requestSuccessful(Object object) {
+                //请求成功，处理返回结果
+                updateInfos = ParseXml.getUpdateInfos((InputStream) object);
+                Bundle infos = new Bundle();
+                infos.putString("versionCode",updateInfos.getVersionCode());
+                infos.putString("versionName",updateInfos.getVersionName());
+                infos.putString("appUpdateUrl",updateInfos.getAppUpdateUrl());
+                infos.putString("description",updateInfos.getDescription());
+                //判断版本号
+                if (!currVersionCode.equals(updateInfos.getVersionCode())) {
+                    MessageManager msg = new MessageManager(updateHandler,Constant.Flag.UPDATE_CLIENT,infos);
+                    msg.sendMessage();
+                }
+            }
+
+            @Override
+            public void requestFailed(Exception e) {
+                MessageManager msg = new MessageManager(updateHandler,Constant.Flag.NETWORK_ERROR,e.toString());
+                msg.sendMessage();
+            }
+        });
     }
 
     @Override

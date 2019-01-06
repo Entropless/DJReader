@@ -13,13 +13,13 @@
 
     <string name="countdown_text">跳过</string>
 
-    <string name="updateInfo_url">http://192.168.1.81:8080/gongwen/updateXml/update.xml</string>
+    <string name="updateInfo_url">http://192.168.1.106:8080/gongwen/updateXml/update.xml</string>
     <string name="update_title">版本更新</string>
     <string name="update_Positive">立即更新</string>
     <string name="update_Negative">狠心拒绝</string>
     <string name="updating">正在下载更新</string>
     <string name="update_faild">更新文件下载失败！</string>
-    <string name="intalled_error">apk安装失败</string>
+    <string name="installed_error">apk安装失败</string>
     <string name="download_start">正在后台下载</string>
     <string name="download_finish">下载完成，点击安装</string>
     <string name="download_failed">下载失败</string>

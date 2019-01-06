@@ -1,17 +1,18 @@
 package com.wy.djreader.utils.httputil;
 
-import java.lang.invoke.MethodType;
 import java.util.Map;
 
 public interface OkHttpUtil {
     /*同步请求*/
-    void resStreamSyncGet();
+    Object syncGet(String requestUrl, ReturnType returnType, Map<String,Object> params);
+
+    Object syncPost(String requestUrl, CommitType commitType, ReturnType returnType, Map<String,Object> params);
 
     /*异步请求*/
-    //响应流Get请求
-    void resStreamAsync(String requestUrl, MethodType methodType, Map<String,Object> params, RequestCallback callback);
-    //请求下载文件
-    void resFileAsync(String downLoadUrl, MethodType methodType, RequestCallback callBack);
+    //Get请求
+    void asyncGet(String requestUrl, ReturnType returnType, Map<String,Object> params, RequestCallback callback);
+    //Post请求
+    void asyncPost(String requestUrl, CommitType commitType, ReturnType returnType, Map<String,Object> params, RequestCallback callBack);
 
     interface RequestCallback {
         //请求成功回调
@@ -27,9 +28,15 @@ public interface OkHttpUtil {
         GET,POST
     }
 
-    enum RequestType{
-        //json串，表单，流，上传文件， 下载文件
-        JSON, FORM, STREAM, DOWN_FILE, UP_FILE
+    enum CommitType{
+        //json串，表单，流，上传文件
+        JSON, FORM, STREAM, FILE
+    }
+
+    //返回内容类型
+    enum ReturnType{
+        // json，流，字符串，文件
+        JSON, STREAM, STRING, FILE
     }
 
 }

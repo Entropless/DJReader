@@ -3,6 +3,7 @@ package com.wy.djreader.utils.httputil;
 import java.util.Map;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.Request;
 
 public class CreateRequest {
@@ -17,6 +18,7 @@ public class CreateRequest {
      */
     public static Request createGetRequest(String url, Map<String,Object> params){
         //拼接get请求的URL
+        Request.Builder builder = new Request.Builder();
         StringBuilder urlBuilder = new StringBuilder(url).append("?");
         if (params != null){
             for (Map.Entry<String,Object> entry: params.entrySet()) {
@@ -25,9 +27,10 @@ public class CreateRequest {
                           .append(entry.getValue())
                           .append("&");
             }
+            builder.url(urlBuilder.substring(0,urlBuilder.length()-1));
         }
-        Request request = new Request.Builder().url(urlBuilder.substring(0,urlBuilder.length()-1)).build();
-        return request;
+        builder.url(url);
+        return builder.build();
     }
 
     /**
@@ -38,15 +41,30 @@ public class CreateRequest {
      * @param params
      * @return
      */
-    public static Request createPostRequest(String url, Map<String,Object> params){
-        FormBody.Builder formBuilder = new FormBody.Builder();
-        if (params != null) {
-            for (Map.Entry<String,Object> entry : params.entrySet()) {
-                formBuilder.add(entry.getKey(), (String) entry.getValue());
-            }
+    public static Request createPostRequest(String url, OkHttpUtil.CommitType commitType, Map<String, Object> params){
+        Request request = null;
+        //判断提交的数据类型
+        switch (commitType) {
+            case FORM:
+                FormBody.Builder formBuilder = new FormBody.Builder();
+                if (params != null) {
+                    for (Map.Entry<String,Object> entry : params.entrySet()) {
+                        formBuilder.add(entry.getKey(), (String) entry.getValue());
+                    }
+                }
+                FormBody formBody = formBuilder.build();
+                request = new Request.Builder().url(url).post(formBody).build();
+                break;
+            case STREAM:
+
+                break;
+            case FILE:
+
+                break;
+            case JSON:
+
+                break;
         }
-        FormBody formBody = formBuilder.build();
-        Request request = new Request.Builder().url(url).post(formBody).build();
         return request;
     }
 }

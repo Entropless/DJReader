@@ -17,7 +17,7 @@ public class ParseXml {
         try {
             parser.setInput(inputStream,"utf-8");
             int type = parser.getEventType();
-            while (XmlPullParser.END_DOCUMENT == type){
+            while (XmlPullParser.END_DOCUMENT != type){
                 switch (type){
                     case XmlPullParser.START_TAG:
                         String nodeName = parser.getName();
@@ -32,6 +32,7 @@ public class ParseXml {
                         }
                         break;
                 }
+                type = parser.next();
             }
         } catch (XmlPullParserException e) {
             e.printStackTrace();
