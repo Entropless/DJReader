@@ -1,5 +1,6 @@
 package com.wy.djreader.main.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -112,26 +115,12 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         }
     }
     /**
-     * @ClassN DownLoadThread
-     * @desc 下载apk的线程
-     * @author think
-     * @date 2019/1/3 18:14
+     * @desc 构造
+     * @author wy
+     * @date 2019/1/7 18:18
+     * @params
+     * @return
      */
-    static class DownLoadThread implements Runnable{
-        private String downloadUrl;
-        private MainPagePresenter mPresenterWeak;
-        public DownLoadThread(String downloadUrl, WeakReference<MainPagePresenter> mPresenterWeak) {
-            this.downloadUrl = downloadUrl;
-            this.mPresenterWeak = mPresenterWeak.get();
-        }
-
-        @Override
-        public void run() {
-
-        }
-    }
-
-
     public MainPagePresenter(MainPageContact.View view, Context context) {
         this.mainView = view;
         this.context = context.getApplicationContext();
@@ -151,14 +140,22 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
     @Override
     public void downLoadApk() {
+        ProgressDialog pg;
         //获取下载URL
         String downLoadUrl = updateInfos.getAppUpdateUrl();
+        //封装Map
+        Map<String,Object> params = new HashMap<>();
+        params.put(Constant.FILE_PATH,Constant.DOWNLOAD_PATH);
+        params.put(Constant.FILE_NAME,updateInfos.getVersionName()+".apk");
         //开始下载apk文件
-        okHttpUtil.asyncPost(downLoadUrl, null,OkHttpUtil.ReturnType.FILE,null, new OkHttpUtil.RequestCallback() {
+        okHttpUtil.asyncGet(downLoadUrl,OkHttpUtil.ReturnType.FILE,params, new OkHttpUtil.RequestCallback() {
             @Override
             public void requestSuccessful(Object object) {
                 File file = (File) object;
+                //判断文件大小
+                if (file.length() > 0 ) {
 
+                }
             }
 
             @Override

@@ -11,6 +11,8 @@ public interface Constant {
 	String ROOT_PATH = Environment.getExternalStorageDirectory() + File.separator;
 	String DOWNLOAD_PATH = Constant.ROOT_PATH + "Download/com.dianju.djreader/apk/";
 	String OPENED_FILE = "opened_file";
+	String FILE_PATH = "filePath";
+	String FILE_NAME = "fileName";
 	
 	public static final String PROJECT_PATH = Environment.getExternalStorageDirectory()+File.separator+"dianju";
 	public static final String TEMP_DIR = PROJECT_PATH + File.separator +"temp_files";

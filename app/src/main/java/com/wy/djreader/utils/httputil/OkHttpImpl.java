@@ -64,7 +64,7 @@ public class OkHttpImpl implements OkHttpUtil{
         //创建Request
         Request request = CreateRequest.createGetRequest(requestUrl,params);
         //创建共用的Callback
-        commonCallback = new CommonCallback(callBack,returnType);
+        commonCallback = new CommonCallback(callBack,params,returnType);
         //创建Call对象
         CreateCall.asyncCall(request,commonCallback);
     }
@@ -72,7 +72,7 @@ public class OkHttpImpl implements OkHttpUtil{
     @Override
     public void asyncPost(String requestUrl, CommitType commitType, ReturnType returnType, Map<String,Object> params, RequestCallback callBack) {
         Request request = CreateRequest.createPostRequest(requestUrl,commitType,params);
-        commonCallback = new CommonCallback(callBack,returnType);
+        commonCallback = new CommonCallback(callBack,params,returnType);
         CreateCall.asyncCall(request,commonCallback);
     }
 

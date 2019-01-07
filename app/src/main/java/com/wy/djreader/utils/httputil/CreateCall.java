@@ -9,6 +9,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * @ClassN CreateCall
+ * @desc 创建Call对象
+ * @author wy
+ * @date 2019/1/1 9:56
+ */
 public class CreateCall {
     private static OkHttpClient okHttpClient = SingletonOkHttp.getInstance().okHttpClient;
     private static Call call;

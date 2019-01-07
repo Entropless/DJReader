@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ProgressBar;
 
 public class DialogUtil {
     public static void showDialog(Context context, Bundle data, boolean cancelable, View view, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener){
@@ -16,7 +17,6 @@ public class DialogUtil {
         builder.setTitle(data.getString("title"))
                 .setMessage(data.getString("message"))
                 .setCancelable(cancelable);
-        //采用lambda表达式写确定事件
         builder.setPositiveButton(data.getString("positive"), positiveListener);
         //取消事件
         builder.setNegativeButton(data.getString("negative"), negativeListener);
@@ -32,6 +32,14 @@ public class DialogUtil {
         data.putString("positive",positive);
         data.putString("negative",negative);
         return data;
+    }
+
+    public static void showProgressBar(Context context,Bundle data,int style, boolean indeterminate, int progress, int max){
+        ProgressBar progressBar = new ProgressBar(context);
+        progressBar.setScrollBarStyle(style);
+        progressBar.setIndeterminate(indeterminate);
+        progressBar.setProgress(progress);
+        progressBar.setMax(max);
     }
 
 }

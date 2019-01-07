@@ -4,8 +4,9 @@ import java.util.Map;
 
 public interface OkHttpUtil {
     /*同步请求*/
+    //Get请求
     Object syncGet(String requestUrl, ReturnType returnType, Map<String,Object> params);
-
+    //Post请求
     Object syncPost(String requestUrl, CommitType commitType, ReturnType returnType, Map<String,Object> params);
 
     /*异步请求*/
