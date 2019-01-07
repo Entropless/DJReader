@@ -8,6 +8,6 @@ public interface PermissionUtil {
     //获取未拥有的权限
     String[] getUnauthorizedPms();
     //请求未拥有的权限
-    void requestPermissions();
+    void requestPermissions(int requestCode);
 
 }

@@ -66,11 +66,17 @@ public class CommonCallback implements Callback {
                 File file = null;
                 FileOutputStream fout;
                 try {
+                    boolean hasFolder = false;
                     if (!folder.exists()) {
-                        folder.mkdirs();
+                        hasFolder = folder.mkdirs();
+                        if (!hasFolder) {
+                            throw new RuntimeException("create folder is failed!");
+                        }
                     }
-                    if (folder.exists()){
-                        file = new File(filePath + fileName);
+
+                    file = new File(filePath + fileName);
+                    if (!file.exists()){
+                        file.createNewFile();
                     }
                     in = response.body().byteStream();
                     long total = response.body().contentLength();

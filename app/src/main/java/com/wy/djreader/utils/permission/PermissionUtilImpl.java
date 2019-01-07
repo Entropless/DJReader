@@ -44,9 +44,9 @@ public class PermissionUtilImpl implements PermissionUtil{
     }
 
     @Override
-    public void requestPermissions() {
+    public void requestPermissions(int requestCode) {
         getUnauthorizedPms();
-        ActivityCompat.requestPermissions((Activity) context,not_granted_pms,1);
+        ActivityCompat.requestPermissions((Activity) context,not_granted_pms,requestCode);
         
     }
 }

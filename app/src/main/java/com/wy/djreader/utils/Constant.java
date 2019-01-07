@@ -85,8 +85,12 @@ public interface Constant {
 	}
 	//权限常量值
 	interface PermissionConstant {
+		String[] READ_WRITE_EXTERNAL_STORAGE = new String[]{"android.permission.READ_EXTERNAL_STORAGE","android.permission.WRITE_EXTERNAL_STORAGE"};
 		String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 		String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
 		String READ_PHONE_STATE = "android.permission.READ_PHONE_STATE";
+		int REQUEST_CODE_1 = 1;
+		int REQUEST_CODE_2 = 2;
+		int REQUEST_CODE_3 = 3;
 	}
 }

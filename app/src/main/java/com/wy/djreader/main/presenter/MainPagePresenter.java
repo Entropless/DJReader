@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
@@ -154,7 +155,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                 File file = (File) object;
                 //判断文件大小
                 if (file.length() > 0 ) {
-
+                    Log.i("download","下载成功");
                 }
             }
 

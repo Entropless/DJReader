@@ -2,6 +2,7 @@ package com.wy.djreader.main.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,8 +22,13 @@ import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.presenter.MainPagePresenter;
 import com.wy.djreader.personal.view.MeFragment;
 import com.wy.djreader.utils.ActivityUtil;
+import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.DialogUtil;
 import com.wy.djreader.utils.ToastUtil;
+import com.wy.djreader.utils.permission.PermissionUtil;
+import com.wy.djreader.utils.permission.PermissionUtilImpl;
+
+import java.security.Permission;
 
 public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
 
@@ -123,20 +129,54 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 context.getString(R.string.update_Negative));
         // 当点确定按钮时从服务器上下载 新的apk 然后安装
         DialogInterface.OnClickListener positiveListener = (dialog,which)->{
-            //dialog方式下载
-            mainPresenter.downLoadApk();
-            //通知栏下载
+            //首先检查一下是否有存储权限
+            String[] permissions = Constant.PermissionConstant.READ_WRITE_EXTERNAL_STORAGE;
+            PermissionUtil permissionUtil = new PermissionUtilImpl(permissions,context);
+            if (!permissionUtil.checkPermission()) {
+                permissionUtil.requestPermissions(Constant.PermissionConstant.REQUEST_CODE_1);
+            }else {
+                //dialog方式下载
+                mainPresenter.downLoadApk();
+                //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();
 //                xmlData.putString("apkUrl", info.getUrl());
 //                intentSer.putExtras(xmlData);
 //                context.startService(intentSer);
+            }
             dialog.dismiss();
         };
         DialogInterface.OnClickListener negativeListener = (dialog,which)->{
             dialog.dismiss();
         };
         DialogUtil.showDialog(context,dialogInfo,false,null,positiveListener,negativeListener);
+    }
+
+    /**
+     * 权限申请回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Constant.PermissionConstant.REQUEST_CODE_1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //dialog方式下载
+                    mainPresenter.downLoadApk();
+                    //通知栏下载
+//                Intent intentSer = new Intent(context,UpdateService.class);
+//                Bundle xmlData = new Bundle();
+//                xmlData.putString("apkUrl", info.getUrl());
+//                intentSer.putExtras(xmlData);
+//                context.startService(intentSer);
+                } else {
+                    ToastUtil.toastMessage(context,"存储权限被拒绝，无法进行更新",ToastUtil.LONG);
+                }
+                break;
+        }
     }
 
     @Override

@@ -32,8 +32,6 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     private ActivityShowDocBinding activityShowDocBinding = null;
     private Context context;
     private boolean isListener = true;
-    private PermissionUtil permissionUtil = null;
-    private String[] permissions = null;
     private WeakReference<DisplayDocActivity> activityWeak;//弱引用
 
     private Handler fileHandler = null;
@@ -74,12 +72,12 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     @Override
     protected void initialize() {
         //权限检查
-        permissions = new String[]{
+        String[] permissions = new String[]{
                 Constant.PermissionConstant.READ_EXTERNAL_STORAGE,
                 Constant.PermissionConstant.WRITE_EXTERNAL_STORAGE};
-        permissionUtil = new PermissionUtilImpl(permissions,context);
+        PermissionUtil permissionUtil = new PermissionUtilImpl(permissions,context);
         if (!permissionUtil.checkPermission()){
-            permissionUtil.requestPermissions();
+            permissionUtil.requestPermissions(Constant.PermissionConstant.REQUEST_CODE_2);
         } else {
             initDocument();
         }
@@ -94,7 +92,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case 1:
+            case Constant.PermissionConstant.REQUEST_CODE_2:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //权限申请成功
                     initDocument();
