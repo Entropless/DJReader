@@ -1,5 +1,6 @@
 package com.wy.djreader.main.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -8,8 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 
 import com.wy.djreader.R;
@@ -30,7 +33,7 @@ import com.wy.djreader.utils.permission.PermissionUtilImpl;
 
 import java.security.Permission;
 
-public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener,Function_fragment.appFragmentInteractionListener,MeFragment.meFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener, Function_fragment.appFragmentInteractionListener, MeFragment.meFragmentInteractionListener {
 
     private Toolbar mToolbar;
     private DocFragment docFragment;
@@ -46,13 +49,13 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.fileMg:
-                    ActivityUtil.replaceFragment(fragmentManager,docFragment,R.id.fragment_container);
+                    ActivityUtil.replaceFragment(fragmentManager, docFragment, R.id.fragment_container);
                     break;
                 case R.id.functionMg:
-                    ActivityUtil.replaceFragment(fragmentManager,function_fragment,R.id.fragment_container);
+                    ActivityUtil.replaceFragment(fragmentManager, function_fragment, R.id.fragment_container);
                     break;
                 case R.id.accountMg:
-                    ActivityUtil.replaceFragment(fragmentManager,meFragment,R.id.fragment_container);
+                    ActivityUtil.replaceFragment(fragmentManager, meFragment, R.id.fragment_container);
                     break;
             }
             return true;//将选中项目显示为选中
@@ -67,7 +70,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 
     @Override
     protected BasePresenter initPresenter() {
-        mainPresenter = new MainPagePresenter(this,context);
+        mainPresenter = new MainPagePresenter(this, context);
         return mainPresenter;
     }
 
@@ -81,11 +84,11 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         //检查APP更新
         mainPresenter.checkVersionUpdate();
         //添加fragment
-        docFragment = DocFragment.newInstance("","");
-        function_fragment = Function_fragment.newInstance("","");
-        meFragment = MeFragment.newInstance("","");
+        docFragment = DocFragment.newInstance("", "");
+        function_fragment = Function_fragment.newInstance("", "");
+        meFragment = MeFragment.newInstance("", "");
         fragmentManager = getSupportFragmentManager();
-        ActivityUtil.addFragmentToActivity(fragmentManager,docFragment,R.id.fragment_container);
+        ActivityUtil.addFragmentToActivity(fragmentManager, docFragment, R.id.fragment_container);
         //BottomNavigationView点击事件
         mainBinding.bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
     }
@@ -115,7 +118,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
      * @author wy
      * @date 2018/12/24 17:59
      * @params
-     * @return 
+     * @return
      */
     @Override
     public void setPresenter(Object presenter) {
@@ -125,16 +128,16 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     @Override
     public void showUpdateDialog(Bundle data) {
         Bundle dialogInfo = DialogUtil.getDialogData(context.getString(R.string.update_title),
-                data.getString("description"),context.getString(R.string.update_Positive),
+                data.getString("description"), context.getString(R.string.update_Positive),
                 context.getString(R.string.update_Negative));
         // 当点确定按钮时从服务器上下载 新的apk 然后安装
-        DialogInterface.OnClickListener positiveListener = (dialog,which)->{
+        DialogInterface.OnClickListener positiveListener = (dialog, which) -> {
             //首先检查一下是否有存储权限
             String[] permissions = Constant.PermissionConstant.READ_WRITE_EXTERNAL_STORAGE;
-            PermissionUtil permissionUtil = new PermissionUtilImpl(permissions,context);
+            PermissionUtil permissionUtil = new PermissionUtilImpl(permissions, context);
             if (!permissionUtil.checkPermission()) {
                 permissionUtil.requestPermissions(Constant.PermissionConstant.REQUEST_CODE_1);
-            }else {
+            } else {
                 //dialog方式下载
                 mainPresenter.downLoadApk();
                 //通知栏下载
@@ -146,10 +149,10 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
             }
             dialog.dismiss();
         };
-        DialogInterface.OnClickListener negativeListener = (dialog,which)->{
+        DialogInterface.OnClickListener negativeListener = (dialog, which) -> {
             dialog.dismiss();
         };
-        DialogUtil.showDialog(context,dialogInfo,false,null,positiveListener,negativeListener);
+        DialogUtil.showDialog(context, dialogInfo, false, null, positiveListener, negativeListener);
     }
 
     /**
