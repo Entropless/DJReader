@@ -1,5 +1,6 @@
 package com.wy.djreader.utils.httputil;
 
+import com.wy.djreader.main.viewmodel.MainViewModel;
 import com.wy.djreader.utils.Constant;
 
 import java.io.File;
@@ -58,6 +59,7 @@ public class CommonCallback implements Callback {
                 object = response.body().toString();
                 break;
             case FILE:
+                MainViewModel mainViewModel = new MainViewModel();
                 //下载文件需要将下载目录及文件名称封到Map中
                 String filePath = (String) params.get(Constant.FILE_PATH);
                 String fileName = (String) params.get(Constant.FILE_NAME);
@@ -80,6 +82,13 @@ public class CommonCallback implements Callback {
                     }
                     in = response.body().byteStream();
                     long total = response.body().contentLength();
+                    int tot;
+                    if (total > Integer.MAX_VALUE){
+                        throw new RuntimeException("total is too large over Integer MaxValue");
+                    }else {
+                        tot = (int) total;
+                    }
+                    mainViewModel.setDownloadMax(tot);
                     fout = new FileOutputStream(file);
                     byte[] buffer = new byte[2048];
                     int len;
@@ -89,11 +98,11 @@ public class CommonCallback implements Callback {
                     while (-1 != (len = in.read(buffer))){
                         fout.write(buffer,0,len);
                         now += len;
-                        float persent = (float) now / total;
-                        bigDecimal = new BigDecimal(persent);
-                        persent = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).floatValue();
-                        progress = (int) (persent * 100);
-                        
+                        float percent = (float) now / total;
+                        bigDecimal = new BigDecimal(percent);
+                        percent = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).floatValue();
+                        progress = (int) (percent * 100);
+                        mainViewModel.setProgress(progress);
                      }
                     fout.flush();
                     in.close();

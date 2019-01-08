@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.wy.djreader.R;
 import com.wy.djreader.base.BaseActivity;
@@ -23,6 +25,7 @@ import com.wy.djreader.document.view.DocFragment;
 import com.wy.djreader.function.view.Function_fragment;
 import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.presenter.MainPagePresenter;
+import com.wy.djreader.main.viewmodel.MainViewModel;
 import com.wy.djreader.personal.view.MeFragment;
 import com.wy.djreader.utils.ActivityUtil;
 import com.wy.djreader.utils.Constant;
@@ -153,6 +156,12 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
             dialog.dismiss();
         };
         DialogUtil.showDialog(context, dialogInfo, false, null, positiveListener, negativeListener);
+    }
+
+    @Override
+    public void showDownloadBar() {
+        ProgressBar progressBar = mainBinding.downloadBar;
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     /**

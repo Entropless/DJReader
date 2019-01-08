@@ -3,6 +3,7 @@ package com.wy.djreader.utils;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -34,9 +35,7 @@ public class DialogUtil {
         return data;
     }
 
-    public static void showProgressBar(Context context,Bundle data,int style, boolean indeterminate, int progress, int max){
-        ProgressBar progressBar = new ProgressBar(context);
-        progressBar.setScrollBarStyle(style);
+    public static void showProgressBar(ProgressBar progressBar,Bundle data,int style, boolean indeterminate, int progress, int max){
         progressBar.setIndeterminate(indeterminate);
         progressBar.setProgress(progress);
         progressBar.setMax(max);

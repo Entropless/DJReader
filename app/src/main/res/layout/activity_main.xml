@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <!--<variable-->
-            <!--name="mainViewModel"-->
-            <!--type="com.wy.djreader.main_page.viewmodel.MainViewModel"/>-->
+        <variable
+            name="mainViewModel"
+            type="com.wy.djreader.main.viewmodel.MainViewModel"/>
 
         <!--<variable
             name="function"
@@ -33,6 +33,23 @@
             app:layout_constraintTop_toTopOf="parent" />-->
 
     <!--fragment父布局-->
+    <ProgressBar
+        android:id="@+id/downloadBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:max="@{mainViewModel.downloadMax}"
+        android:progress="@{mainViewModel.progress}"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"

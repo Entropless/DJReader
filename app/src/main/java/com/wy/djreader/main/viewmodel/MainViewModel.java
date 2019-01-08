@@ -9,6 +9,8 @@ public class MainViewModel extends BaseObservable {
     private String fileMgBtn;
     private String functionBtn;
     private String personalBtn;
+    private int downloadMax;
+    private int progress;
 
     @Bindable
     public String getFileMgBtn() {
@@ -37,4 +39,21 @@ public class MainViewModel extends BaseObservable {
         this.personalBtn = personalBtn;
     }
 
+    @Bindable
+    public int getDownloadMax() {
+        return downloadMax;
+    }
+
+    public void setDownloadMax(int downloadMax) {
+        this.downloadMax = downloadMax;
+    }
+
+    @Bindable
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
@@ -13,6 +14,7 @@ import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.model.ParseXml;
 import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
+import com.wy.djreader.utils.DialogUtil;
 import com.wy.djreader.utils.MessageManager;
 import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
@@ -141,7 +143,8 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
     @Override
     public void downLoadApk() {
-        ProgressDialog pg;
+        //显示下载进度条
+        mainView.showDownloadBar();
         //获取下载URL
         String downLoadUrl = updateInfos.getAppUpdateUrl();
         //封装Map

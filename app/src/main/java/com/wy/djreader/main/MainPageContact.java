@@ -9,6 +9,8 @@ public interface MainPageContact {
     interface View extends BaseView {
         //显示更新提示
         void showUpdateDialog(Bundle data);
+        //显示下载进度条
+        void showDownloadBar();
         //显示Toast
         void showToast(String msg, int showTime);
     }
