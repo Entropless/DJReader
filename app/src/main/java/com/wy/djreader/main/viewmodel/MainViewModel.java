@@ -2,6 +2,8 @@ package com.wy.djreader.main.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
+import android.databinding.InverseBindingAdapter;
 
 public class MainViewModel extends BaseObservable {
     //field
@@ -54,6 +56,14 @@ public class MainViewModel extends BaseObservable {
     }
 
     public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+    public MainViewModel() {
+    }
+
+    public MainViewModel(int downloadMax, int progress) {
+        this.downloadMax = downloadMax;
         this.progress = progress;
     }
 }

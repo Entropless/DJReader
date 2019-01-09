@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     private MainPageContact.Presenter mainPresenter;
     private ActivityMainBinding mainBinding = null;
     private Context context;
+    private MainViewModel mainViewModel = new MainViewModel();
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -80,6 +81,9 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     @Override
     protected void initDataBinding(ViewDataBinding dataBinding) {
         mainBinding = (ActivityMainBinding) dataBinding;
+        mainViewModel.setDownloadMax(1000);
+        mainViewModel.setProgress(500);
+        mainBinding.setMainViewModel(mainViewModel);
     }
 
     @Override
@@ -142,7 +146,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 permissionUtil.requestPermissions(Constant.PermissionConstant.REQUEST_CODE_1);
             } else {
                 //dialog方式下载
-                mainPresenter.downLoadApk();
+                mainPresenter.downLoadApk(mainViewModel,mainBinding);
                 //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();
@@ -164,6 +168,15 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void updateDownloadProgress(Bundle data) {
+        int progress = data.getInt("progress");
+        int total = data.getInt("total");
+//        mainViewModel.setProgress(progress);
+//        mainViewModel.setDownloadMax(total);
+//        mainBinding.setMainViewModel(mainViewModel);
+    }
+
     /**
      * 权限申请回调
      * @param requestCode
@@ -177,7 +190,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
             case Constant.PermissionConstant.REQUEST_CODE_1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //dialog方式下载
-                    mainPresenter.downLoadApk();
+                    mainPresenter.downLoadApk(mainViewModel,mainBinding);
                     //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();

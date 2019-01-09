@@ -10,8 +10,11 @@ import android.widget.ProgressBar;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
+import com.wy.djreader.databinding.ActivityMainBinding;
 import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.model.ParseXml;
+import com.wy.djreader.main.view.MainActivity;
+import com.wy.djreader.main.viewmodel.MainViewModel;
 import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.DialogUtil;
@@ -21,9 +24,11 @@ import com.wy.djreader.utils.httputil.OkHttpImpl;
 import com.wy.djreader.utils.httputil.OkHttpUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +37,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class MainPagePresenter implements MainPageContact.Presenter{
 
@@ -70,6 +76,10 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                     break;
                 case Constant.Flag.NETWORK_ERROR:
                     mView.showToast((String) msg.obj,ToastUtil.SHORT);
+                    break;
+                case Constant.Flag.DOWN_ING:
+                    Bundle bundle = msg.getData();
+                    mView.updateDownloadProgress(bundle);
                     break;
             }
         }
@@ -142,7 +152,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     }
 
     @Override
-    public void downLoadApk() {
+    public void downLoadApk(MainViewModel mainViewModel, ActivityMainBinding mainBinding) {
         //显示下载进度条
         mainView.showDownloadBar();
         //获取下载URL
@@ -155,10 +165,57 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         okHttpUtil.asyncGet(downLoadUrl,OkHttpUtil.ReturnType.FILE,params, new OkHttpUtil.RequestCallback() {
             @Override
             public void requestSuccessful(Object object) {
-                File file = (File) object;
-                //判断文件大小
-                if (file.length() > 0 ) {
-                    Log.i("download","下载成功");
+                ResponseBody responseBody = (ResponseBody) object;
+                //下载文件需要将下载目录及文件名称封到Map中
+                String filePath = (String) params.get(Constant.FILE_PATH);
+                String fileName = (String) params.get(Constant.FILE_NAME);
+                File folder = new File(filePath);
+                File file = null;
+                FileOutputStream fout;
+                try {
+                    boolean hasFolder;
+                    if (!folder.exists()) {
+                        hasFolder = folder.mkdirs();
+                        if (!hasFolder) {
+                            throw new RuntimeException("create folder is failed!");
+                        }
+                    }
+                    file = new File(filePath + fileName);
+                    if (!file.exists()){
+                        file.createNewFile();
+                    }
+                    InputStream in = responseBody.byteStream();
+                    long total = responseBody.contentLength();
+                    int tot;
+                    if (total > Integer.MAX_VALUE){
+                        throw new RuntimeException("total is over Integer MaxValue");
+                    }else {
+                        tot = (int) total;
+                    }
+                    fout = new FileOutputStream(file);
+                    byte[] buffer = new byte[2048];
+                    int len;
+                    long now = 0;//当前下载大小
+                    int progress = 0;//进度
+                    BigDecimal bigDecimal = null;
+                    while (-1 != (len = in.read(buffer))){
+                        fout.write(buffer,0,len);
+                        now += len;
+                        float percent = (float) now / total;
+                        bigDecimal = new BigDecimal(percent);
+                        percent = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).floatValue();
+                        progress = (int) (percent * 100);
+                        Bundle data = new Bundle();
+                        data.putInt("progress",progress);
+                        data.putInt("total",tot);
+                        MessageManager msg = new MessageManager(updateHandler,Constant.Flag.DOWN_ING,data);
+                        msg.sendMessage();
+                    }
+                    fout.flush();
+                    in.close();
+                    fout.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
