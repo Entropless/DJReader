@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.widget.ProgressBar;
 
@@ -51,7 +52,6 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     private OkHttpUtil okHttpUtil = new OkHttpImpl();
 
     private Handler updateHandler = null;
-
     /**
      * @ClassN UpdateHandler
      * @desc 接收更新信息的Handler
@@ -81,6 +81,9 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                     Bundle bundle = msg.getData();
                     mView.updateDownloadProgress(bundle);
                     break;
+                case Constant.Flag.DOWN_OK:
+                    mView.hideProgressBar();
+                    break;
             }
         }
     }
@@ -102,29 +105,9 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
         @Override
         public void run() {
-            mPresenterWeak.okHttpUtil.asyncGet(getInfoUrl, OkHttpUtil.ReturnType.STREAM, null, new OkHttpUtil.RequestCallback() {
-                @Override
-                public void requestSuccessful(Object object) {
-                    //请求成功，处理返回结果
-                    mPresenterWeak.updateInfos = ParseXml.getUpdateInfos((InputStream) object);
-                    Bundle infos = new Bundle();
-                    infos.putString("versionCode",mPresenterWeak.updateInfos.getVersionCode());
-                    infos.putString("versionName",mPresenterWeak.updateInfos.getVersionName());
-                    infos.putString("appUpdateUrl",mPresenterWeak.updateInfos.getAppUpdateUrl());
-                    infos.putString("description",mPresenterWeak.updateInfos.getDescription());
-                    //判断版本号
-                    if (!mPresenterWeak.currVersionCode.equals(mPresenterWeak.updateInfos.getVersionCode())) {
-                        MessageManager msg = new MessageManager(mPresenterWeak.updateHandler,Constant.Flag.UPDATE_CLIENT,infos);
-                        msg.sendMessage();
-                    }
-                }
-
-                @Override
-                public void requestFailed(Exception e) {
-                    MessageManager msg = new MessageManager(mPresenterWeak.updateHandler,Constant.Flag.NETWORK_ERROR,e.toString());
-                    msg.sendMessage();
-                }
-            });
+            //同步阻塞请求
+           Object object =  mPresenterWeak.okHttpUtil.syncGet(getInfoUrl, OkHttpUtil.ReturnType.STREAM, null);
+           InputStream inputStream = (InputStream) object;
         }
     }
     /**
@@ -152,7 +135,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     }
 
     @Override
-    public void downLoadApk(MainViewModel mainViewModel, ActivityMainBinding mainBinding) {
+    public void downLoadApk() {
         //显示下载进度条
         mainView.showDownloadBar();
         //获取下载URL
@@ -197,6 +180,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                     int len;
                     long now = 0;//当前下载大小
                     int progress = 0;//进度
+                    int oldProgress = 0;
                     BigDecimal bigDecimal = null;
                     while (-1 != (len = in.read(buffer))){
                         fout.write(buffer,0,len);
@@ -205,11 +189,18 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                         bigDecimal = new BigDecimal(percent);
                         percent = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).floatValue();
                         progress = (int) (percent * 100);
-                        Bundle data = new Bundle();
-                        data.putInt("progress",progress);
-                        data.putInt("total",tot);
-                        MessageManager msg = new MessageManager(updateHandler,Constant.Flag.DOWN_ING,data);
-                        msg.sendMessage();
+                        if ((progress - oldProgress) > 2 || progress == 100){
+                            oldProgress = progress;
+                            if (progress == 100) {
+                                MessageManager msg = new MessageManager(updateHandler,Constant.Flag.DOWN_OK);
+                                msg.sendMessage();
+                            }
+                            Bundle data = new Bundle();
+                            data.putInt("progress",progress);
+                            data.putInt("total",tot);
+                            MessageManager msg = new MessageManager(updateHandler,Constant.Flag.DOWN_ING,data);
+                            msg.sendMessage();
+                        }
                     }
                     fout.flush();
                     in.close();
@@ -239,6 +230,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 //        Thread getInfoThread = new Thread(myRunnable);
 //        getInfoThread.start();
         updateHandler = new UpdateHandler(mView);
+        //异步请求
         okHttpUtil.asyncGet(updateInfoUrl, OkHttpUtil.ReturnType.STREAM, null, new OkHttpUtil.RequestCallback() {
             @Override
             public void requestSuccessful(Object object) {

@@ -81,9 +81,6 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     @Override
     protected void initDataBinding(ViewDataBinding dataBinding) {
         mainBinding = (ActivityMainBinding) dataBinding;
-        mainViewModel.setDownloadMax(1000);
-        mainViewModel.setProgress(500);
-        mainBinding.setMainViewModel(mainViewModel);
     }
 
     @Override
@@ -146,7 +143,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 permissionUtil.requestPermissions(Constant.PermissionConstant.REQUEST_CODE_1);
             } else {
                 //dialog方式下载
-                mainPresenter.downLoadApk(mainViewModel,mainBinding);
+                mainPresenter.downLoadApk();
                 //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();
@@ -172,9 +169,13 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     public void updateDownloadProgress(Bundle data) {
         int progress = data.getInt("progress");
         int total = data.getInt("total");
-//        mainViewModel.setProgress(progress);
-//        mainViewModel.setDownloadMax(total);
-//        mainBinding.setMainViewModel(mainViewModel);
+        mainViewModel.setProgress(progress);
+        mainBinding.setMainViewModel(mainViewModel);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mainBinding.downloadBar.setVisibility(View.GONE);
     }
 
     /**
@@ -190,7 +191,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
             case Constant.PermissionConstant.REQUEST_CODE_1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //dialog方式下载
-                    mainPresenter.downLoadApk(mainViewModel,mainBinding);
+                    mainPresenter.downLoadApk();
                     //通知栏下载
 //                Intent intentSer = new Intent(context,UpdateService.class);
 //                Bundle xmlData = new Bundle();

@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingAdapter;
+import android.util.Log;
 
 public class MainViewModel extends BaseObservable {
     //field
@@ -43,10 +44,12 @@ public class MainViewModel extends BaseObservable {
 
     @Bindable
     public int getDownloadMax() {
+        Log.i("getmax",downloadMax+"");
         return downloadMax;
     }
 
     public void setDownloadMax(int downloadMax) {
+        Log.i("setmax",downloadMax+"");
         this.downloadMax = downloadMax;
     }
 

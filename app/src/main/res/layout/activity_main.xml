@@ -44,7 +44,7 @@
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:indeterminate="false"
-        android:max="@{mainViewModel.downloadMax}"
+        android:max="100"
         android:progress="@{mainViewModel.progress}"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

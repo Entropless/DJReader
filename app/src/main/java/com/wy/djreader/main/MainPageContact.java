@@ -15,6 +15,8 @@ public interface MainPageContact {
         void showDownloadBar();
         //更新下载进度
         void updateDownloadProgress(Bundle data);
+        //隐藏进度条
+        void hideProgressBar();
         //显示Toast
         void showToast(String msg, int showTime);
     }
@@ -23,7 +25,7 @@ public interface MainPageContact {
         //检查版本更新
         void checkVersionUpdate();
         //下载apk
-        void downLoadApk(MainViewModel mainViewModel, ActivityMainBinding mainBinding);
+        void downLoadApk();
         //
     }
 }
