@@ -21,6 +21,7 @@ import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.DialogUtil;
 import com.wy.djreader.utils.MessageManager;
 import com.wy.djreader.utils.ToastUtil;
+import com.wy.djreader.utils.fileutil.FileOperation;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
 import com.wy.djreader.utils.httputil.OkHttpUtil;
 
@@ -68,6 +69,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (mView == null) return;
+            Bundle bundle;
             switch (msg.what) {
                 case Constant.Flag.UPDATE_CLIENT:
                     Bundle data = msg.getData();
@@ -78,10 +80,12 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                     mView.showToast((String) msg.obj,ToastUtil.SHORT);
                     break;
                 case Constant.Flag.DOWN_ING:
-                    Bundle bundle = msg.getData();
+                    bundle = msg.getData();
                     mView.updateDownloadProgress(bundle);
                     break;
                 case Constant.Flag.DOWN_OK:
+                    bundle = msg.getData();
+                    mView.updateDownloadProgress(bundle);
                     mView.hideProgressBar();
                     break;
             }
@@ -145,74 +149,20 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         params.put(Constant.FILE_PATH,Constant.DOWNLOAD_PATH);
         params.put(Constant.FILE_NAME,updateInfos.getVersionName()+".apk");
         //开始下载apk文件
-        okHttpUtil.asyncGet(downLoadUrl,OkHttpUtil.ReturnType.FILE,params, new OkHttpUtil.RequestCallback() {
+        okHttpUtil.asyncGet(downLoadUrl,OkHttpUtil.ReturnType.FILE,null, new OkHttpUtil.RequestCallback() {
             @Override
             public void requestSuccessful(Object object) {
                 ResponseBody responseBody = (ResponseBody) object;
-                //下载文件需要将下载目录及文件名称封到Map中
-                String filePath = (String) params.get(Constant.FILE_PATH);
-                String fileName = (String) params.get(Constant.FILE_NAME);
-                File folder = new File(filePath);
-                File file = null;
-                FileOutputStream fout;
-                try {
-                    boolean hasFolder;
-                    if (!folder.exists()) {
-                        hasFolder = folder.mkdirs();
-                        if (!hasFolder) {
-                            throw new RuntimeException("create folder is failed!");
-                        }
-                    }
-                    file = new File(filePath + fileName);
-                    if (!file.exists()){
-                        file.createNewFile();
-                    }
-                    InputStream in = responseBody.byteStream();
-                    long total = responseBody.contentLength();
-                    int tot;
-                    if (total > Integer.MAX_VALUE){
-                        throw new RuntimeException("total is over Integer MaxValue");
-                    }else {
-                        tot = (int) total;
-                    }
-                    fout = new FileOutputStream(file);
-                    byte[] buffer = new byte[2048];
-                    int len;
-                    long now = 0;//当前下载大小
-                    int progress = 0;//进度
-                    int oldProgress = 0;
-                    BigDecimal bigDecimal = null;
-                    while (-1 != (len = in.read(buffer))){
-                        fout.write(buffer,0,len);
-                        now += len;
-                        float percent = (float) now / total;
-                        bigDecimal = new BigDecimal(percent);
-                        percent = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).floatValue();
-                        progress = (int) (percent * 100);
-                        if ((progress - oldProgress) > 2 || progress == 100){
-                            oldProgress = progress;
-                            if (progress == 100) {
-                                MessageManager msg = new MessageManager(updateHandler,Constant.Flag.DOWN_OK);
-                                msg.sendMessage();
-                            }
-                            Bundle data = new Bundle();
-                            data.putInt("progress",progress);
-                            data.putInt("total",tot);
-                            MessageManager msg = new MessageManager(updateHandler,Constant.Flag.DOWN_ING,data);
-                            msg.sendMessage();
-                        }
-                    }
-                    fout.flush();
-                    in.close();
-                    fout.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                InputStream inputStream = responseBody.byteStream();
+                long contentLength = responseBody.contentLength();
+                String fileName = updateInfos.getVersionName()+".apk";
+                boolean isSuccessful = FileOperation.writeToFile(inputStream,contentLength,Constant.DOWNLOAD_PATH,fileName,true,updateHandler);
             }
 
             @Override
             public void requestFailed(Exception e) {
-
+                MessageManager msg = new MessageManager(updateHandler,Constant.Flag.NETWORK_ERROR);
+                msg.sendMessage();
             }
         });
     }

@@ -176,6 +176,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     @Override
     public void hideProgressBar() {
         mainBinding.downloadBar.setVisibility(View.GONE);
+        ToastUtil.toastMessage(context,"下载成功",ToastUtil.SHORT);
     }
 
     /**

@@ -16,7 +16,7 @@ import com.wy.djreader.databinding.ActivityShowDocBinding;
 import com.wy.djreader.showdoc.ShowDocContact;
 import com.wy.djreader.showdoc.presenter.DisplayDocPresenter;
 import com.wy.djreader.utils.Constant;
-import com.wy.djreader.utils.FileOperation;
+import com.wy.djreader.utils.fileutil.FileOperation;
 import com.wy.djreader.utils.permission.PermissionUtil;
 import com.wy.djreader.utils.permission.PermissionUtilImpl;
 import com.wy.djreader.utils.singleton.SingleDJContentView;
