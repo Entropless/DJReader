@@ -21,6 +21,7 @@ public class DownloadService extends Service {
         public void handleMessage(Message msg) {
             //下载文件
 
+            stopSelf();
         }
     }
 
@@ -33,7 +34,7 @@ public class DownloadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        //创建一个Handler线程
+        //创建一个Handler线程，使用HandlerThread可以在Handler内执行异步任务
         HandlerThread downloadThread = new HandlerThread("downloadThread");
         downloadThread.start();
         //获取Looper，传入Handler
@@ -43,6 +44,8 @@ public class DownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        //显示通知栏
+
         Message msg = downloadHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;

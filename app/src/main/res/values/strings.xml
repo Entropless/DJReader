@@ -42,8 +42,8 @@
 
     <!-- 通知栏 -->
     <string name="notification_title">点聚阅读器</string>
-    <string name="notification_text">下载中...</string>
-    <string name="notification_ticker">正在更新...</string>
+    <string name="notification_text">下载中…</string>
+    <string name="notification_ticker">正在更新…</string>
 
     <!--登录-->
     <string name="mobile_login">手机快捷登录</string>

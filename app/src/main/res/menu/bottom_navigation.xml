@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/mainMenuFile"
-        android:icon="@mipmap/ic_folder_white_48dp"
+        android:icon="@drawable/ic_folder_white_48dp"
         android:id="@+id/fileMg"/>
     <item android:title="@string/mainMenuSoft"
-        android:icon="@mipmap/ic_assignment_white_48dp"
+        android:icon="@drawable/ic_assignment_white_48dp"
         android:id="@+id/functionMg"/>
     <item android:title="@string/mainMenuMe"
-        android:icon="@mipmap/ic_account_box_white_48dp"
+        android:icon="@drawable/ic_account_box_white_48dp"
         android:id="@+id/accountMg"/>
 </menu>
