@@ -139,11 +139,16 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     }
 
     @Override
+    public String getDownloadUrl() {
+        return updateInfos.getAppUpdateUrl();
+    }
+
+    @Override
     public void downLoadApk() {
         //显示下载进度条
         mainView.showDownloadBar();
         //获取下载URL
-        String downLoadUrl = updateInfos.getAppUpdateUrl();
+        String downLoadUrl = getDownloadUrl();
         //封装Map
         Map<String,Object> params = new HashMap<>();
         params.put(Constant.FILE_PATH,Constant.DOWNLOAD_PATH);

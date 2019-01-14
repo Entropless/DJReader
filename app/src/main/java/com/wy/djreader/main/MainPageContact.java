@@ -24,6 +24,8 @@ public interface MainPageContact {
     interface Presenter extends BasePresenter{
         //检查版本更新
         void checkVersionUpdate();
+        //获取下载地址
+        String getDownloadUrl();
         //下载apk
         void downLoadApk();
         //

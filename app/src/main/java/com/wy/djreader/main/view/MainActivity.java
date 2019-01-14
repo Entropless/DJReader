@@ -3,6 +3,7 @@ package com.wy.djreader.main.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
@@ -27,9 +28,11 @@ import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.presenter.MainPagePresenter;
 import com.wy.djreader.main.viewmodel.MainViewModel;
 import com.wy.djreader.personal.view.MeFragment;
+import com.wy.djreader.services.download.DownloadService;
 import com.wy.djreader.utils.ActivityUtil;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.DialogUtil;
+import com.wy.djreader.utils.NotificationUtil;
 import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.permission.PermissionUtil;
 import com.wy.djreader.utils.permission.PermissionUtilImpl;
@@ -145,11 +148,16 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 //dialog方式下载
                 mainPresenter.downLoadApk();
                 //通知栏下载
-//                Intent intentSer = new Intent(context,UpdateService.class);
-//                Bundle xmlData = new Bundle();
-//                xmlData.putString("apkUrl", info.getUrl());
-//                intentSer.putExtras(xmlData);
-//                context.startService(intentSer);
+                //显示通知
+                NotificationUtil.initNotification(context,this);
+                NotificationUtil.updateNotification(0,100,0,false,"");
+                //启动服务
+                Intent intentSer = new Intent(context,DownloadService.class);
+                Bundle xmlData = new Bundle();
+                String downloadUrl = mainPresenter.getDownloadUrl();
+                xmlData.putString("apkUrl", downloadUrl);
+                intentSer.putExtras(xmlData);
+                context.startService(intentSer);
             }
             dialog.dismiss();
         };
