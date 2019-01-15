@@ -1,8 +1,11 @@
 package com.wy.djreader.main.view;
 
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
@@ -45,7 +48,19 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     private ActivityMainBinding mainBinding = null;
     private Context context;
     private boolean isUpdating;
+    private BroadcastReceiver mainReceiver;
     private MainViewModel mainViewModel = new MainViewModel();
+
+    /**
+     * 广播接收
+     */
+    class MainReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -84,7 +99,10 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 
     @Override
     protected void initialize() {
-        //判断一下当前是否正在更新
+        //注册广播接收者
+        mainReceiver = new MainReceiver();
+        IntentFilter mainFilter = new IntentFilter("com.wy.djreader.main.view.MainActivity");
+        registerReceiver(mainReceiver,mainFilter);
 
         //检查APP更新
         mainPresenter.checkVersionUpdate(isUpdating);
@@ -151,12 +169,14 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 NotificationUtil.updateNotification(0,100,0,false,"");
                 //启动服务
                 Intent intentSer = new Intent(this,DownloadService.class);
+
                 Bundle xmlData = new Bundle();
                 String downloadUrl = mainPresenter.getUpdateInfos().getString("appUpdateUrl");
                 String fileName = mainPresenter.getUpdateInfos().getString("versionName");
                 xmlData.putString("apkUrl", downloadUrl);
                 xmlData.putString("fileName",fileName);
                 intentSer.putExtras(xmlData);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intentSer,0);
                 startService(intentSer);
             }
             dialog.dismiss();
@@ -212,6 +232,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                     xmlData.putString("apkUrl", downloadUrl);
                     xmlData.putString("fileName",fileName);
                     intentSer.putExtras(xmlData);
+
                     startService(intentSer);
                 } else {
                     ToastUtil.toastMessage(context,"存储权限被拒绝，无法进行更新",ToastUtil.LONG);
