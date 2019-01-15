@@ -11,6 +11,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.BufferedSink;
 
 public class OkHttpImpl implements OkHttpUtil{
@@ -23,7 +24,10 @@ public class OkHttpImpl implements OkHttpUtil{
         Request request = CreateRequest.createGetRequest(requestUrl,params);
         Response response = CreateCall.syncCall(request);
         //处理不同的返回值类型
-        Object object = disposeResponse(response, returnType);
+        Object object = null;
+        if (response != null){
+            object = disposeResponse(response, returnType);
+        }
         return object;
     }
 
@@ -35,7 +39,7 @@ public class OkHttpImpl implements OkHttpUtil{
     }
 
     /**
-     * 处理响应
+     * 同步请求的响应处理
      * @param response
      * @param returnType
      * @return
@@ -53,7 +57,8 @@ public class OkHttpImpl implements OkHttpUtil{
                 object = response.body().toString();
                 break;
             case FILE:
-
+                ResponseBody responseBody = response.body();
+                object = responseBody;
                 break;
         }
         return object;

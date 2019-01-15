@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import com.wy.djreader.base.BasePresenter;
 import com.wy.djreader.base.BaseView;
-import com.wy.djreader.databinding.ActivityMainBinding;
-import com.wy.djreader.main.viewmodel.MainViewModel;
 
 public interface MainPageContact {
     interface View extends BaseView {
@@ -23,9 +21,9 @@ public interface MainPageContact {
 
     interface Presenter extends BasePresenter{
         //检查版本更新
-        void checkVersionUpdate();
-        //获取下载地址
-        String getDownloadUrl();
+        void checkVersionUpdate(boolean isUpdating);
+        //获取更新的信息
+        Bundle getUpdateInfos();
         //下载apk
         void downLoadApk();
         //

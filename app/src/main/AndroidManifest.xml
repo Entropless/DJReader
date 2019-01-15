@@ -46,6 +46,7 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
+        <service android:name=".services.download.DownloadService"/>
     </application>
 
 </manifest>

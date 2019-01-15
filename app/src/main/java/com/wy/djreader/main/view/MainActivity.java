@@ -1,6 +1,5 @@
 package com.wy.djreader.main.view;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -37,8 +34,6 @@ import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.permission.PermissionUtil;
 import com.wy.djreader.utils.permission.PermissionUtilImpl;
 
-import java.security.Permission;
-
 public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener, Function_fragment.appFragmentInteractionListener, MeFragment.meFragmentInteractionListener {
 
     private Toolbar mToolbar;
@@ -49,6 +44,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     private MainPageContact.Presenter mainPresenter;
     private ActivityMainBinding mainBinding = null;
     private Context context;
+    private boolean isUpdating;
     private MainViewModel mainViewModel = new MainViewModel();
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -88,8 +84,10 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 
     @Override
     protected void initialize() {
+        //判断一下当前是否正在更新
+
         //检查APP更新
-        mainPresenter.checkVersionUpdate();
+        mainPresenter.checkVersionUpdate(isUpdating);
         //添加fragment
         docFragment = DocFragment.newInstance("", "");
         function_fragment = Function_fragment.newInstance("", "");
@@ -145,25 +143,26 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
             if (!permissionUtil.checkPermission()) {
                 permissionUtil.requestPermissions(Constant.PermissionConstant.REQUEST_CODE_1);
             } else {
-                //dialog方式下载
-                mainPresenter.downLoadApk();
-                //通知栏下载
+//                //dialog方式下载
+//                mainPresenter.downLoadApk();
+                /*通知栏下载*/
                 //显示通知
                 NotificationUtil.initNotification(context,this);
                 NotificationUtil.updateNotification(0,100,0,false,"");
                 //启动服务
-                Intent intentSer = new Intent(context,DownloadService.class);
+                Intent intentSer = new Intent(this,DownloadService.class);
                 Bundle xmlData = new Bundle();
-                String downloadUrl = mainPresenter.getDownloadUrl();
+                String downloadUrl = mainPresenter.getUpdateInfos().getString("appUpdateUrl");
+                String fileName = mainPresenter.getUpdateInfos().getString("versionName");
                 xmlData.putString("apkUrl", downloadUrl);
+                xmlData.putString("fileName",fileName);
                 intentSer.putExtras(xmlData);
-                context.startService(intentSer);
+                startService(intentSer);
             }
             dialog.dismiss();
         };
-        DialogInterface.OnClickListener negativeListener = (dialog, which) -> {
-            dialog.dismiss();
-        };
+        //lambda表达式
+        DialogInterface.OnClickListener negativeListener = (dialog, which) -> dialog.dismiss();
         DialogUtil.showDialog(context, dialogInfo, false, null, positiveListener, negativeListener);
     }
 
@@ -199,14 +198,21 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         switch (requestCode) {
             case Constant.PermissionConstant.REQUEST_CODE_1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //dialog方式下载
-                    mainPresenter.downLoadApk();
-                    //通知栏下载
-//                Intent intentSer = new Intent(context,UpdateService.class);
-//                Bundle xmlData = new Bundle();
-//                xmlData.putString("apkUrl", info.getUrl());
-//                intentSer.putExtras(xmlData);
-//                context.startService(intentSer);
+//                    //dialog方式下载
+//                    mainPresenter.downLoadApk();
+                    /*通知栏下载*/
+                    //显示通知
+                    NotificationUtil.initNotification(context,this);
+                    NotificationUtil.updateNotification(0,100,0,false,"");
+                    //启动服务
+                    Intent intentSer = new Intent(this,DownloadService.class);
+                    Bundle xmlData = new Bundle();
+                    String downloadUrl = mainPresenter.getUpdateInfos().getString("appUpdateUrl");
+                    String fileName = mainPresenter.getUpdateInfos().getString("versionName");
+                    xmlData.putString("apkUrl", downloadUrl);
+                    xmlData.putString("fileName",fileName);
+                    intentSer.putExtras(xmlData);
+                    startService(intentSer);
                 } else {
                     ToastUtil.toastMessage(context,"存储权限被拒绝，无法进行更新",ToastUtil.LONG);
                 }

@@ -93,4 +93,10 @@ public interface Constant {
 		int REQUEST_CODE_2 = 2;
 		int REQUEST_CODE_3 = 3;
 	}
+
+	//Notification
+	interface Notification{
+		int DOWNLOAD_NOTIFY_ID = 0;
+		String DOWNLOAD_FINISH = "下载完成，点击安装！";
+	}
 }

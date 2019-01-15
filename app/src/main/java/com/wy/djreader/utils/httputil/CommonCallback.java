@@ -43,7 +43,7 @@ public class CommonCallback implements Callback {
     }
 
     /**
-     * 处理响应
+     * 异步请求响应处理
      * @param response
      * @param returnType
      * @return

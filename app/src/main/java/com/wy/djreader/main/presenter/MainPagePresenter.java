@@ -1,44 +1,27 @@
 package com.wy.djreader.main.presenter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
-import android.widget.ProgressBar;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
-import com.wy.djreader.databinding.ActivityMainBinding;
 import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.model.ParseXml;
-import com.wy.djreader.main.view.MainActivity;
-import com.wy.djreader.main.viewmodel.MainViewModel;
 import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
-import com.wy.djreader.utils.DialogUtil;
 import com.wy.djreader.utils.MessageManager;
 import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.fileutil.FileOperation;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
 import com.wy.djreader.utils.httputil.OkHttpUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class MainPagePresenter implements MainPageContact.Presenter{
@@ -50,6 +33,8 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     private Context context;
     private String currVersionCode;
     private String currVersionName;
+    private Bundle updateBundle = new Bundle();//更新的内容封装为bundle
+    private boolean isUpdating = false;
     private OkHttpUtil okHttpUtil = new OkHttpImpl();
 
     private Handler updateHandler = null;
@@ -134,25 +119,25 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         //获取当前版本号
         currVersionCode = String.valueOf(BuildConfig.VERSION_CODE);
         currVersionName = BuildConfig.VERSION_NAME;
-        //访问服务器读取更新信息
-        readUpdateInfo(updateInfoUrl);
+        //判断当前是否正在更新
+        if (!isUpdating){
+            //访问服务器读取更新信息
+            readUpdateInfo(updateInfoUrl);
+        }
     }
 
     @Override
-    public String getDownloadUrl() {
-        return updateInfos.getAppUpdateUrl();
+    public Bundle getUpdateInfos() {
+        return updateBundle;
     }
+
 
     @Override
     public void downLoadApk() {
         //显示下载进度条
         mainView.showDownloadBar();
         //获取下载URL
-        String downLoadUrl = getDownloadUrl();
-        //封装Map
-        Map<String,Object> params = new HashMap<>();
-        params.put(Constant.FILE_PATH,Constant.DOWNLOAD_PATH);
-        params.put(Constant.FILE_NAME,updateInfos.getVersionName()+".apk");
+        String downLoadUrl = updateBundle.getString("appUpdateUrl");
         //开始下载apk文件
         okHttpUtil.asyncGet(downLoadUrl,OkHttpUtil.ReturnType.FILE,null, new OkHttpUtil.RequestCallback() {
             @Override
@@ -160,8 +145,13 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                 ResponseBody responseBody = (ResponseBody) object;
                 InputStream inputStream = responseBody.byteStream();
                 long contentLength = responseBody.contentLength();
-                String fileName = updateInfos.getVersionName()+".apk";
+                String fileName = updateBundle.getString("versionName")+".apk";
                 boolean isSuccessful = FileOperation.writeToFile(inputStream,contentLength,Constant.DOWNLOAD_PATH,fileName,true,updateHandler);
+                if (isSuccessful){
+                    isUpdating = false;
+                    //TODO 自动提示安装
+
+                }
             }
 
             @Override
@@ -184,6 +174,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 //        Runnable myRunnable = new MyRunnable(updateInfoUrl,mPresenterWeak);
 //        Thread getInfoThread = new Thread(myRunnable);
 //        getInfoThread.start();
+        isUpdating = true;
         updateHandler = new UpdateHandler(mView);
         //异步请求
         okHttpUtil.asyncGet(updateInfoUrl, OkHttpUtil.ReturnType.STREAM, null, new OkHttpUtil.RequestCallback() {
@@ -191,14 +182,14 @@ public class MainPagePresenter implements MainPageContact.Presenter{
             public void requestSuccessful(Object object) {
                 //请求成功，处理返回结果
                 updateInfos = ParseXml.getUpdateInfos((InputStream) object);
-                Bundle infos = new Bundle();
-                infos.putString("versionCode",updateInfos.getVersionCode());
-                infos.putString("versionName",updateInfos.getVersionName());
-                infos.putString("appUpdateUrl",updateInfos.getAppUpdateUrl());
-                infos.putString("description",updateInfos.getDescription());
+                updateBundle.putString("versionCode",updateInfos.getVersionCode());
+                updateBundle.putString("versionName",updateInfos.getVersionName());
+                updateBundle.putString("appUpdateUrl",updateInfos.getAppUpdateUrl());
+                updateBundle.putString("description",updateInfos.getDescription());
+                updateBundle.putBoolean("isUpdating",isUpdating);
                 //判断版本号
                 if (!currVersionCode.equals(updateInfos.getVersionCode())) {
-                    MessageManager msg = new MessageManager(updateHandler,Constant.Flag.UPDATE_CLIENT,infos);
+                    MessageManager msg = new MessageManager(updateHandler,Constant.Flag.UPDATE_CLIENT,updateBundle);
                     msg.sendMessage();
                 }
             }

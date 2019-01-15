@@ -1,7 +1,6 @@
 package com.wy.djreader.utils;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -49,24 +48,29 @@ public class NotificationUtil {
      * @param notifyId
      * @param max
      * @param progress
-     * @param limit
+     * @param indeterminate
+     * @param finish 完成提示信息
      */
-    public static void updateNotification(int notifyId, int max, int progress, boolean indeterminate, String finish) {
+    public static boolean updateNotification(int notifyId, int max, int progress, boolean indeterminate, String finish) {
+        boolean updateSuccessful = false;
         //获取NotificationManager实例
         NotificationManager notificationManager = (NotificationManager) appContext.getSystemService(Service.NOTIFICATION_SERVICE);
         //判断是否添加进度
         if (max == 0) {
             notificationManager.notify(notifyId,mBuilder.build());
+            updateSuccessful = true;
         }else {
             if (progress == max) {
                 mBuilder.setContentText(finish);
                 mBuilder.setProgress(0,0,false);
                 notificationManager.notify(notifyId,mBuilder.build());
+                updateSuccessful = true;
             }else {
                 mBuilder.setProgress(max,progress,indeterminate);
                 notificationManager.notify(notifyId,mBuilder.build());
             }
         }
+        return updateSuccessful;
     }
 
 }

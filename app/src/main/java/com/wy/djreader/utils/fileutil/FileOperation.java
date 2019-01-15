@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.MessageManager;
+import com.wy.djreader.utils.NotificationUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,7 +28,7 @@ public class FileOperation {
      * @date 2018/12/21 17:07
      */
     public String parseFileUri(Intent intent, Context context) {
-        String filePath = "";
+        String filePath;
         Bundle extra = intent.getExtras();
         String action = intent.getAction();
         if (Intent.ACTION_VIEW == action) {
@@ -76,7 +77,6 @@ public class FileOperation {
 
     /**
      * 将输入流写入文件，耗时操作
-     *
      * @param inputStream
      * @param contentLength
      * @param filePath
@@ -131,16 +131,20 @@ public class FileOperation {
                     progress = (int) (percent * 100);
                     if ((progress - oldProgress) > 2 || now == total) {
                         oldProgress = progress;
-                        Bundle data = new Bundle();
-                        data.putInt("progress", progress);
-                        data.putInt("total", tot);
-                        if (now == total) {
-                            writeSuccess = true;
-                            MessageManager msg = new MessageManager(handler, Constant.Flag.DOWN_OK,data);
-                            msg.sendMessage();
-                        }else {
-                            MessageManager msg = new MessageManager(handler, Constant.Flag.DOWN_ING, data);
-                            msg.sendMessage();
+                        if (handler == null){
+                            writeSuccess = NotificationUtil.updateNotification(Constant.Notification.DOWNLOAD_NOTIFY_ID,100,progress,false,Constant.Notification.DOWNLOAD_FINISH);
+                        }else{
+                            Bundle data = new Bundle();
+                            data.putInt("progress", progress);
+                            data.putInt("total", tot);
+                            if (now == total) {
+                                writeSuccess = true;
+                                MessageManager msg = new MessageManager(handler, Constant.Flag.DOWN_OK,data);
+                                msg.sendMessage();
+                            }else {
+                                MessageManager msg = new MessageManager(handler, Constant.Flag.DOWN_ING, data);
+                                msg.sendMessage();
+                            }
                         }
                     }
                 }
