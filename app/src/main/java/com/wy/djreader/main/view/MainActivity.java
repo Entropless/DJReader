@@ -177,6 +177,8 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 xmlData.putString("fileName",fileName);
                 intentSer.putExtras(xmlData);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intentSer,0);
+                intentSer.putExtra("pendingIntent",pendingIntent);
+//                sendOrderedBroadcast(intentSer,);
                 startService(intentSer);
             }
             dialog.dismiss();
