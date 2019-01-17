@@ -114,7 +114,7 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     }
 
     @Override
-    public void checkVersionUpdate() {
+    public void checkVersionUpdate(boolean isUpdating) {
         String updateInfoUrl = context.getString(R.string.updateInfo_url);
         //获取当前版本号
         currVersionCode = String.valueOf(BuildConfig.VERSION_CODE);

@@ -1,5 +1,6 @@
 package com.wy.djreader.services.download;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -24,6 +25,8 @@ public class DownloadService extends Service {
     private DownloadHandler downloadHandler = null;
     private String downloadUrl;
     private String fileName;
+    private boolean isUpdating;
+    private PendingIntent pendingIntent;
 
     private final class DownloadHandler extends Handler{
         public DownloadHandler(Looper looper) {
@@ -41,7 +44,14 @@ public class DownloadService extends Service {
             long contentLength = responseBody.contentLength();
             fileName = fileName +".apk";
             boolean isSuccessful = FileOperation.writeToFile(inputStream,contentLength,Constant.DOWNLOAD_PATH,fileName,true,null);
-            Log.i("download",isSuccessful+"");
+            //使用广播传递结果
+            isUpdating = false;
+            //激发activity传递过来的PendingIntent
+            try {
+                pendingIntent.send();
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
+            }
             stopSelf();
         }
     }
@@ -68,6 +78,8 @@ public class DownloadService extends Service {
         //获取传递过来的数据
         downloadUrl = intent.getExtras().getString("apkUrl");
         fileName = intent.getExtras().getString("fileName");
+        isUpdating = intent.getExtras().getBoolean("isUpdating");
+        pendingIntent = intent.getParcelableExtra("pendingIntent");
         Message msg = downloadHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;

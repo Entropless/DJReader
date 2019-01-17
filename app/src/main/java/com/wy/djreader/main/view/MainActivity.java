@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     private MainPageContact.Presenter mainPresenter;
     private ActivityMainBinding mainBinding = null;
     private Context context;
-    private boolean isUpdating;
+    private boolean isUpdating = false;
     private BroadcastReceiver mainReceiver;
     private MainViewModel mainViewModel = new MainViewModel();
 
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            isUpdating = intent.getExtras().getBoolean("isUpdating");
         }
     }
 
@@ -175,10 +175,16 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                 String fileName = mainPresenter.getUpdateInfos().getString("versionName");
                 xmlData.putString("apkUrl", downloadUrl);
                 xmlData.putString("fileName",fileName);
+                xmlData.putBoolean("isUpdating",isUpdating);
                 intentSer.putExtras(xmlData);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intentSer,0);
+                //获取一个与Broadcast关联的PendingIntent
+                Intent broIntent = new Intent();
+                broIntent.setAction("com.wy.djreader.main.view.MainActivity");
+                broIntent.putExtra("isUpdating",false);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context,Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                //将PendingIntent传给服务
                 intentSer.putExtra("pendingIntent",pendingIntent);
-//                sendOrderedBroadcast(intentSer,);
+                //启动服务
                 startService(intentSer);
             }
             dialog.dismiss();
@@ -233,8 +239,16 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
                     String fileName = mainPresenter.getUpdateInfos().getString("versionName");
                     xmlData.putString("apkUrl", downloadUrl);
                     xmlData.putString("fileName",fileName);
+                    xmlData.putBoolean("isUpdating",isUpdating);
                     intentSer.putExtras(xmlData);
-
+                    //获取一个与Broadcast关联的PendingIntent
+                    Intent broIntent = new Intent();
+                    broIntent.setAction("com.wy.djreader.main.view.MainActivity");
+                    broIntent.putExtra("isUpdating",false);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context,Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    //将PendingIntent传给服务
+                    intentSer.putExtra("pendingIntent",pendingIntent);
+                    //启动服务
                     startService(intentSer);
                 } else {
                     ToastUtil.toastMessage(context,"存储权限被拒绝，无法进行更新",ToastUtil.LONG);
@@ -251,6 +265,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        //注销广播
+        unregisterReceiver(mainReceiver);
     }
 }

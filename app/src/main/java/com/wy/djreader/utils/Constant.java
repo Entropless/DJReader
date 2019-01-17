@@ -99,4 +99,8 @@ public interface Constant {
 		int DOWNLOAD_NOTIFY_ID = 0;
 		String DOWNLOAD_FINISH = "下载完成，点击安装！";
 	}
+	//PendingIntent
+	interface PendingIntent{
+		int REQUESTCODE_1 = 1;
+	}
 }
