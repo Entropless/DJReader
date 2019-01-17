@@ -1,6 +1,7 @@
 package com.wy.djreader.main.presenter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,7 +35,8 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     private String currVersionCode;
     private String currVersionName;
     private Bundle updateBundle = new Bundle();//更新的内容封装为bundle
-    private boolean isUpdating = false;
+    private boolean isUpdating;
+    private boolean downloadFinish;
     private OkHttpUtil okHttpUtil = new OkHttpImpl();
 
     private Handler updateHandler = null;
@@ -114,16 +116,35 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     }
 
     @Override
-    public void checkVersionUpdate(boolean isUpdating) {
+    public void checkVersionUpdate() {
         String updateInfoUrl = context.getString(R.string.updateInfo_url);
         //获取当前版本号
         currVersionCode = String.valueOf(BuildConfig.VERSION_CODE);
         currVersionName = BuildConfig.VERSION_NAME;
         //判断当前是否正在更新
+        isUpdating = checkUpdateState()[0];
         if (!isUpdating){
+            saveUpdateState(true,false);
             //访问服务器读取更新信息
             readUpdateInfo(updateInfoUrl);
         }
+    }
+
+    @Override
+    public boolean[] checkUpdateState() {
+        SharedPreferences sp = context.getSharedPreferences(Constant.SharePreference.UPDATE_STATE,Context.MODE_PRIVATE);
+        isUpdating = sp.getBoolean("isUpdating",false);
+        downloadFinish = sp.getBoolean("downloadFinish",false);
+        return new boolean[]{isUpdating,downloadFinish};
+    }
+
+    @Override
+    public void saveUpdateState(boolean isUpdating, boolean downloadFinish) {
+        SharedPreferences sp = context.getSharedPreferences(Constant.SharePreference.UPDATE_STATE,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("isUpdating",isUpdating);
+        editor.putBoolean("downloadFinish",downloadFinish);
+        editor.commit();
     }
 
     @Override

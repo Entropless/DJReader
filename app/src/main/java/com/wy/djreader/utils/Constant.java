@@ -103,4 +103,10 @@ public interface Constant {
 	interface PendingIntent{
 		int REQUESTCODE_1 = 1;
 	}
+	//SharePreference
+	interface SharePreference{
+		String UPDATE_STATE_INIT = "updateState_init";
+		String UPDATE_STATE = "updateState";
+		String INITIALIZED = "initialized";
+	}
 }

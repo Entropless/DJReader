@@ -8,6 +8,15 @@ public class UpdateInfos implements Parcelable {
     private String versionName;
     private String appUpdateUrl;
     private String description;
+    private boolean[] updateState;
+
+    public boolean[] getUpdateState() {
+        return updateState;
+    }
+
+    public void setUpdateState(boolean[] updateState) {
+        this.updateState = updateState;
+    }
 
     public String getVersionCode() {
         return versionCode;
@@ -49,6 +58,8 @@ public class UpdateInfos implements Parcelable {
         versionName = in.readString();
         appUpdateUrl = in.readString();
         description = in.readString();
+        updateState = new boolean[in.readInt()];
+        in.readBooleanArray(updateState);
     }
 
     public static final Creator<UpdateInfos> CREATOR = new Creator<UpdateInfos>() {
@@ -74,6 +85,7 @@ public class UpdateInfos implements Parcelable {
         dest.writeString(versionName);
         dest.writeString(appUpdateUrl);
         dest.writeString(description);
+        dest.writeBooleanArray(updateState);
     }
 
 

@@ -21,7 +21,11 @@ public interface MainPageContact {
 
     interface Presenter extends BasePresenter{
         //检查版本更新
-        void checkVersionUpdate(boolean isUpdating);
+        void checkVersionUpdate();
+        //检测当前更新情况
+        boolean[] checkUpdateState();
+        //存储当前更新的情况
+        void saveUpdateState(boolean isUpdating, boolean downloadFinish);
         //获取更新的信息
         Bundle getUpdateInfos();
         //下载apk

@@ -47,7 +47,8 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     private MainPageContact.Presenter mainPresenter;
     private ActivityMainBinding mainBinding = null;
     private Context context;
-    private boolean isUpdating = false;
+    private boolean isUpdating;
+    private boolean downloadFinish;
     private BroadcastReceiver mainReceiver;
     private MainViewModel mainViewModel = new MainViewModel();
 
@@ -59,6 +60,8 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         @Override
         public void onReceive(Context context, Intent intent) {
             isUpdating = intent.getExtras().getBoolean("isUpdating");
+            downloadFinish = intent.getExtras().getBoolean("downloadFinish");
+            mainPresenter.saveUpdateState(isUpdating,downloadFinish);
         }
     }
 
@@ -105,7 +108,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         registerReceiver(mainReceiver,mainFilter);
 
         //检查APP更新
-        mainPresenter.checkVersionUpdate(isUpdating);
+        mainPresenter.checkVersionUpdate();
         //添加fragment
         docFragment = DocFragment.newInstance("", "");
         function_fragment = Function_fragment.newInstance("", "");
@@ -164,34 +167,40 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 //                //dialog方式下载
 //                mainPresenter.downLoadApk();
                 /*通知栏下载*/
-                //显示通知
-                NotificationUtil.initNotification(context,this);
-                NotificationUtil.updateNotification(0,100,0,false,"");
-                //启动服务
-                Intent intentSer = new Intent(this,DownloadService.class);
-
-                Bundle xmlData = new Bundle();
-                String downloadUrl = mainPresenter.getUpdateInfos().getString("appUpdateUrl");
-                String fileName = mainPresenter.getUpdateInfos().getString("versionName");
-                xmlData.putString("apkUrl", downloadUrl);
-                xmlData.putString("fileName",fileName);
-                xmlData.putBoolean("isUpdating",isUpdating);
-                intentSer.putExtras(xmlData);
-                //获取一个与Broadcast关联的PendingIntent
-                Intent broIntent = new Intent();
-                broIntent.setAction("com.wy.djreader.main.view.MainActivity");
-                broIntent.putExtra("isUpdating",false);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context,Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-                //将PendingIntent传给服务
-                intentSer.putExtra("pendingIntent",pendingIntent);
-                //启动服务
-                startService(intentSer);
+                downloadWithNotification();
             }
             dialog.dismiss();
         };
         //lambda表达式
         DialogInterface.OnClickListener negativeListener = (dialog, which) -> dialog.dismiss();
         DialogUtil.showDialog(context, dialogInfo, false, null, positiveListener, negativeListener);
+    }
+
+    private void downloadWithNotification() {
+        //显示通知
+        NotificationUtil.initNotification(context,this);
+        NotificationUtil.updateNotification(0,100,0,false,"");
+        //正在下载
+        isUpdating = true;
+        //启动服务
+        Intent intentSer = new Intent(this,DownloadService.class);
+        Bundle xmlData = new Bundle();
+        String downloadUrl = mainPresenter.getUpdateInfos().getString("appUpdateUrl");
+        String fileName = mainPresenter.getUpdateInfos().getString("versionName");
+        xmlData.putString("apkUrl", downloadUrl);
+        xmlData.putString("fileName",fileName);
+        xmlData.putBoolean("isUpdating",isUpdating);
+        intentSer.putExtras(xmlData);
+        //获取一个与Broadcast关联的PendingIntent(在需要传递当前activity中的参数时使用，此处多余)
+        Intent broIntent = new Intent();
+        broIntent.setAction("com.wy.djreader.main.view.MainActivity");
+        broIntent.putExtra("isUpdating",false);
+        broIntent.putExtra("downloadFinish",true);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        //将PendingIntent传给服务
+        intentSer.putExtra("pendingIntent",pendingIntent);
+        //启动服务
+        startService(intentSer);
     }
 
     @Override
@@ -229,27 +238,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
 //                    //dialog方式下载
 //                    mainPresenter.downLoadApk();
                     /*通知栏下载*/
-                    //显示通知
-                    NotificationUtil.initNotification(context,this);
-                    NotificationUtil.updateNotification(0,100,0,false,"");
-                    //启动服务
-                    Intent intentSer = new Intent(this,DownloadService.class);
-                    Bundle xmlData = new Bundle();
-                    String downloadUrl = mainPresenter.getUpdateInfos().getString("appUpdateUrl");
-                    String fileName = mainPresenter.getUpdateInfos().getString("versionName");
-                    xmlData.putString("apkUrl", downloadUrl);
-                    xmlData.putString("fileName",fileName);
-                    xmlData.putBoolean("isUpdating",isUpdating);
-                    intentSer.putExtras(xmlData);
-                    //获取一个与Broadcast关联的PendingIntent
-                    Intent broIntent = new Intent();
-                    broIntent.setAction("com.wy.djreader.main.view.MainActivity");
-                    broIntent.putExtra("isUpdating",false);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context,Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-                    //将PendingIntent传给服务
-                    intentSer.putExtra("pendingIntent",pendingIntent);
-                    //启动服务
-                    startService(intentSer);
+                    downloadWithNotification();
                 } else {
                     ToastUtil.toastMessage(context,"存储权限被拒绝，无法进行更新",ToastUtil.LONG);
                 }
