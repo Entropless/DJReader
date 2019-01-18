@@ -1,5 +1,6 @@
 package com.wy.djreader.main.view;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,7 +14,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -61,6 +64,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         public void onReceive(Context context, Intent intent) {
             isUpdating = intent.getExtras().getBoolean("isUpdating");
             downloadFinish = intent.getExtras().getBoolean("downloadFinish");
+            Log.i("isUpdating",isUpdating+"");
             mainPresenter.saveUpdateState(isUpdating,downloadFinish);
         }
     }
@@ -176,10 +180,13 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         DialogUtil.showDialog(context, dialogInfo, false, null, positiveListener, negativeListener);
     }
 
+    /**
+     * 通知栏显示下载
+     */
     private void downloadWithNotification() {
         //显示通知
-        NotificationUtil.initNotification(context,this);
-        NotificationUtil.updateNotification(0,100,0,false,"");
+        NotificationUtil.initNotification(context,this, NotificationManager.IMPORTANCE_LOW);
+        NotificationUtil.updateNotification(Constant.Notification.NOTIFY_ID_1,100,0,false,"");
         //正在下载
         isUpdating = true;
         //启动服务
@@ -196,7 +203,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         broIntent.setAction("com.wy.djreader.main.view.MainActivity");
         broIntent.putExtra("isUpdating",false);
         broIntent.putExtra("downloadFinish",true);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(),Constant.PendingIntent.REQUESTCODE_1,broIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         //将PendingIntent传给服务
         intentSer.putExtra("pendingIntent",pendingIntent);
         //启动服务

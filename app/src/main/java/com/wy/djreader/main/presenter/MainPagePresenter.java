@@ -18,6 +18,7 @@ import com.wy.djreader.utils.fileutil.FileOperation;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
 import com.wy.djreader.utils.httputil.OkHttpUtil;
 
+import java.io.File;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -181,6 +182,11 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                 msg.sendMessage();
             }
         });
+    }
+
+    @Override
+    public void installApp(File file) {
+
     }
 
     /**

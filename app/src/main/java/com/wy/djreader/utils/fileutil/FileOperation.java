@@ -129,10 +129,10 @@ public class FileOperation {
                     bigDecimal = new BigDecimal(percent);
                     percent = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).floatValue();//只取小数点后两位
                     progress = (int) (percent * 100);
-                    if ((progress - oldProgress) > 2 || now == total) {
+                    if ((progress - oldProgress) > 5 || now == total) {
                         oldProgress = progress;
                         if (handler == null){
-                            writeSuccess = NotificationUtil.updateNotification(Constant.Notification.DOWNLOAD_NOTIFY_ID,100,progress,false,Constant.Notification.DOWNLOAD_FINISH);
+                            writeSuccess = NotificationUtil.updateNotification(Constant.Notification.NOTIFY_ID_1,100,progress,false,Constant.Notification.DOWNLOAD_FINISH);
                         }else{
                             Bundle data = new Bundle();
                             data.putInt("progress", progress);

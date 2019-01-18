@@ -1,11 +1,14 @@
 package com.wy.djreader.utils;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -17,22 +20,24 @@ public class NotificationUtil {
     private static NotificationCompat.Builder mBuilder;
 
     /**
-     * 在异步任务中调用
-     * @param context
-     * @param intent
-     * @param activity
-     * @param notifyId
-     * @param max
-     * @param progress
-     * @param limit
+     * 初始化通知
+     * @param context 上下文
+     * @param activity 点击通知需要进入的activity
+     * @param rank 通知的等级
      */
-    public static void initNotification(Context context,Activity activity){
+    public static void initNotification(Context context,Activity activity,int rank){
         appContext = context;
+        //API26及以上需要设置channel(通道)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //创建通道
+            createNotificationChannel(rank);
+        }
         //实例化Notification.Builder，并设置三个必须属性
-        mBuilder = new NotificationCompat.Builder(appContext,"default")
+        mBuilder = new NotificationCompat.Builder(appContext, Constant.Notification.CHANNEL_ID_1)//Android7.1以下会忽略channelId
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(appContext.getString(R.string.notification_title))
-                .setContentText(appContext.getString(R.string.notification_text));
+                .setContentText(appContext.getString(R.string.notification_text))
+                .setPriority(rank);//Android7.1以下使用
         Intent intent = new Intent(appContext,activity.getClass());
         //创建TaskStackBuilder对象
         TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(appContext);
@@ -71,6 +76,21 @@ public class NotificationUtil {
             }
         }
         return updateSuccessful;
+    }
+
+    /**
+     * Create NotificationChannel(API26+)，NotificationChannel 不在支持库中
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static void createNotificationChannel(int importance) {
+        CharSequence name = appContext.getString(R.string.channel_name);
+        String description = appContext.getString(R.string.channel_description);
+        //创建NotificationChannel实例
+        NotificationChannel channel = new NotificationChannel(Constant.Notification.CHANNEL_ID_1,name,importance);
+        channel.setDescription(description);
+        //向系统注册Channel,注册之后，不能修改channelId或者其他通知行为
+        NotificationManager notificationManager = appContext.getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
 }

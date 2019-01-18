@@ -5,6 +5,8 @@ import android.os.Bundle;
 import com.wy.djreader.base.BasePresenter;
 import com.wy.djreader.base.BaseView;
 
+import java.io.File;
+
 public interface MainPageContact {
     interface View extends BaseView {
         //显示更新提示
@@ -30,6 +32,7 @@ public interface MainPageContact {
         Bundle getUpdateInfos();
         //下载apk
         void downLoadApk();
-        //
+        //安装apk
+        void installApp(File file);
     }
 }

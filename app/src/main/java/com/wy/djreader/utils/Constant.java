@@ -96,8 +96,9 @@ public interface Constant {
 
 	//Notification
 	interface Notification{
-		int DOWNLOAD_NOTIFY_ID = 0;
+		int NOTIFY_ID_1= 1;
 		String DOWNLOAD_FINISH = "下载完成，点击安装！";
+		String CHANNEL_ID_1 = "1";
 	}
 	//PendingIntent
 	interface PendingIntent{

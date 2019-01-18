@@ -13,7 +13,7 @@
 
     <string name="countdown_text">跳过</string>
 
-    <string name="updateInfo_url">http://192.168.1.102:8080/gongwen/updateXml/update.xml</string>
+    <string name="updateInfo_url">http://192.168.1.140:8080/gongwen/updateXml/update.xml</string>
     <string name="update_title">版本更新</string>
     <string name="update_Positive">立即更新</string>
     <string name="update_Negative">狠心拒绝</string>
@@ -45,6 +45,8 @@
     <string name="notification_text">下载中…</string>
     <string name="notification_ticker">正在更新…</string>
     <string name="notification_finish">更新完成！</string>
+    <string name="channel_name">download</string>
+    <string name="channel_description">download_update</string>
 
     <!--登录-->
     <string name="mobile_login">手机快捷登录</string>
