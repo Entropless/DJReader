@@ -21,8 +21,6 @@ import com.wy.djreader.utils.httputil.OkHttpUtil;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 
@@ -145,7 +143,8 @@ public class MainPagePresenter implements MainPageContact.Presenter{
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("isUpdating",isUpdating);
         editor.putBoolean("downloadFinish",downloadFinish);
-        editor.commit();
+//        editor.commit();//commit立即将数据写到持久存储中
+        editor.apply();//apply会在后台进行存储处理
     }
 
     @Override
