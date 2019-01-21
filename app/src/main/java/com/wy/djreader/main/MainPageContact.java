@@ -7,6 +7,12 @@ import com.wy.djreader.base.BaseView;
 
 import java.io.File;
 
+/**
+ * @INTERFACE MainPageContact
+ * @desc 主界面MVP模式的接口联系者
+ * @author wy
+ * @date 2019/1/21
+ */
 public interface MainPageContact {
     interface View extends BaseView {
         //显示更新提示
