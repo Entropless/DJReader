@@ -14,6 +14,8 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.wy.djreader.R;
 
+import java.io.File;
+
 public class NotificationUtil {
 
     private static Context appContext;
@@ -25,8 +27,9 @@ public class NotificationUtil {
      * @param activity 点击通知需要进入的activity
      * @param rank 通知的等级
      */
-    public static void initNotification(Context context,Activity activity,int rank){
+    public static void initNotification(Context context,Activity activity, File file, int rank){
         appContext = context;
+        PendingIntent pendingIntent;
         //API26及以上需要设置channel(通道)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //创建通道
@@ -38,12 +41,17 @@ public class NotificationUtil {
                 .setContentTitle(appContext.getString(R.string.notification_title))
                 .setContentText(appContext.getString(R.string.notification_text))
                 .setPriority(rank);//Android7.1以下使用
-        Intent intent = new Intent(appContext,activity.getClass());
-        //创建TaskStackBuilder对象
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(appContext);
-        taskStackBuilder.addParentStack(activity);
-        taskStackBuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        if (activity != null){
+            Intent intent = new Intent(appContext,activity.getClass());
+            //创建TaskStackBuilder对象
+            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(appContext);
+            taskStackBuilder.addParentStack(activity);
+            taskStackBuilder.addNextIntent(intent);
+            pendingIntent = taskStackBuilder.getPendingIntent(Constant.PendingIntent.REQUESTCODE_0,PendingIntent.FLAG_UPDATE_CURRENT);
+        }else {
+            pendingIntent = InstallAppUtil.installApp(appContext,file,false);
+        }
+
         //为通知设置PendingIntent
         mBuilder.setContentIntent(pendingIntent);
     }

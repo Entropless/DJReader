@@ -1,5 +1,6 @@
 package com.wy.djreader.main.view;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -10,10 +11,13 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -38,6 +42,8 @@ import com.wy.djreader.utils.NotificationUtil;
 import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.permission.PermissionUtil;
 import com.wy.djreader.utils.permission.PermissionUtilImpl;
+
+import java.io.File;
 
 public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener, Function_fragment.appFragmentInteractionListener, MeFragment.meFragmentInteractionListener {
 
@@ -183,8 +189,14 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
      * 通知栏显示下载
      */
     private void downloadWithNotification() {
+        File apkFile = new File(Constant.DOWNLOAD_PATH+mainPresenter.getUpdateInfos().getString("versionName")+".apk");
         //显示通知
-        NotificationUtil.initNotification(context,this, NotificationManager.IMPORTANCE_LOW);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            NotificationUtil.initNotification(context,null, apkFile, NotificationManager.IMPORTANCE_LOW);
+        }else {
+            NotificationUtil.initNotification(context,null, apkFile, NotificationCompat.PRIORITY_LOW);
+        }
+
         NotificationUtil.updateNotification(Constant.Notification.NOTIFY_ID_1,100,0,false,"");
         //正在下载
         isUpdating = true;

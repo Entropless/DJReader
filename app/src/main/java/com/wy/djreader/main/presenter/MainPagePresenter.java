@@ -1,10 +1,15 @@
 package com.wy.djreader.main.presenter;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 
 import com.wy.djreader.BuildConfig;
 import com.wy.djreader.R;
@@ -12,6 +17,7 @@ import com.wy.djreader.main.MainPageContact;
 import com.wy.djreader.main.model.ParseXml;
 import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
+import com.wy.djreader.utils.InstallAppUtil;
 import com.wy.djreader.utils.MessageManager;
 import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.fileutil.FileOperation;
@@ -170,8 +176,9 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                 boolean isSuccessful = FileOperation.writeToFile(inputStream,contentLength,Constant.DOWNLOAD_PATH,fileName,true,updateHandler);
                 if (isSuccessful){
                     isUpdating = false;
-                    //TODO 自动提示安装
-
+                    //自动提示安装
+                    File apkFile = new File(Constant.DOWNLOAD_PATH + fileName);
+                    installApp(apkFile,true);
                 }
             }
 
@@ -184,8 +191,8 @@ public class MainPagePresenter implements MainPageContact.Presenter{
     }
 
     @Override
-    public void installApp(File file) {
-
+    public PendingIntent installApp(File file, boolean autoInstall) {
+        return InstallAppUtil.installApp(context,file,autoInstall);
     }
 
     /**

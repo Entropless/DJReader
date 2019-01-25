@@ -102,7 +102,9 @@ public interface Constant {
 	}
 	//PendingIntent
 	interface PendingIntent{
-		int REQUESTCODE_1 = 1;
+		int REQUESTCODE_0 = 0;//点击通知跳转到activity的请求Id
+		int REQUESTCODE_1 = 1;//mainactivity发送与接收广播的请求Id
+		int REQUESTCODE_2 = 2;//安装apk发送的intent的请求Id
 	}
 	//SharePreference
 	interface SharePreference{

@@ -1,5 +1,6 @@
 package com.wy.djreader.main;
 
+import android.app.PendingIntent;
 import android.os.Bundle;
 
 import com.wy.djreader.base.BasePresenter;
@@ -39,6 +40,6 @@ public interface MainPageContact {
         //下载apk
         void downLoadApk();
         //安装apk
-        void installApp(File file);
+        PendingIntent installApp(File file, boolean autoInstall);
     }
 }
