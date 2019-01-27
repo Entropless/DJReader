@@ -10,4 +10,10 @@ public class ToastUtil {
     public static void toastMessage(Context context,String message, int showTime){
         Toast.makeText(context,message,showTime).show();
     }
+    public static void toastMessageLong(Context context,String message){
+        Toast.makeText(context,message,LONG).show();
+    }
+    public static void toastMessageShort(Context context,String message){
+        Toast.makeText(context,message,SHORT).show();
+    }
 }

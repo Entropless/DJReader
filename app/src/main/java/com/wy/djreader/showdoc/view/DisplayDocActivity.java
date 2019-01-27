@@ -36,7 +36,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
 
     private Handler fileHandler = null;
 
-    class FileHandler extends Handler{
+    static class FileHandler extends Handler{
         private DisplayDocActivity activity;
         private String filePath;
         public FileHandler(WeakReference<DisplayDocActivity> activityWeak,String filePath) {
