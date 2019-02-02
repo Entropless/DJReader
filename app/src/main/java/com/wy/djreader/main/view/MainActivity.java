@@ -1,6 +1,5 @@
 package com.wy.djreader.main.view;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -13,7 +12,6 @@ import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
