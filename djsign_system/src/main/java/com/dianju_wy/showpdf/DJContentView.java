@@ -3,6 +3,7 @@ package com.dianju_wy.showpdf;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -36,6 +37,16 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    /**
+     * 初始化绘图需要的工具
+     */
+    private void initView(){
+        surfaceHolder = getHolder();
+        surfaceHolder.addCallback(this);
+        //配置出事参数
+        setFocusable(true);
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
@@ -51,13 +62,9 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-    /**
-     * 初始化绘图需要的工具
-     */
-    private void initView(){
-        surfaceHolder = getHolder();
-        canvas = surfaceHolder.lockCanvas();
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override

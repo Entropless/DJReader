@@ -1,18 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wycustom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".welcome.view.IndexActivity">
+    android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:text="跳转"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+    <!-- xmlns:tools覆盖android的所有标准属性，将android:换成tools:即可 -->
+	<!-- xmlns:wycustom自定义属性 -->
+    <!--
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/index" />
+
+        <TextView
+        	android:
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="25sp"
+            android:text="点聚阅读器" />
+    -->
+    <com.wy.djreader.welcome.adapter.AutoScrollViewPager
+        android:id="@+id/auto_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <com.wy.djreader.welcome.countdown.CountDownView
+            android:id="@+id/countDownView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            wycustom:background_color="#22000000"
+            wycustom:border_color="#55B8E2"
+            wycustom:border_width="2dp"
+            wycustom:text_size="12dp" />
+</RelativeLayout>
