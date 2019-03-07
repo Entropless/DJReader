@@ -42,9 +42,9 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
     private int pageSplit = 20;// 页与页之间分割线的宽度
     private List<ShowPageInfo> showPages;//即将要显示的页的信息
     private PageMode pageMode = PageMode.MultiPage;//默认是连续页模式
-    private float tempHasShowTotalHight;//当前显示的页面的总高度
+    private float temphastotalHeight;//当前显示的页的总高度
     private float initShowHight;//文档打开后初始高度
-    private float tempHasShowHight;//当前显示的页面展示的高度
+    private float temphasHeight;//当前显示的页展示的高度
 
     private boolean mIsDrawing;//控制绘图线程的标志位
     private Paint paint;
@@ -181,8 +181,13 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
             showPages.clear();
         }
         if (pageMode == PageMode.MultiPage){
-            tempHasShowHight = 0;
+            temphastotalHeight = 0;
+            temphasHeight = 0;
+            if (totalHeight < screenH){
 
+            }else {
+
+            }
         }
     }
 
@@ -266,5 +271,21 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
             totalHeight+=info.pageH;
         }
         totalHeight+=pageSplit*(pageNums-1);
+    }
+
+    private void computeShowPageInfo(float oriX, float oriY, float x,float y,int currPage){
+        switch (pageMode){
+            case MultiPage:
+                ShowPageInfo showInfo = new ShowPageInfo();
+                showInfo.pageIndex = currPage;
+                showInfo.w = pageInfos.get(currPage).pageW < screenW ? pageInfos.get(currPage).pageW : screenW;
+                showInfo.orix = oriX + showInfo.w < pageInfos.get(currPage).pageW ? oriX : pageInfos.get(currPage).pageW - showInfo.w;
+                showInfo.oriy = oriY;
+//                showInfo.h =
+                break;
+            case SinglePage:
+
+                break;
+        }
     }
 }
