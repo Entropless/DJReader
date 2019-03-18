@@ -1,10 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
 
+    <RelativeLayout android:id="@+id/metext_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@color/menu_head_background_color">
+		<TextView android:id="@+id/file_title"
+		    android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:text="@string/mainMenuFile"
+	        android:textColor="@color/menu_head_text_color"
+	        android:textSize="@dimen/menu_headtextsize" />
+		<Button android:id="@+id/imageButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_open_btn"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="22sp"
+            android:textColor="#ffffff"
+            android:padding="5dp"
+            android:text="打开文件" />
+    </RelativeLayout>
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

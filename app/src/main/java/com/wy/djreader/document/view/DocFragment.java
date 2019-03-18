@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.wy.djreader.document.view.iview.IDocFragment;
 import com.wy.djreader.model.Adapter.ReadFilesArrayAdapter;
@@ -24,6 +26,8 @@ import com.wy.djreader.document.presenter.IDocPresenterImpl;
 import com.wy.djreader.document.presenter.ipresenter.IDocPresenter;
 import com.wy.djreader.showdoc.view.DisplayDocActivity;
 import com.wy.djreader.utils.Constant;
+
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +54,8 @@ public class DocFragment extends ListFragment implements IDocFragment {
     private boolean mDualPune = false;//是否为双窗口
     private int mCurrSelectItem = 0;//当前选择项
     private IDocPresenter iDocPresenter = null;
+
+    private Button fileManager;
 
     //定义接口
     private docFragmentInteractionListener mListener;
@@ -90,9 +96,16 @@ public class DocFragment extends ListFragment implements IDocFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.e("onCreateViewFragment","onCreateView");
+        view = inflater.inflate(R.layout.fragment_doc,container,false);
         context = getActivity();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doc,container,false);
+        fileManager = view.findViewById(R.id.imageButton1);
+
+//        String dir = ClfUtil.getSPString(context, Constant.OPEN_PATH, Constant.OPEN_PATH_DEFAULT);
+//        Intent intent = new Intent(context, MyFileManager.class);
+//        intent.putExtra("type", "0");
+//        intent.putExtra("dir", dir);
+//        startActivityForResult(intent, Constant.RequestCode.NEW_OPEN);
+        return view;
     }
 
     @Override
@@ -199,5 +212,30 @@ public class DocFragment extends ListFragment implements IDocFragment {
     public interface docFragmentInteractionListener{
         //Activity需要实现的接口
         void docFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode==Constant.RequestCode.NEW_OPEN) {
+//            if(resultCode==1) {
+//                String savePath = data.getStringExtra("savePath");
+//                String fileName = data.getStringExtra("fileName");
+//                ClfUtil.addSP(context, Constant.OPEN_PATH, savePath);
+//                if(fileName != null && (fileName.endsWith(".aip") || fileName.endsWith(".pdf") || fileName.endsWith(".ofd"))) {
+//                    String filePath1 = savePath+ File.separator+fileName;
+//                    Intent intent = new Intent(context, OpenFileActivity.class);
+//                    intent.putExtra("filePath", filePath1);
+//                    startActivityForResult(intent, Constant.RequestCode.FRESH_LIST);
+//                } else {
+//                    Toast.makeText(context, "文件类型错误！", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        } else if(requestCode==Constant.RequestCode.FRESH_LIST) {
+//            OpenedFilesDao openedFilesDao = new OpenedFilesDaoImpl(context);
+//            filesInfos = openedFilesDao.readOpenedFile();
+//            //适配器
+//            OpenedFilesAdapter openAdapter = new OpenedFilesAdapter(context, fragmentContext, filesInfos);
+//            lately_file_list.setAdapter(openAdapter);
+//        }
     }
 }

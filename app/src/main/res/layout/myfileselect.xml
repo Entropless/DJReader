@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dirT"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5px"
+        android:textColor="#0000FF"
+        android:textSize="18sp" >
+    </TextView>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1000" >
+    </ListView>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/fileNameT"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="文件名(N):"
+            android:textSize="15sp" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/fileNameE"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1000"/>
+        
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="确定" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/typeT"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="文件类型(T):"
+            android:textSize="15sp" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/typeS"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1000"/>
+        
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="取消" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -43,7 +43,7 @@ import com.wy.djreader.utils.permission.PermissionUtilImpl;
 
 import java.io.File;
 
-public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener, Function_fragment.appFragmentInteractionListener, MeFragment.meFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements MainPageContact.View, DocFragment.docFragmentInteractionListener, Function_fragment.appFragmentInteractionListener{
 
     private Toolbar mToolbar;
     private DocFragment docFragment;
@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
         //添加fragment
         docFragment = DocFragment.newInstance("", "");
         function_fragment = Function_fragment.newInstance("", "");
-        meFragment = MeFragment.newInstance("", "");
+        meFragment = MeFragment.newInstance("","");
         fragmentManager = getSupportFragmentManager();
         ActivityUtil.addFragmentToActivity(fragmentManager, docFragment, R.id.fragment_container);
         //BottomNavigationView点击事件
@@ -134,12 +134,6 @@ public class MainActivity extends BaseActivity implements MainPageContact.View, 
     public void docFragmentInteraction(Uri uri) {
 
     }
-
-    @Override
-    public void meFragmentInteraction(Uri uri) {
-
-    }
-
 
     @Override
     public void appFragmentInteraction(Uri uri) {

@@ -1,14 +1,194 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".personal.view.MeFragment">
+    tools:context="${relativePackage}.${activityClass}" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/metext_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Me_fragment" />
+        android:layout_height="@dimen/menu_head_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/menu_head_background_color"
+        android:paddingLeft="@dimen/menu_head_left" >
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/me_menu_head"
+            android:textColor="@color/menu_head_text_color"
+            android:textSize="@dimen/menu_headtextsize" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/me_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_info_height"
+        android:layout_below="@+id/metext_layout"
+        android:background="@color/menu_head_background_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/me_menu_paddingHorizontal"
+        android:paddingRight="@dimen/me_menu_paddingHorizontal" >
+
+        <TextView
+            android:id="@+id/userinfo_text"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/me_menu_info_width"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/head_portrait"
+            android:gravity="center"
+            android:text="@string/me_menu_userinfo"
+            android:textColor="@color/me_menu_userinfo_color"
+            android:textSize="@dimen/me_menu_userinfo_size" />
+
+        <ImageView
+            android:id="@+id/head_portrait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/portrait_white" />
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/userinfo_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/parting_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_partingline_height"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/me_info_layout"
+        android:background="@color/me_menu_partingline_color"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/my_bought"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_item_width"
+        android:layout_below="@+id/parting_line"
+        android:background="@color/me_menu_item_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/me_menu_paddingHorizontal" >
+
+        <ImageView
+            android:id="@+id/buy_png"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shopping" />
+
+        <TextView
+            android:id="@+id/buy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/me_menu_itemtext_left"
+            android:text="@string/me_menu_mymodules"
+            android:textSize="@dimen/me_menu_itemtext_size" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lit_parting_line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_litpartingline_height"
+        android:layout_below="@+id/my_bought"/>
+
+    <LinearLayout
+        android:id="@+id/setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_item_width"
+        android:layout_below="@+id/lit_parting_line1"
+        android:background="@color/me_menu_item_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/me_menu_paddingHorizontal" >
+
+        <ImageView
+            android:id="@+id/setting_png"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/setting" />
+
+        <TextView
+            android:id="@+id/setting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/me_menu_itemtext_left"
+            android:text="@string/me_menu_set"
+            android:textSize="@dimen/me_menu_itemtext_size" />
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/lit_parting_line2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_litpartingline_height"
+        android:layout_below="@+id/setting"/>
+    
+    <LinearLayout
+        android:id="@+id/help"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_item_width"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lit_parting_line2"
+        android:background="@color/me_menu_item_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/me_menu_paddingHorizontal" >
+
+        <ImageView
+            android:id="@+id/help_png"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/help" />
+
+        <TextView
+            android:id="@+id/help_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/me_menu_itemtext_left"
+            android:text="@string/me_menu_help"
+            android:textSize="@dimen/me_menu_itemtext_size" />
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/lit_parting_line3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_litpartingline_height"
+        android:layout_below="@+id/help"/>
+
+    <LinearLayout
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_menu_item_width"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lit_parting_line3"
+        android:background="@color/me_menu_item_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/me_menu_paddingHorizontal" >
+
+        <ImageView
+            android:id="@+id/about_png"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/about" />
+
+        <TextView
+            android:id="@+id/about_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/me_menu_itemtext_left"
+            android:text="@string/me_menu_about"
+            android:textSize="@dimen/me_menu_itemtext_size" />
+    </LinearLayout>
+
+</RelativeLayout>

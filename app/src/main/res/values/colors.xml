@@ -3,4 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#407df9</color>
+    <color name="fileMenuCheckedColor">#EAE7E7</color>
+    <color name="fileMenuNoCheckedColor">#FFFFFF</color>
+
+    <color name="fileExMenuCheckedColor">#366629</color>
+
+    <color name="menu_head_background_color">#1E90FF</color>
+    <color name="menu_head_text_color">#FFFFFF</color>
+    <color name="me_menu_userinfo_color">#C9C9C9</color>
+    <color name="me_menu_partingline_color">#FFFFFF</color>
+    <color name="litttle_parting_color">#CCCCCC</color><!-- 灰色 -->
+    <color name="background_text_color">#CCCCCC</color>
+    <color name="me_menu_item_color">#96CDCD</color><!-- 绿色 -->
+    <color name="new_version">#FF0000</color>
 </resources>
