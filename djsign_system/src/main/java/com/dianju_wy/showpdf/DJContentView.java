@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import srvSeal.SrvSealUtil;
 import com.dianju_wy.showpdf.util.PageInfo;
 import com.dianju_wy.showpdf.util.PageMode;
 import com.dianju_wy.showpdf.util.ShowPageInfo;
@@ -25,7 +26,7 @@ import java.util.List;
  * @date 2019/2/28 17:36
  */
 public class DJContentView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
-    private DJNativeInterface djNative;
+    private SrvSealUtil core;
     private Context context;
     private SurfaceHolder surfaceHolder;//surface的持有者
     private Canvas canvas;//绘图的画布
@@ -84,7 +85,7 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
      */
     private void initView(){
         //初始化JNI
-        djNative = new DJNativeInterface();
+        core = new SrvSealUtil();
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         //配置绘制参数
@@ -115,8 +116,8 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
 
     public int openFile(String path){
         this.bitmap = null;
-        int openRes = djNative.openFile(path);
-        pageNums = djNative.pageNums;
+        int openRes = core.openFile(path);
+        pageNums = core.pageNums;
         //TODO 设置设备可用内存
 
         if (openRes > 0){
@@ -151,7 +152,7 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
      */
     private void initOpen() {
         pageOriWMax = 0;
-        if (djNative.objID < 1){
+        if (core.objID < 1){
             drawText("文档打开失败",surfaceHolder);
             return;
         }
@@ -161,18 +162,18 @@ public class DJContentView extends SurfaceView implements SurfaceHolder.Callback
             pageInfos.clear();
         }
         for (int i = 0; i < pageNums; i++) {
-            djNative.gotoPage(i);
+            core.gotoPage(i);
             PageInfo pageInfo = new PageInfo();
-            pageInfo.pageOriW = djNative.getPageWidth(i);
-            pageInfo.pageOriH = djNative.getPageHeight(i);
+            pageInfo.pageOriW = core.getPageWidth(i);
+            pageInfo.pageOriH = core.getPageHeight(i);
             pageInfos.add(pageInfo);
             if(pageOriWMax<pageInfo.pageOriW){
                 pageOriWMax=pageInfo.pageOriW;
             }
         }
         scale = screenW/pageOriWMax;//计算缩放比例
-        djNative.setAndroidPageInfo(djNative.objID,scale,scale,0,0,screenW,screenH);
-        djNative.setValue(djNative.objID,"SET_CURRPDF_PAGE", "0");
+        core.setAndroidPageInfo(core.objID,scale,scale,0,0,screenW,screenH);
+        core.setValue(core.objID,"SET_CURRPDF_PAGE", "0");
         minZoom = scale;
         computeTotalHeight();
         if (showPages == null){

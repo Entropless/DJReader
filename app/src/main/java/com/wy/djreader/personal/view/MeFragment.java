@@ -55,7 +55,8 @@ public class MeFragment extends Fragment {
 				// TODO 自动生成的方法存根
 				//跳转到登录注册界面
 				Intent loginIntent = new Intent();
-				loginIntent.setClass(context, LoginActivity.class);
+//				loginIntent.setClass(context, LoginActivity.class);
+				loginIntent.setClass(context, DefaultLoginActivity.class);
 				context.startActivity(loginIntent);
 			}
 		});

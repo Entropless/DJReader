@@ -47,7 +47,6 @@ public class ReadFilesArrayAdapter extends ArrayAdapter<HaveReadFilesSerializabl
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-
             //加载从数据库读取的文件信息
             holder.file_name.setText(havereadFiles.getFile_name());
             holder.time_size.setText(havereadFiles.getDisplay_time() +"  " + havereadFiles.getFile_size());

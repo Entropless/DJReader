@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.dianju.showpdf.DJContentView;
@@ -29,10 +30,11 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     private ShowDocContact.Presenter presenter;
     private FileOperation fileOperation;
     private String filePath = "";
-    private ActivityShowDocBinding activityShowDocBinding = null;
+    private ActivityShowDocBinding docBinding = null;
     private Context context;
     private boolean isListener = true;
     private WeakReference<DisplayDocActivity> activityWeak;//弱引用
+    private SingleDJContentView singleDJContentView;
 
     private Handler fileHandler = null;
 
@@ -66,7 +68,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
 
     @Override
     protected void initDataBinding(ViewDataBinding dataBinding) {
-        activityShowDocBinding = (ActivityShowDocBinding) dataBinding;
+        docBinding = (ActivityShowDocBinding) dataBinding;
     }
 
     @Override
@@ -116,13 +118,14 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
         activityWeak = new WeakReference<>(this);
         fileHandler = new FileHandler(activityWeak,filePath);
 
-        activityShowDocBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        docBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 if (isListener){
                     isListener = false;
-                    SingleDJContentView singleDJContentView = SingleDJContentView.getInstance(context);
-                    activityShowDocBinding.showdocLayout.addView(singleDJContentView.djContentView);
+                    singleDJContentView = SingleDJContentView.getInstance(context);
+                    docBinding.showdocLayout.addView(singleDJContentView.djContentView);
+                    singleDJContentView.djContentView.setZOrderMediaOverlay(true);
                     presenter.loadingDoc(filePath,singleDJContentView.djContentView);
                     //设置Handler，接收各种返回值
                     singleDJContentView.djContentView.setMyhandler(fileHandler);
@@ -149,7 +152,7 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
 
     @Override
     public void showFunctionBtn() {
-
+        docBinding.fileOperationLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -160,5 +163,15 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
     @Override
     public void setBtnUp() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (singleDJContentView.djContentView != null){
+            singleDJContentView.djContentView.saveFile("");
+            singleDJContentView.djContentView.disposeResource();
+            docBinding.showdocLayout.removeView(singleDJContentView.djContentView);
+        }
     }
 }

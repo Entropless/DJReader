@@ -120,12 +120,13 @@ public class HaveReadFilesImpl implements IHaveReadFiles {
 			open_time = cursor.getString(cursor.getColumnIndex("open_time"));
 			file_size = cursor.getString(cursor.getColumnIndex("file_size"));
 			file_thum = cursor.getBlob(cursor.getColumnIndex("file_thum"));
-//			haveReadFiles = new HaveReadFilesSerializable(id,file_name, file_path, open_time, file_size, file_thum);
-			haveReadFiles.setId(id);
-			haveReadFiles.setFile_name(file_name);
-			haveReadFiles.setDisplay_time(open_time);
-			haveReadFiles.setFile_size(file_size);
-			haveReadFiles.setFile_thum(file_thum);
+			haveReadFiles = new HaveReadFilesSerializable(id,file_name, file_path, open_time, file_size, file_thum);
+//			haveReadFiles.setId(id);
+//			haveReadFiles.setFile_name(file_name);
+//			haveReadFiles.setFile_path(file_path);
+//			haveReadFiles.setDisplay_time(open_time);
+//			haveReadFiles.setFile_size(file_size);
+//			haveReadFiles.setFile_thum(file_thum);
 			filesInfos.add(haveReadFiles);
 		}
 		return filesInfos;

@@ -22,8 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DefaultLoginActivity2"
-            android:label="@string/title_activity_default_login2"></activity>
+            android:name=".personal.view.DefaultLoginActivity"
+            android:label="@string/title_activity_default_login"/>
         <activity android:name=".welcome.view.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.view.MainActivity" />
+        <activity android:name=".document.view.MyFileManager"/>
         <activity android:name=".showdoc.view.DisplayDocActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -55,9 +56,9 @@
         </activity>
         <activity
             android:name=".personal.view.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity android:name=".personal.view.HelpActivity"></activity>
-        <activity android:name=".personal.view.SoftwareInfoActivity"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".personal.view.HelpActivity"/>
+        <activity android:name=".personal.view.SoftwareInfoActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

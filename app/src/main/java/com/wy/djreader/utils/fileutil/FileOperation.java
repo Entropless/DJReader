@@ -35,7 +35,7 @@ public class FileOperation {
             Uri uri = intent.getData();
             filePath = getUriAbsolutePath(context, uri);
         } else {
-            filePath = extra.getString("filePath");
+            filePath = extra.getString(Constant.FILE_PATH);
         }
         return filePath;
     }

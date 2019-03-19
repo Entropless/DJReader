@@ -43,7 +43,7 @@ public class IDocPresenterImpl implements IDocPresenter {
     @Override
     public void display(int index) {
         //获取点击的文件路径
-        String filePath = haveReadFiles.getFile_path();
+        String filePath = haveReadFilesList.get(index).getFile_path();
         if (mDualPune){
             iDocFragment.displayDoc(index,filePath);
         }else{

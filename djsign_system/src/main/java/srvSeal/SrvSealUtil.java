@@ -1,6 +1,6 @@
-package com.dianju_wy.showpdf;
+package srvSeal;
 
-public class DJNativeInterface {
+public class SrvSealUtil {
     public int objID;
     public int pageNums;
     private static final String libName = "AutoSrvSealUtil";

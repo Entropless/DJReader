@@ -26,6 +26,7 @@ import com.wy.djreader.document.presenter.IDocPresenterImpl;
 import com.wy.djreader.document.presenter.ipresenter.IDocPresenter;
 import com.wy.djreader.showdoc.view.DisplayDocActivity;
 import com.wy.djreader.utils.Constant;
+import com.wy.djreader.utils.SharePreferenceUtil;
 
 import java.io.File;
 
@@ -99,12 +100,13 @@ public class DocFragment extends ListFragment implements IDocFragment {
         view = inflater.inflate(R.layout.fragment_doc,container,false);
         context = getActivity();
         fileManager = view.findViewById(R.id.imageButton1);
-
-//        String dir = ClfUtil.getSPString(context, Constant.OPEN_PATH, Constant.OPEN_PATH_DEFAULT);
-//        Intent intent = new Intent(context, MyFileManager.class);
-//        intent.putExtra("type", "0");
-//        intent.putExtra("dir", dir);
-//        startActivityForResult(intent, Constant.RequestCode.NEW_OPEN);
+        fileManager.setOnClickListener((v)->{
+            String dir = SharePreferenceUtil.getSPString(context, Constant.OPEN_PATH, Constant.OPEN_PATH_DEFAULT);
+            Intent intent = new Intent(context, MyFileManager.class);
+            intent.putExtra("type", "0");
+            intent.putExtra("dir", dir);
+            startActivityForResult(intent, Constant.RequestCode.NEW_OPEN);
+        });
         return view;
     }
 
@@ -158,7 +160,6 @@ public class DocFragment extends ListFragment implements IDocFragment {
 
     @Override
     public void setFilesListAdapter(ReadFilesArrayAdapter readFilesArrayAdapter) {
-        Log.i("11","11");
         this.setListAdapter(readFilesArrayAdapter);
     }
 
@@ -178,7 +179,7 @@ public class DocFragment extends ListFragment implements IDocFragment {
     public void toDisplayDocActivity(String filePath) {
         Intent showIntent = new Intent();
         showIntent.setClass(context,DisplayDocActivity.class);
-        showIntent.putExtra(Constant.HAVEREADFILE_PATH_KEY,filePath);
+        showIntent.putExtra(Constant.FILE_PATH,filePath);
         startActivity(showIntent);
     }
 
@@ -216,26 +217,22 @@ public class DocFragment extends ListFragment implements IDocFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(requestCode==Constant.RequestCode.NEW_OPEN) {
-//            if(resultCode==1) {
-//                String savePath = data.getStringExtra("savePath");
-//                String fileName = data.getStringExtra("fileName");
-//                ClfUtil.addSP(context, Constant.OPEN_PATH, savePath);
-//                if(fileName != null && (fileName.endsWith(".aip") || fileName.endsWith(".pdf") || fileName.endsWith(".ofd"))) {
-//                    String filePath1 = savePath+ File.separator+fileName;
-//                    Intent intent = new Intent(context, OpenFileActivity.class);
-//                    intent.putExtra("filePath", filePath1);
-//                    startActivityForResult(intent, Constant.RequestCode.FRESH_LIST);
-//                } else {
-//                    Toast.makeText(context, "文件类型错误！", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        } else if(requestCode==Constant.RequestCode.FRESH_LIST) {
-//            OpenedFilesDao openedFilesDao = new OpenedFilesDaoImpl(context);
-//            filesInfos = openedFilesDao.readOpenedFile();
-//            //适配器
-//            OpenedFilesAdapter openAdapter = new OpenedFilesAdapter(context, fragmentContext, filesInfos);
-//            lately_file_list.setAdapter(openAdapter);
-//        }
+        if(requestCode==Constant.RequestCode.NEW_OPEN) {
+            if(resultCode==1) {
+                String savePath = data.getStringExtra("savePath");
+                String fileName = data.getStringExtra("fileName");
+                SharePreferenceUtil.addSP(context, Constant.OPEN_PATH, savePath);
+                if(fileName != null && (fileName.endsWith(".aip") || fileName.endsWith(".pdf") || fileName.endsWith(".ofd"))) {
+                    String filePath1 = savePath+ File.separator+fileName;
+                    Intent intent = new Intent(context, DisplayDocActivity.class);
+                    intent.putExtra(Constant.FILE_PATH, filePath1);
+                    startActivityForResult(intent, Constant.RequestCode.FRESH_LIST);
+                } else {
+                    Toast.makeText(context, "文件类型错误！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else if(requestCode==Constant.RequestCode.FRESH_LIST) {
+            iDocPresenter.getFileListInfo(context);
+        }
     }
 }

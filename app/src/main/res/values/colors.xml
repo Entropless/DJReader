@@ -6,7 +6,7 @@
     <color name="fileMenuCheckedColor">#EAE7E7</color>
     <color name="fileMenuNoCheckedColor">#FFFFFF</color>
 
-    <color name="fileExMenuCheckedColor">#366629</color>
+    <color name="fileExMenuCheckedColor">#B4366629</color>
 
     <color name="menu_head_background_color">#1E90FF</color>
     <color name="menu_head_text_color">#FFFFFF</color>

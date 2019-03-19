@@ -67,6 +67,16 @@ public class HaveReadFilesSerializable implements Serializable {
      */
     private HaveReadFilesSerializable() {
     }
+
+    public HaveReadFilesSerializable(String id, String file_name, String file_path, String display_time, String file_size, byte[] file_thum) {
+        this.id = id;
+        this.file_name = file_name;
+        this.file_path = file_path;
+        this.display_time = display_time;
+        this.file_size = file_size;
+        this.file_thum = file_thum;
+    }
+
     private static class SingletonHaveReadFiles {
         private static final HaveReadFilesSerializable haveReadFiles = new HaveReadFilesSerializable();
     }
