@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".function.view.Function_fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <WebView
+        android:id="@+id/function_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="APP_fragment" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

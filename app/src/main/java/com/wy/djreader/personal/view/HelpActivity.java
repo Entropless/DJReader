@@ -30,12 +30,12 @@ public class HelpActivity extends Activity {
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setUseWideViewPort(true);//将图片调整到适合webView的大小
 		webSettings.setLoadWithOverviewMode(true);//缩放至屏幕的大小
-		try {
+//		try {
 			help_page.loadUrl(this.getString(R.string.help_page_url));
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
 //		setContentView(help_page);
 		
 		//返回
