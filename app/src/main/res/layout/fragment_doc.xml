@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -17,17 +18,28 @@
 	        android:text="@string/mainMenuFile"
 	        android:textColor="@color/menu_head_text_color"
 	        android:textSize="@dimen/menu_headtextsize" />
-		<Button android:id="@+id/imageButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_open_btn"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textSize="22sp"
-            android:textColor="#ffffff"
-            android:padding="5dp"
-            android:text="打开文件" />
-    </RelativeLayout>
+
+		<!--<Button
+			android:id="@+id/imageButton1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:background="@drawable/selector_open_btn"
+			android:padding="5dp"
+			android:text="打开文件"
+			android:textColor="#ffffff"
+			android:textSize="22sp"
+			android:visibility="gone"/>-->
+
+		<ImageView
+			android:id="@+id/open_fileMng"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:src="@drawable/arrow_right" />
+
+	</RelativeLayout>
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

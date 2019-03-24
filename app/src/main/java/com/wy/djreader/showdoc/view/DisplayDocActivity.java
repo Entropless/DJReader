@@ -118,20 +118,17 @@ public class DisplayDocActivity extends BaseActivity implements ShowDocContact.V
         activityWeak = new WeakReference<>(this);
         fileHandler = new FileHandler(activityWeak,filePath);
 
-        docBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                if (isListener){
-                    isListener = false;
-                    singleDJContentView = SingleDJContentView.getInstance(context);
-                    docBinding.showdocLayout.addView(singleDJContentView.djContentView);
-                    singleDJContentView.djContentView.setZOrderMediaOverlay(true);
-                    presenter.loadingDoc(filePath,singleDJContentView.djContentView);
-                    //设置Handler，接收各种返回值
-                    singleDJContentView.djContentView.setMyhandler(fileHandler);
-                }
-                return true;
+        docBinding.showdocLayout.getViewTreeObserver().addOnPreDrawListener(() -> {
+            if (isListener){
+                isListener = false;
+                singleDJContentView = SingleDJContentView.getInstance(context);
+                docBinding.showdocLayout.addView(singleDJContentView.djContentView);
+                singleDJContentView.djContentView.setZOrderMediaOverlay(true);
+                presenter.loadingDoc(filePath,singleDJContentView.djContentView);
+                //设置Handler，接收各种返回值
+                singleDJContentView.djContentView.setMyhandler(fileHandler);
             }
+            return true;
         });
     }
 

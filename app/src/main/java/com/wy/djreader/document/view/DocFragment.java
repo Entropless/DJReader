@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,8 +57,8 @@ public class DocFragment extends ListFragment implements IDocFragment {
     private int mCurrSelectItem = 0;//当前选择项
     private IDocPresenter iDocPresenter = null;
 
-    private Button fileManager;
-
+//    private Button fileManager;
+    private ImageView fileManager;
     //定义接口
     private docFragmentInteractionListener mListener;
     private static FragmentCommListener fragmentCommListener;
@@ -99,7 +100,7 @@ public class DocFragment extends ListFragment implements IDocFragment {
         Log.e("onCreateViewFragment","onCreateView");
         view = inflater.inflate(R.layout.fragment_doc,container,false);
         context = getActivity();
-        fileManager = view.findViewById(R.id.imageButton1);
+        fileManager = view.findViewById(R.id.open_fileMng);
         fileManager.setOnClickListener((v)->{
             String dir = SharePreferenceUtil.getSPString(context, Constant.OPEN_PATH, Constant.OPEN_PATH_DEFAULT);
             Intent intent = new Intent(context, MyFileManager.class);

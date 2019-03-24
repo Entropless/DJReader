@@ -39,5 +39,6 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.3.1'
     implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.android.support:mediarouter-v7:28.0.0'
 //    implementation 'com.android.support:mediarouter-v7:28.0.0'
 }
