@@ -13,8 +13,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	
 	private Context context;
 	private CountDownView count_down_view;
-	private int[] adPics = {R.drawable.index,R.drawable.index, R.drawable.index, R.drawable.index,R.drawable.index};
-	
+	private int[] adPics = {R.drawable.welcome2,R.drawable.welcome,R.drawable.welcome1, R.drawable.welcome2,R.drawable.welcome};
 	public ViewPagerAdapter(Context context) {
 		super();
 		this.context = context;

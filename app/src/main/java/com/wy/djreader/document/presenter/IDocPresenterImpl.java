@@ -29,6 +29,9 @@ public class IDocPresenterImpl implements IDocPresenter {
     public void getFileListInfo(Context context) {
         iHaveReadFiles = new HaveReadFilesImpl(context);
         haveReadFilesList = iHaveReadFiles.queryHaveReadFiles();
+        if (haveReadFilesList.size() == 0 ){
+            iDocFragment.showNullText();
+        }
         ReadFilesArrayAdapter readFilesArrayAdapter = new ReadFilesArrayAdapter(context,R.layout.file_info,haveReadFilesList);
         iDocFragment.setFilesListAdapter(readFilesArrayAdapter);
     }

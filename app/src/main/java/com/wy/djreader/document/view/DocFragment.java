@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -16,9 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wy.djreader.document.view.iview.IDocFragment;
+import com.wy.djreader.main.view.MainActivity;
 import com.wy.djreader.model.Adapter.ReadFilesArrayAdapter;
 import com.wy.djreader.model.FragmentCommListener;
 import com.wy.djreader.model.MyViewVModel;
@@ -26,6 +30,7 @@ import com.wy.djreader.R;
 import com.wy.djreader.document.presenter.IDocPresenterImpl;
 import com.wy.djreader.document.presenter.ipresenter.IDocPresenter;
 import com.wy.djreader.showdoc.view.DisplayDocActivity;
+import com.wy.djreader.utils.ActivityUtil;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.SharePreferenceUtil;
 
@@ -59,9 +64,12 @@ public class DocFragment extends ListFragment implements IDocFragment {
 
 //    private Button fileManager;
     private ImageView fileManager;
+    private TextView nullText;
+    ListView listView;
     //定义接口
     private docFragmentInteractionListener mListener;
     private static FragmentCommListener fragmentCommListener;
+    private FragmentManager fragmentManager;
 
     public DocFragment() {
         // Required empty public constructor
@@ -100,7 +108,10 @@ public class DocFragment extends ListFragment implements IDocFragment {
         Log.e("onCreateViewFragment","onCreateView");
         view = inflater.inflate(R.layout.fragment_doc,container,false);
         context = getActivity();
+        fragmentManager = getFragmentManager();
         fileManager = view.findViewById(R.id.open_fileMng);
+        nullText = view.findViewById(R.id.null_text);
+        listView = view.findViewById(android.R.id.list);
         fileManager.setOnClickListener((v)->{
             String dir = SharePreferenceUtil.getSPString(context, Constant.OPEN_PATH, Constant.OPEN_PATH_DEFAULT);
             Intent intent = new Intent(context, MyFileManager.class);
@@ -136,9 +147,6 @@ public class DocFragment extends ListFragment implements IDocFragment {
             iDocPresenter.display(mCurrSelectItem);
         }
     }
-
-
-
     //创建注册回调接口的方法
     public static void fragmentCommListener(FragmentCommListener fragmentComm){
          fragmentCommListener = fragmentComm;
@@ -162,6 +170,11 @@ public class DocFragment extends ListFragment implements IDocFragment {
     @Override
     public void setFilesListAdapter(ReadFilesArrayAdapter readFilesArrayAdapter) {
         this.setListAdapter(readFilesArrayAdapter);
+    }
+
+    @Override
+    public void showNullText() {
+        nullText.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -234,6 +247,7 @@ public class DocFragment extends ListFragment implements IDocFragment {
             }
         } else if(requestCode==Constant.RequestCode.FRESH_LIST) {
             iDocPresenter.getFileListInfo(context);
+            ActivityUtil.replaceFragment(fragmentManager,newInstance("",""),R.id.fragment_container);
         }
     }
 }

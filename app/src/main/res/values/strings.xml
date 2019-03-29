@@ -77,4 +77,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="no_read">最近还没有阅读过文件！</string>
 </resources>

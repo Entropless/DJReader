@@ -35,7 +35,7 @@ public class ReadFilesArrayAdapter extends ArrayAdapter<HaveReadFilesSerializabl
     public View getView(int position,@Nullable View convertView,@NonNull ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
         //获取已读文件对象
-        HaveReadFilesSerializable havereadFiles = getItem(position);
+        HaveReadFilesSerializable havereadFiles = haveReadFilesList.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, null);
             holder.file_name = convertView.findViewById(R.id.file_name);
