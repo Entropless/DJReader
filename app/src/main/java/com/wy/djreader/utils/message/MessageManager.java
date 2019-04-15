@@ -1,9 +1,13 @@
-package com.wy.djreader.utils;
+package com.wy.djreader.utils.message;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+/**
+ * 使用建造者模式构建消息管理类
+ * @author wy
+ */
 public class MessageManager {
     private Handler handler;
     private int what;
@@ -11,6 +15,56 @@ public class MessageManager {
     private int arg2;
     private Object object;
     private Bundle data;
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public int getWhat() {
+        return what;
+    }
+
+    public void setWhat(int what) {
+        this.what = what;
+    }
+
+    public int getArg1() {
+        return arg1;
+    }
+
+    public void setArg1(int arg1) {
+        this.arg1 = arg1;
+    }
+
+    public int getArg2() {
+        return arg2;
+    }
+
+    public void setArg2(int arg2) {
+        this.arg2 = arg2;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public Bundle getData() {
+        return data;
+    }
+
+    public void setData(Bundle data) {
+        this.data = data;
+    }
+
+    public MessageManager() { }
 
     public MessageManager(Handler handler, int what) {
         this.handler = handler;
@@ -41,6 +95,14 @@ public class MessageManager {
         this.what = what;
         this.object = object;
         this.data = data;
+    }
+
+    static class MessageManagerBuilder{
+        int arg1 = 1;
+    }
+
+    public MessageManager(MessageManagerBuilder builder){
+        this.arg1 = builder.arg1;
     }
 
     public void sendMessage(){

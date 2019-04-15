@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 
 import com.wy.djreader.utils.Constant;
-import com.wy.djreader.utils.MessageManager;
+import com.wy.djreader.utils.message.MessageManager;
 import com.wy.djreader.utils.NotificationUtil;
 
 import java.io.File;

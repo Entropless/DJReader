@@ -14,7 +14,7 @@ import com.wy.djreader.main.model.ParseXml;
 import com.wy.djreader.model.entity.UpdateInfos;
 import com.wy.djreader.utils.Constant;
 import com.wy.djreader.utils.InstallAppUtil;
-import com.wy.djreader.utils.MessageManager;
+import com.wy.djreader.utils.message.MessageManager;
 import com.wy.djreader.utils.ToastUtil;
 import com.wy.djreader.utils.fileutil.FileOperation;
 import com.wy.djreader.utils.httputil.OkHttpImpl;
