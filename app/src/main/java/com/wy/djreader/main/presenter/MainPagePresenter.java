@@ -180,7 +180,9 @@ public class MainPagePresenter implements MainPageContact.Presenter{
 
             @Override
             public void requestFailed(Exception e) {
-                MessageManager msg = new MessageManager(updateHandler,Constant.Flag.NETWORK_ERROR);
+                MessageManager msg = new MessageManager.MessageBuilder()
+                        .setHandler(updateHandler)
+                        .setWhat(Constant.Flag.NETWORK_ERROR).build();
                 msg.sendMessage();
             }
         });
@@ -218,14 +220,20 @@ public class MainPagePresenter implements MainPageContact.Presenter{
                 updateBundle.putBoolean("isUpdating",isUpdating);
                 //判断版本号
                 if (!currVersionCode.equals(updateInfos.getVersionCode())) {
-                    MessageManager msg = new MessageManager(updateHandler,Constant.Flag.UPDATE_CLIENT,updateBundle);
+                    MessageManager msg = new MessageManager.MessageBuilder()
+                    .setHandler(updateHandler)
+                    .setWhat(Constant.Flag.UPDATE_CLIENT)
+                    .setBundle(updateBundle).build();
                     msg.sendMessage();
                 }
             }
 
             @Override
             public void requestFailed(Exception e) {
-                MessageManager msg = new MessageManager(updateHandler,Constant.Flag.NETWORK_ERROR,e.toString());
+                MessageManager msg = new MessageManager.MessageBuilder()
+                .setHandler(updateHandler)
+                .setWhat(Constant.Flag.NETWORK_ERROR)
+                .setObject(e.toString()).build();
                 msg.sendMessage();
             }
         });

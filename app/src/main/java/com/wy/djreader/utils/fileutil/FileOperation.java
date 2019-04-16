@@ -139,10 +139,16 @@ public class FileOperation {
                             data.putInt("total", tot);
                             if (now == total) {
                                 writeSuccess = true;
-                                MessageManager msg = new MessageManager(handler, Constant.Flag.DOWN_OK,data);
+                                MessageManager msg = new MessageManager.MessageBuilder()
+                                        .setHandler(handler)
+                                        .setWhat(Constant.Flag.DOWN_OK)
+                                        .setBundle(data).build();
                                 msg.sendMessage();
                             }else {
-                                MessageManager msg = new MessageManager(handler, Constant.Flag.DOWN_ING, data);
+                                MessageManager msg = new MessageManager.MessageBuilder()
+                                    .setHandler(handler)
+                                    .setWhat(Constant.Flag.DOWN_ING)
+                                    .setBundle(data).build();
                                 msg.sendMessage();
                             }
                         }
